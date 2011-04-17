@@ -1,8 +1,8 @@
 package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 	import gs.TweenLite;
+
 	import com.muxxu.kube.kubebuilder.components.buttons.ColorButton;
 	import com.muxxu.kube.kubebuilder.components.form.KBInput;
-	import com.muxxu.kube.kubebuilder.controler.FrontControler;
 	import com.muxxu.kube.kubebuilder.graphics.ColorPickerGradientGraphic;
 	import com.nurun.utils.color.ColorFunctions;
 	import com.nurun.utils.pos.PosUtils;
@@ -17,6 +17,11 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 	import flash.geom.Matrix;
 	
 	/**
+	 * Fired when a new color is selected.
+	 */
+	[Event(name="change", type="flash.events.Event")]
+	
+	/**
 	 * 
 	 * @author Francois
 	 */
@@ -29,6 +34,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		private var _hexInput:KBInput;
 		private var _colorButtonsHolder:Sprite;
 		private var _buttons:Vector.<ColorButton>;
+		private var _color:uint;
 		
 		
 		
@@ -48,6 +54,10 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+		/**
+		 * Gets the selected color.
+		 */
+		public function get color():uint { return _color; }
 
 
 
@@ -74,7 +84,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			var i:int, len:int, bt:ColorButton;
 			len = 12 * 4;
 			_buttons = new Vector.<ColorButton>(len, true);
-			var defaultColors:Array = [0, 0xffffff, 0xff0000, 0xff00ff, 0xffff00, 0x00ff00, 0x00ffff, 0x0000ff];
+			var defaultColors:Array = [uint.MAX_VALUE, 0, 0xffffff, 0xff0000, 0xff00ff, 0xffff00, 0x00ff00, 0x00ffff, 0x0000ff];
 			for(i = 0; i < len; ++i) {
 				bt = _colorButtonsHolder.addChild(new ColorButton(11,11)) as ColorButton;
 				if(i < defaultColors.length) bt.color = defaultColors[i];
@@ -91,6 +101,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_gradientCursor.graphics.endFill();
 			
 			_brightnessSelector.color = 0xff0000;
+			_brightnessSelector.baseColor = 0xff0000;
 			_hexInput.text = "#ff0000";
 			_hexInput.textfield.maxChars = 7;
 			_hexInput.textfield.restrict = "[0-9a-fA-F]#";
@@ -140,9 +151,9 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			if(_gradientCursor.y < _gradient.y - 1) _gradientCursor.y = _gradient.y - 1;
 			if(_gradientCursor.x > _gradient.x + _gradient.width - _gradientCursor.width + 1) _gradientCursor.x = _gradient.x + _gradient.width - _gradientCursor.width + 1;
 			if(_gradientCursor.y > _gradient.y + _gradient.height - _gradientCursor.height + 1) _gradientCursor.y = _gradient.y + _gradient.height - _gradientCursor.height + 1;
-			if(_pressed) {
-				_brightnessSelector.color = _bmd.getPixel(_gradientCursor.x - _gradient.x + 1, _gradientCursor.y - _gradient.y + 1);
-			}
+//			if(_pressed) {
+			_brightnessSelector.baseColor = _bmd.getPixel(_gradientCursor.x - _gradient.x + 1, _gradientCursor.y - _gradient.y + 1);
+//			}
 			if(event != null) changeColorHandler();
 		}
 		
@@ -180,8 +191,9 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		 * Called when the color changes.
 		 */
 		private function changeColorHandler(event:Event = null):void {
-			_hexInput.text = "#"+_brightnessSelector.color.toString(16);
-			FrontControler.getInstance().setCurrentColor(_brightnessSelector.color);
+			_hexInput.text = "#"+StringUtils.toDigit(_brightnessSelector.color.toString(16), 6);
+			_color = _brightnessSelector.color;
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**
@@ -216,15 +228,23 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		 * Updates the selectors from a color.
 		 */
 		private function updateFromColor(color:uint):void {
-			_gradientCursor.y = Math.round((1 - ColorFunctions.getSaturation(color) / ColorFunctions.SMAX) * _gradient.height - 1);
-			_gradientCursor.x = Math.round((ColorFunctions.getHue(color) / ColorFunctions.HMAX) * _gradient.width - 1);
-			//Probably due to a computation problem the getHue method may
-			//return a negativ value. In that case we just loop this value to
-			//the other side of the gradient.
-			if(_gradientCursor.x < 0) _gradientCursor.x = _gradient.width + _gradientCursor.x;
-			_brightnessSelector.color = color;
-			mouseMoveHandler();
-			FrontControler.getInstance().setCurrentColor(color);
+			if(color != uint.MAX_VALUE) {
+				_gradientCursor.y = Math.round((1 - ColorFunctions.getSaturation(color) / ColorFunctions.SMAX) * _gradient.height - 1);
+				_gradientCursor.x = Math.round((ColorFunctions.getHue(color) / ColorFunctions.HMAX) * _gradient.width - 1);
+				//Probably due to a computation problem the getHue method may
+				//return a negativ value. In that case we just loop this value to
+				//the other side of the gradient.
+				if(_gradientCursor.x < 0) _gradientCursor.x = _gradient.width + _gradientCursor.x;
+				_brightnessSelector.color = color;
+				mouseMoveHandler();
+				_gradient.alpha = 1;
+				_brightnessSelector.alpha = 1;
+			}else{
+				_gradient.alpha = .4;
+				_brightnessSelector.alpha = .4;
+			}
+			_color = color;
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 	}

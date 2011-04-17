@@ -15,36 +15,24 @@
 		<label code="past"><![CDATA[Coller]]></label>
 		<label code="raz"><![CDATA[RAZ]]></label>
 		<label code="image"><![CDATA[Image]]></label>
+		<label code="openForm"><![CDATA[Envoyer]]></label>
+		<label code="formTitle"><![CDATA[Donnez un petit nom à votre kube et laissez-le s'envoler au pays des kubes !]]></label>
+		<label code="formSubmit"><![CDATA[Valider]]></label>
+		<label code="errorImageLoading"><![CDATA[Le chargement du fichier a échoué. Assurez-vous qu'il s'agisse bien d'un fichier image valide.]]></label>
+		<label code="errorSubmitResultFormat"><![CDATA[L'envoi du kube a échoué. Le format des données retournées est invalide.]]></label>
+		<label code="errorSubmitResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 	</labels>
 	
 	<vars>
 		<var code="lang"><![CDATA[fr]]></var>
 		<var code="stats"><![CDATA[false]]></var>
-		<var code="serverOnline"><![CDATA[http://www.muxxu.free.fr/]]></var>
-		<var code="serverOffline"><![CDATA[http://localhost/muxxu/]]></var>
+		<var code="server"><![CDATA[http://localhost/muxxu/kube/kubebuilder]]></var>
 	</vars>
 	
 	<paths>
 		<path code="css"><![CDATA[css/styles.css]]></path>
 		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
-		<path code="labels"><![CDATA[xml/labels.xml]]></path>
-		<path code="textures"><![CDATA[xml/textures.xml]]></path>
-		<path code="authentication"><![CDATA[http://muxxu.com/app/auth?app=kubetools&xml=kube_user&id=${user_id}&key=${key}]]></path>
-		<path code="checkLogins"><![CDATA[${server}kube/apps/kubetools/ws/login.php]]></path>
-		<path code="updater"><![CDATA[${server}kube/apps/kubetools/ws/updater.php]]></path>
-		<path code="getDolmens"><![CDATA[${server}kube/apps/kubetools/ws/getDolmens.php]]></path>
-		<path code="addDolmens"><![CDATA[${server}kube/apps/kubetools/ws/addDolmens.php]]></path>
-		<path code="voteDolmen"><![CDATA[${server}kube/apps/kubetools/ws/voteDolmen.php]]></path>
-		<path code="delDolmen"><![CDATA[${server}kube/apps/kubetools/ws/delDolmen.php]]></path>
-		<path code="addGalleryItem"><![CDATA[${server}kube/apps/kubetools/ws/addGalleryItem.php]]></path>
-		<path code="getGalleryItems"><![CDATA[${server}kube/apps/kubetools/ws/getGalleryItems.php]]></path>
-		<path code="galleryVote"><![CDATA[${server}kube/apps/kubetools/ws/galleryVote.php]]></path>
-		<path code="galleryImages"><![CDATA[${server}kube/apps/kubetools/upload/]]></path>
-		<path code="galleryIcons"><![CDATA[${server}kube/apps/kubetools/upload/icons/]]></path>
-		<path code="uploadKpp"><![CDATA[${server}kube/apps/kubetools/ws/uploadKpp.php]]></path>
-		<path code="downloadKpp"><![CDATA[${server}kube/apps/kubetools/ws/downloadKpp.php]]></path>
-		<path code="addAd"><![CDATA[${server}kube/apps/kubetools/ws/addAd.php]]></path>
-		<path code="getAds"><![CDATA[${server}kube/apps/kubetools/ws/getAds.php]]></path>
+		<path code="postKube"><![CDATA[{v_server}php/ws/postKube.php]]></path>
 	</paths>
 	
 	<dependencies />

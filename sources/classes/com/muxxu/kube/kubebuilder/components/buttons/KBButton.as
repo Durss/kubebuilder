@@ -1,4 +1,6 @@
 package com.muxxu.kube.kubebuilder.components.buttons {
+	import com.nurun.components.button.TextAlign;
+	import com.nurun.components.button.IconAlign;
 	import com.nurun.components.vo.Margin;
 	import com.nurun.components.button.visitors.CssVisitor;
 	import com.nurun.components.button.visitors.applyDefaultFrameVisitorNoTween;
@@ -22,10 +24,13 @@ package com.muxxu.kube.kubebuilder.components.buttons {
 		/**
 		 * Creates an instance of <code>KBButton</code>.
 		 */
-		public function KBButton(label:String, icon:DisplayObject = null) {
-			super(label, "button", new ButtonSkin(), icon);
-			contentMargin = new Margin(0, 2, 0, 2);
+		public function KBButton(label:String, big:Boolean = false, icon:DisplayObject = null) {
+			super(label, big? "buttonBig" : "button", new ButtonSkin(), icon);
+			contentMargin = big? new Margin(10, 5, 10, 5) : new Margin(0, 2, 0, 2);
 			textBoundsMode = false;
+			iconAlign = IconAlign.LEFT;
+			textAlign = icon == null? TextAlign.CENTER : TextAlign.LEFT;
+			iconSpacing = big? 10 : 5;
 			applyDefaultFrameVisitorNoTween(this, background);
 			if(icon != null) applyDefaultFrameVisitorNoTween(this, icon);
 			accept(new CssVisitor());

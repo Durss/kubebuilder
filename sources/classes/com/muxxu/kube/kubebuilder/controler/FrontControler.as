@@ -57,6 +57,55 @@ package com.muxxu.kube.kubebuilder.controler {
 		public function setCurrentColor(color:uint):void {
 			_model.setCurrentColor(color);
 		}
+		
+		/**
+		 * Changes the tool.
+		 */
+		public function setToolType(toolId:String):void {
+			_model.setToolType(toolId);
+		}
+		
+		/**
+		 * Sets the current face id to modify.
+		 */
+		public function setCurrentFace(face:String):void {
+			_model.setCurrentFace(face);
+		}
+		
+		/**
+		 * Loads a file as texture.
+		 */
+		public function loadFile():void {
+			_model.loadFile();
+		}
+		
+		/**
+		 * Resets the image.
+		 */
+		public function reset():void {
+			_model.reset();
+		}
+		
+		/**
+		 * Copies the image.
+		 */
+		public function copy():void {
+			_model.copy();
+		}
+		
+		/**
+		 * Past the copied image.
+		 */
+		public function past():void {
+			_model.past();
+		}
+		
+		/**
+		 * Submits a kube
+		 */
+		public function submit(name:String, callback:Function):void {
+			_model.submit(name, callback);
+		}
 
 
 		

@@ -21,7 +21,7 @@ package com.muxxu.kube.kubebuilder.views {
 	 */
 	public class PanelView extends AbstractView {
 		
-		private static const _CONTENT_WIDTH:int = 190;
+		private static const _CONTENT_WIDTH:int = 200;
 		private static const _CONTENT_HEIGHT:int = 314;
 		
 		private var _toolsBt:PanelButton;
@@ -31,6 +31,7 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _buttonsCtn:Sprite;
 		private var _previousButton:PanelButton;
 		private var _mainHolder:Sprite;
+		private var _initialized:Boolean;
 		
 		
 		
@@ -62,6 +63,7 @@ package com.muxxu.kube.kubebuilder.views {
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
 			model;//Prevents from unused warnings on FDT
+			_patronContent.populate(model.kubeData);
 			computePositions();
 		}
 
@@ -87,6 +89,8 @@ package com.muxxu.kube.kubebuilder.views {
 			_toolsBt.rotation = _patronBt.rotation = 90;
 			_patronBt.y = _toolsBt.width - 1;
 			_toolsBt.x = _patronBt.x = _toolsBt.height;
+			_toolsBt.validate();
+			_patronBt.validate();
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(MouseEvent.CLICK, clickHandler);
@@ -115,11 +119,17 @@ package com.muxxu.kube.kubebuilder.views {
 			_mainHolder.graphics.endFill();
 			
 			_buttonsCtn.x = _CONTENT_WIDTH;
-			_toolsContent.x = _patronContent.x = 6;
+			_toolsContent.x = 12;
+			_patronContent.x = 3;
 			_toolsContent.y = _patronContent.y = 10;
 			
 			x = Math.round(grid.x + grid.width - 1);
 			y = grid.y + 2;
+			if(!_initialized) {
+				_initialized = true;
+				//Close the panel at its first rendering.
+				_mainHolder.x = -_mainHolder.width + _toolsBt.height;
+			}
 		}
 		
 		/**
