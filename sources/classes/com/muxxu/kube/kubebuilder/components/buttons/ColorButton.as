@@ -92,11 +92,18 @@ package com.muxxu.kube.kubebuilder.components.buttons {
 			graphics.drawRect(1, _height - 2, _width - 2, 1);
 			graphics.endFill();
 			
-			if(isNaN(_color)) {
+			if(isNaN(_color) || color == uint.MAX_VALUE) {
 				graphics.beginGradientFill(GradientType.LINEAR, [0xCCCCCC, 0xE1E1E1], [1,1], [0,0xff]);
 				var m:Matrix = new Matrix();
 				m.createGradientBox(_width - 2, _height - 2);
 				graphics.drawRect(1, 1, width-2, height-2);
+				if(color == uint.MAX_VALUE) {
+					graphics.lineStyle(0,0xff0000,1);
+					graphics.moveTo(2, 2);
+					graphics.lineTo(_width - 2, _height -2);
+					graphics.moveTo(_width - 2, 2);
+					graphics.lineTo(2, _height -2);
+				}
 			}else{
 				graphics.beginFill(_color, 1);
 				graphics.drawRect(1, 1, width-2, height-2);

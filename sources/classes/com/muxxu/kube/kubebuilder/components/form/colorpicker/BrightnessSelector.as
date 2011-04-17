@@ -77,20 +77,30 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		}
 		
 		/**
-		 * Sets the base color of the gradient.
+		 * Sets the selected color.
 		 */
 		public function set color(value:uint):void {
-			_baseColor = _color = value;
 			_lastCursorPos = _gradientH - (ColorFunctions.getLuminosity(value) / ColorFunctions.LMAX) * _gradientH;
+			_color = value;
 			_fireChange = false;
 			render();
 			_fireChange = true;
 		}
 		
 		/**
+		 * Sets the base color of the gradient.
+		 */
+		public function set baseColor(value:uint):void {
+			_baseColor = value;
+			render();
+		}
+		
+		/**
 		 * Gets the selected color.
 		 */
-		public function get color():uint { return _color; }
+		public function get color():uint {
+			return _color;
+		}
 
 
 
@@ -172,10 +182,8 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			graphics.drawRect(0,0,_width,_gradientH);
 			graphics.endFill();
 			
-			if(_pressed) {
-				_lastCursorPos = MathUtils.restrict(mouseY, 0, _gradientH);
-			}
-			if(isNaN(_lastCursorPos)) _lastCursorPos = _gradientH * .5;
+			if(_pressed)				_lastCursorPos = MathUtils.restrict(mouseY, 0, _gradientH);
+			if(isNaN(_lastCursorPos))	_lastCursorPos = _gradientH * .5;
 			
 			graphics.beginFill(0,1);
 			graphics.moveTo(_width, _lastCursorPos);
@@ -185,11 +193,9 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			graphics.endFill();
 			
 			_bmd.draw(this);
-			if(_pressed) {
-				_color = _bmd.getPixel(1, _lastCursorPos);
-				if(_color != _previousColor && _fireChange) {
-					dispatchEvent(new Event(Event.CHANGE));
-				}
+			_color = _bmd.getPixel(1, _lastCursorPos);
+			if(_color != _previousColor && _fireChange) {
+				dispatchEvent(new Event(Event.CHANGE));
 			}
 			_previousColor = _color;
 			_colorBt.y = _gradientH + 5;

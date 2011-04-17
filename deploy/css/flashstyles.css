@@ -1,11 +1,13 @@
 ﻿.debug { font-family:Arial; font-size:12; color:#CC0000; flash-glow:[1.3,10,ffffff]}
 .error { font-family:Verdana; font-size:12; color:#CC0000; }
 
-.errorWindowTitle { font-family:Verdana; font-weight:bold; font-size:12; color:#000000; }
+.errorWindowTitle { font-family:Verdana; font-weight:bold; font-size:12; color:#ffffff; }
 .errorWindowDescription { font-family:Verdana; font-size:10; color:#000000; }
+.formTitle { font-family:Verdana; font-size:12; font-weight:bold; color:#265367; }
 
 .input { font-family:Verdana; font-size:12; font-weight:bold; color:#000000; }
+.inputDefault { font-family:Verdana; font-size:12; font-weight:bold; color:#000000; }
 
 .button { font-family:Verdana; font-size:12; font-weight:bold; color:#265367; }
-.buttonBig { font-family:Verdana; font-size:25; font-weight:bold; color:#265367; }
+.buttonBig { font-family:Verdana; font-size:25; font-weight:bold; color:#265367; flash-charcase:upper; }
 .panelButton { font-family:Verdana; font-size:14; font-weight:bold; color:#ffffff; flash-charcase:upper; letter-spacing:5; }
