@@ -1,4 +1,6 @@
 package com.muxxu.kube.kubebuilder {
+	import gs.plugins.ColorMatrixFilterPlugin;
+	import gs.plugins.TweenPlugin;
 	import com.muxxu.kube.kubebuilder.controler.FrontControler;
 	import com.muxxu.kube.kubebuilder.model.Model;
 	import com.muxxu.kube.kubebuilder.views.EditorView;
@@ -58,6 +60,8 @@ package com.muxxu.kube.kubebuilder {
 		 * Initialize the class.<br>
 		 */
 		private function initialize():void {
+			TweenPlugin.activate([ColorMatrixFilterPlugin]);
+			
 			_model = new Model();
 			ViewLocator.getInstance().initialise(_model);
 			FrontControler.getInstance().initialize(_model);
