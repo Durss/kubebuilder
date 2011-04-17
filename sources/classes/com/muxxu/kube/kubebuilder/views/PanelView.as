@@ -61,6 +61,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
+			model;//Prevents from unused warnings on FDT
 			computePositions();
 		}
 

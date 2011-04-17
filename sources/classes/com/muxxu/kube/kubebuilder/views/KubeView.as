@@ -81,6 +81,7 @@ package com.muxxu.kube.kubebuilder.views {
 		private function enterFrameHandler(event:Event):void {
 			_kube.rotationX += 5;
 			_kube.rotationY += 5;
+			_kube.validate();
 		}
 		
 		/**

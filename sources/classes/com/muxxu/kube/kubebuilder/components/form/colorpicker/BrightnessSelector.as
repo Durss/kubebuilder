@@ -1,6 +1,8 @@
 package com.muxxu.kube.kubebuilder.components.form.colorpicker {
-	import flash.display.BitmapData;
+	import com.nurun.utils.color.ColorFunctions;
 	import com.nurun.utils.math.MathUtils;
+
+	import flash.display.BitmapData;
 	import flash.display.GradientType;
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -61,7 +63,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_width = value;
 			if(_bmd != null) _bmd.dispose();
 			_bmd = new BitmapData(_width, _height, false,0);
-			render(true);
+			render();
 		}
 		
 		/**
@@ -71,24 +73,15 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_height = value;
 			if(_bmd != null) _bmd.dispose();
 			_bmd = new BitmapData(_width, _height, false,0);
-			render(true);
-		}
-		
-		/**
-		 * Sets the base color of the gradient.
-		 */
-		public function set baseColor(value:uint):void {
-			_baseColor = value;
-			_fireChange = false;
 			render();
-			_fireChange = true;
 		}
 		
 		/**
 		 * Sets the base color of the gradient.
 		 */
-		public function set luminosity(value:Number):void {
-			_lastCursorPos = _gradientH - value * _gradientH;
+		public function set color(value:uint):void {
+			_baseColor = _color = value;
+			_lastCursorPos = _gradientH - (ColorFunctions.getLuminosity(value) / ColorFunctions.LMAX) * _gradientH;
 			_fireChange = false;
 			render();
 			_fireChange = true;
@@ -170,7 +163,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		/**
 		 * Renders the component
 		 */
-		private function render(resize:Boolean = false):void {
+		private function render():void {
 			_gradientH = _height - _width - 5;
 			var m:Matrix = new Matrix();
 			m.createGradientBox(_width, _gradientH, Math.PI/180*90);
@@ -182,7 +175,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			if(_pressed) {
 				_lastCursorPos = MathUtils.restrict(mouseY, 0, _gradientH);
 			}
-			if(isNaN(_lastCursorPos) || resize) _lastCursorPos = _gradientH * .5;
+			if(isNaN(_lastCursorPos)) _lastCursorPos = _gradientH * .5;
 			
 			graphics.beginFill(0,1);
 			graphics.moveTo(_width, _lastCursorPos);
@@ -192,9 +185,11 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			graphics.endFill();
 			
 			_bmd.draw(this);
-			_color = _bmd.getPixel(1, _lastCursorPos);
-			if(_color != _previousColor && _fireChange) {
-				dispatchEvent(new Event(Event.CHANGE));
+			if(_pressed) {
+				_color = _bmd.getPixel(1, _lastCursorPos);
+				if(_color != _previousColor && _fireChange) {
+					dispatchEvent(new Event(Event.CHANGE));
+				}
 			}
 			_previousColor = _color;
 			_colorBt.y = _gradientH + 5;
