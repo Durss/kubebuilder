@@ -19,14 +19,18 @@
 		<label code="openForm"><![CDATA[Envoyer]]></label>
 		<label code="formTitle"><![CDATA[Donnez un petit nom à votre kube et laissez-le s'envoler au pays des kubes !]]></label>
 		<label code="formSubmit"><![CDATA[Valider]]></label>
+		
 		<label code="errorImageLoading"><![CDATA[Le chargement du fichier a échoué. Assurez-vous qu'il s'agisse bien d'un fichier image valide.]]></label>
 		<label code="errorSubmitResultFormat"><![CDATA[L'envoi du kube a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorSubmitResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 		<label code="errorSubmitResultSession"><![CDATA[L'envoi du kube a échoué. Vous devez accéder à l'application depuis Muxxu.com pour pouvoir soumettre un Kube.]]></label>
-		<label code="errorSubmitResultName"><![CDATA[L'envoi du kube a échoué. Aucun nom n'est définie.]]></label>
+		<label code="errorSubmitResultName"><![CDATA[L'envoi du kube a échoué. Aucun nom n'est défini.]]></label>
 		<label code="errorSubmitResultFile"><![CDATA[L'envoi du kube a échoué. Probléme de transmission du fichier.]]></label>
 		<label code="errorSubmitResultPost"><![CDATA[L'envoi du kube a échoué. Aucune donnée transmise, merci de réessayer]]></label>
 		<label code="errorSubmitResultCreate"><![CDATA[L'envoi du kube a échoué. Erreure lors de la création du fichier.]]></label>
+		
+		<label code="errorLoadResultFormat"><![CDATA[Le chargement de la liste des kubes a échoué. Le format des données retournées est invalide.]]></label>
+		<label code="errorLoadResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 	</labels>
 	
 	<vars>
