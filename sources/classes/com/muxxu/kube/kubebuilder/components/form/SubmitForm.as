@@ -45,12 +45,21 @@ package com.muxxu.kube.kubebuilder.components.form {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+		/**
+		 * Gets the input's value.
+		 */
+		override public function get name():String {
+			return _nameInput.text;
+		}
 
 
 
 		/* ****** *
 		 * PUBLIC *
 		 * ****** */
+		public function setFocus():void {
+			stage.focus = _nameInput;
+		}
 
 
 		

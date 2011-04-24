@@ -137,6 +137,8 @@ package com.muxxu.kube.kubebuilder.views {
 				addChild(_formCtn);
 				TweenLite.from(_formCtn, .5, {blurFilter:{blurX:30, blurY:30, remove:true}, autoAlpha:0, delay: .25});
 				TweenLite.from(_disableLayer, .5, {autoAlpha:0});
+				
+				_form.setFocus();
 			}else if(event.target == _disableLayer) {
 				closeForm();
 			}

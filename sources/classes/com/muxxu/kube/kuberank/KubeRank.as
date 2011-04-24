@@ -10,7 +10,7 @@ package com.muxxu.kube.kuberank {
 	 * @author Francois
 	 */
 	 
-	[SWF(width="800", height="500", backgroundColor="0xFFFFFF", frameRate="31")]
+	[SWF(width="800", height="500", backgroundColor="#4CA5CD", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.kube.kuberank.KubeRankLoader")]
 	public class KubeRank extends MovieClip {
 		
@@ -46,7 +46,7 @@ package com.muxxu.kube.kuberank {
 		 * PRIVATE *
 		 * ******* */
 		/**
-		 * Initialize the class.<br>
+		 * Initialize the class.<br>s
 		 */
 		private function initialize():void {
 			

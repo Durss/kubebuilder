@@ -1,20 +1,12 @@
 package com.muxxu.kube.kubebuilder {
-	import com.muxxu.kube.common.views.ExceptionView;
-	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
+	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.muxxu.kube.kubebuilder.views.EditorView;
 	import com.muxxu.kube.kubebuilder.views.KubeView;
 	import com.muxxu.kube.kubebuilder.views.PanelView;
 	import com.muxxu.kube.kubebuilder.views.SubmitKubeView;
-	import com.nurun.structure.mvc.views.ViewLocator;
-	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
-	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
-	import flash.display.MovieClip;
+
 	import flash.events.Event;
-	import gs.plugins.ColorMatrixFilterPlugin;
-	import gs.plugins.RemoveChildPlugin;
-	import gs.plugins.TweenPlugin;
-	import net.hires.debug.Stats;
 
 
 	/**
@@ -28,10 +20,7 @@ package com.muxxu.kube.kubebuilder {
 	 
 	[SWF(width="800", height="500", backgroundColor="#4CA5CD", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.kube.kubebuilder.KubeBuilderLoader")]
-	public class KubeBuilder extends MovieClip {
-		private var _model:ModelKB;
-		private var _stats:Stats;
-		private var _ks:KeyboardSequenceDetector;
+	public class KubeBuilder extends AbstractApplication {
 		
 		
 		
@@ -43,7 +32,7 @@ package com.muxxu.kube.kubebuilder {
 		 * Creates an instance of <code>Application</code>.<br>
 		 */
 		public function KubeBuilder() {
-			initialize();
+			super(new ModelKB());
 		}
 
 		
@@ -67,21 +56,13 @@ package com.muxxu.kube.kubebuilder {
 		/**
 		 * Initialize the class.<br>
 		 */
-		private function initialize():void {
-			TweenPlugin.activate([ColorMatrixFilterPlugin, RemoveChildPlugin]);
-			
-			_model = new ModelKB();
-			ViewLocator.getInstance().initialise(_model);
-			FrontControlerKB.getInstance().initialize(_model);
+		override protected function initialize():void {
+			super.initialize();
 			
 			addChild(new KubeView());
 			addChild(new PanelView());
 			addChild(new EditorView());
 			addChild(new SubmitKubeView());
-			addChild(new ExceptionView());
-			_stats = new Stats();
-			
-			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		
 		/**
@@ -89,39 +70,9 @@ package com.muxxu.kube.kubebuilder {
 		 * 
 		 * Needed for a proper initial placement of the views. 
 		 */
-		private function addedToStageHandler(event:Event):void {
-			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			_model.start();
-			_ks = new KeyboardSequenceDetector(stage);
-			_ks.addSequence("stats", KeyboardSequenceDetector.STATS_CODE);
-			_ks.addEventListener(KeyboardSequenceEvent.SEQUENCE, keySequenceHandler);
-			
-			stage.addEventListener(Event.RESIZE, resizeHandler);
-			resizeHandler();
-		}
-		
-		/**
-		 * Called when the stage is resized.
-		 * Draws a backgroud, that the blured disable layer created when opening
-		 * a popin won't be blured only from the edge of the views but from the
-		 * borders of the application.
-		 */
-		private function resizeHandler(event:Event = null):void {
-			graphics.clear();
-			graphics.beginFill(0x4CA5CD, 1);
-			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-			graphics.endFill();
-		}
-		
-		/**
-		 * Called when a keyboard sequence is detected.
-		 */
-		private function keySequenceHandler(event:KeyboardSequenceEvent):void {
-			if(contains(_stats)) {
-				removeChild(_stats);
-			}else{
-				addChild(_stats);
-			}
+		override protected function addedToStageHandler(event:Event):void {
+			super.addedToStageHandler(event);
+			ModelKB(_model).start();
 		}
 		
 	}
