@@ -1,4 +1,4 @@
-package com.muxxu.kube.kubebuilder.components.cube {
+package com.muxxu.kube.common.components.cube {
 	import flash.display.BitmapData;
 	import flash.display.Bitmap;
 	import flash.display.Sprite;

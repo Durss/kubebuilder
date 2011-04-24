@@ -1,16 +1,17 @@
 package com.muxxu.kube.kubebuilder.components.form {
-	import flash.events.Event;
-	import gs.TweenLite;
-
-	import com.muxxu.kube.kubebuilder.components.buttons.KBButton;
+	import com.muxxu.kube.common.components.buttons.ButtonKube;
+	import com.muxxu.kube.common.components.input.InputKube;
 	import com.nurun.components.form.events.FormComponentEvent;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.utils.pos.PosUtils;
 	import com.nurun.utils.string.StringUtils;
-
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import gs.TweenLite;
+
+
 	
 	[Event(name="onSubmitForm", type="com.nurun.components.form.events.FormComponentEvent")]
 	
@@ -22,8 +23,8 @@ package com.muxxu.kube.kubebuilder.components.form {
 	 */
 	public class SubmitForm extends Sprite {
 		
-		private var _nameInput:KBInput;
-		private var _submitBt:KBButton;
+		private var _nameInput:InputKube;
+		private var _submitBt:ButtonKube;
 		private var _title:CssTextField;
 		
 		
@@ -61,8 +62,8 @@ package com.muxxu.kube.kubebuilder.components.form {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_nameInput = addChild(new KBInput()) as KBInput;
-			_submitBt = addChild(new KBButton(Label.getLabel("formSubmit"))) as KBButton;
+			_nameInput = addChild(new InputKube()) as InputKube;
+			_submitBt = addChild(new ButtonKube(Label.getLabel("formSubmit"))) as ButtonKube;
 			_title = addChild(new CssTextField("formTitle")) as CssTextField;
 			
 			_title.text = Label.getLabel("formTitle");

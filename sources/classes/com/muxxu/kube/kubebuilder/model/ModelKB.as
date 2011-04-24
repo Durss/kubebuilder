@@ -1,28 +1,28 @@
 package com.muxxu.kube.kubebuilder.model {
 	import com.adobe.images.PNGEncoder;
-	import flash.external.ExternalInterface;
-	import flash.net.URLRequest;
-	import flash.net.navigateToURL;
+	import com.muxxu.kube.common.vo.KubeData;
 	import com.muxxu.kube.kubebuilder.cmd.SubmitKubeCmd;
 	import com.muxxu.kube.kubebuilder.vo.FaceIds;
-	import com.muxxu.kube.kubebuilder.vo.KubeData;
 	import com.muxxu.kube.kubebuilder.vo.ToolType;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.IModel;
 	import com.nurun.structure.mvc.model.events.ModelEvent;
-
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import flash.events.IOErrorEvent;
+	import flash.external.ExternalInterface;
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.net.FileFilter;
 	import flash.net.FileReference;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
+
 	
 	/**
 	 * Application's model.
@@ -30,7 +30,7 @@ package com.muxxu.kube.kubebuilder.model {
 	 * 
 	 * @author Francois
 	 */
-	public class Model extends EventDispatcher implements IModel {
+	public class ModelKB extends EventDispatcher implements IModel {
 		
 		private var _kubeData:KubeData;
 		private var _currentFace:BitmapData;
@@ -53,7 +53,7 @@ package com.muxxu.kube.kubebuilder.model {
 		/**
 		 * Creates an instance of <code>Model</code>.
 		 */
-		public function Model() {
+		public function ModelKB() {
 			initialize();
 		}
 

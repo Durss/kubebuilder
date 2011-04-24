@@ -1,42 +1,42 @@
 package com.muxxu.kube.kubebuilder.components.panel {
-	import flash.ui.Keyboard;
-	import flash.events.KeyboardEvent;
-	import flash.display.DisplayObject;
-	import flash.events.MouseEvent;
-	import com.muxxu.kube.kubebuilder.vo.ToolType;
-	import flash.utils.Dictionary;
-	import com.nurun.components.form.events.FormComponentGroupEvent;
-	import com.nurun.components.form.FormComponentGroup;
-	import com.muxxu.kube.kubebuilder.components.buttons.KBButton;
+	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.muxxu.kube.kubebuilder.components.buttons.ToolButton;
 	import com.muxxu.kube.kubebuilder.components.form.colorpicker.ColorPicker;
-	import com.muxxu.kube.kubebuilder.controler.FrontControler;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.graphics.PaintBucketGraphic;
 	import com.muxxu.kube.kubebuilder.graphics.PencilGraphic;
 	import com.muxxu.kube.kubebuilder.graphics.PipetteGraphic;
+	import com.muxxu.kube.kubebuilder.vo.ToolType;
+	import com.nurun.components.form.FormComponentGroup;
+	import com.nurun.components.form.events.FormComponentGroupEvent;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.utils.pos.PosUtils;
-
+	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
 	import flash.geom.ColorTransform;
+	import flash.ui.Keyboard;
+	import flash.utils.Dictionary;
+
 	
 	/**
 	 * 
 	 * @author Francois
 	 */
 	public class PanelToolsContent extends Sprite {
-		private var _copyBt:KBButton;
-		private var _pastBt:KBButton;
-		private var _resetBt:KBButton;
-		private var _fileBt:KBButton;
+		private var _copyBt:ButtonKube;
+		private var _pastBt:ButtonKube;
+		private var _resetBt:ButtonKube;
+		private var _fileBt:ButtonKube;
 		private var _colorPicker:ColorPicker;
 		private var _pipetteBt:ToolButton;
 		private var _paintBucketBt:ToolButton;
 		private var _pencilBt:ToolButton;
 		private var _group:FormComponentGroup;
 		private var _buttonToToolId:Dictionary;
-		private var _exportBt:KBButton;
+		private var _exportBt:ButtonKube;
 		
 		
 		
@@ -79,11 +79,11 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		private function initialize():void {
 			_group = new FormComponentGroup();
 			
-			_copyBt = addChild(new KBButton(Label.getLabel("copy"))) as KBButton;
-			_pastBt = addChild(new KBButton(Label.getLabel("past"))) as KBButton;
-			_resetBt = addChild(new KBButton(Label.getLabel("raz"))) as KBButton;
-			_fileBt = addChild(new KBButton(Label.getLabel("image"))) as KBButton;
-			_exportBt = addChild(new KBButton(Label.getLabel("exportImage"))) as KBButton;
+			_copyBt = addChild(new ButtonKube(Label.getLabel("copy"))) as ButtonKube;
+			_pastBt = addChild(new ButtonKube(Label.getLabel("past"))) as ButtonKube;
+			_resetBt = addChild(new ButtonKube(Label.getLabel("raz"))) as ButtonKube;
+			_fileBt = addChild(new ButtonKube(Label.getLabel("image"))) as ButtonKube;
+			_exportBt = addChild(new ButtonKube(Label.getLabel("exportImage"))) as ButtonKube;
 			_pencilBt = addChild(new ToolButton(new PencilGraphic())) as ToolButton;
 			_pipetteBt = addChild(new ToolButton(new PipetteGraphic())) as ToolButton;
 			_paintBucketBt = addChild(new ToolButton(new PaintBucketGraphic())) as ToolButton;
@@ -155,7 +155,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			PaintBucketGraphic(_paintBucketBt.icon)._colorMc.transform.colorTransform = ct;
 			
 			if(event != null) {
-				FrontControler.getInstance().setCurrentColor(_colorPicker.color);
+				FrontControlerKB.getInstance().setCurrentColor(_colorPicker.color);
 			}
 		}
 		
@@ -163,7 +163,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		 * Called when the user selects a new tool.
 		 */
 		private function changeToolHandler(event:FormComponentGroupEvent):void {
-			FrontControler.getInstance().setToolType(_buttonToToolId[event.selectedItem]);
+			FrontControlerKB.getInstance().setToolType(_buttonToToolId[event.selectedItem]);
 		}
 		
 		/**
@@ -172,15 +172,15 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		private function clickHandler(event:MouseEvent):void {
 			var target:DisplayObject = event.target as DisplayObject;
 			if(target == _fileBt) {
-				FrontControler.getInstance().loadFile();
+				FrontControlerKB.getInstance().loadFile();
 			}else if(target == _resetBt) {
-				FrontControler.getInstance().reset();
+				FrontControlerKB.getInstance().reset();
 			}else if(target == _copyBt) {
-				FrontControler.getInstance().copy();
+				FrontControlerKB.getInstance().copy();
 			}else if(target == _pastBt) {
-				FrontControler.getInstance().past();
+				FrontControlerKB.getInstance().past();
 			}else if(target == _exportBt) {
-				FrontControler.getInstance().exportFace();
+				FrontControlerKB.getInstance().exportFace();
 			}
 		}
 		
@@ -190,9 +190,9 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		private function keyUpHandler(event:KeyboardEvent):void {
 			if(event.ctrlKey) {
 				if(event.keyCode == Keyboard.C) {
-					FrontControler.getInstance().copy();
+					FrontControlerKB.getInstance().copy();
 				}else if(event.keyCode == Keyboard.V) {
-					FrontControler.getInstance().past();
+					FrontControlerKB.getInstance().past();
 				}
 			}else{
 				if(event.keyCode == Keyboard.P || event.keyCode == Keyboard.ESCAPE) {

@@ -27,7 +27,7 @@
 	<vars>
 		<var code="lang"><![CDATA[fr]]></var>
 		<var code="stats"><![CDATA[false]]></var>
-		<var code="server"><![CDATA[./]]></var>
+		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
 	</vars>
 	
 	<paths>

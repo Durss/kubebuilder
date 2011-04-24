@@ -6,7 +6,7 @@ package com.muxxu.kube.kubebuilder.views {
 	import com.muxxu.kube.kubebuilder.components.buttons.PanelButton;
 	import com.muxxu.kube.kubebuilder.components.panel.PanelPatronContent;
 	import com.muxxu.kube.kubebuilder.components.panel.PanelToolsContent;
-	import com.muxxu.kube.kubebuilder.model.Model;
+	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
@@ -63,7 +63,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 * @inheritDoc
 		 */
 		override public function update(event:IModelEvent):void {
-			var model:Model = event.model as Model;
+			var model:ModelKB = event.model as ModelKB;
 			_toolsContent.color = model.color;
 			_patronContent.populate(model.kubeData);
 			

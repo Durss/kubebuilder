@@ -1,4 +1,4 @@
-package com.muxxu.kube.kubebuilder.components {
+package com.muxxu.kube.common.components {
 	import com.muxxu.kube.kubebuilder.graphics.ScrollbarDownBtSkin;
 	import com.muxxu.kube.kubebuilder.graphics.ScrollbarScrollerBtSkin;
 	import com.muxxu.kube.kubebuilder.graphics.ScrollbarTrackBtSkin;
@@ -10,7 +10,7 @@ package com.muxxu.kube.kubebuilder.components {
 	 * 
 	 * @author Francois
 	 */
-	public class KBScrollbar extends Scrollbar {
+	public class ScrollbarKube extends Scrollbar {
 		
 		
 		
@@ -21,7 +21,7 @@ package com.muxxu.kube.kubebuilder.components {
 		/**
 		 * Creates an instance of <code>KBScrollbar</code>.
 		 */
-		public function KBScrollbar() {
+		public function ScrollbarKube() {
 			super(new ScrollbarClassicSkin(new ScrollbarUpBtSkin(), new ScrollbarDownBtSkin(), new ScrollbarScrollerBtSkin(), null, new ScrollbarTrackBtSkin()));
 		}
 

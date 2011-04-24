@@ -1,4 +1,4 @@
-package com.muxxu.kube.kubebuilder.components.buttons {
+package com.muxxu.kube.common.components.buttons {
 	import com.nurun.components.button.TextAlign;
 	import com.nurun.components.button.IconAlign;
 	import com.nurun.components.vo.Margin;
@@ -13,7 +13,7 @@ package com.muxxu.kube.kubebuilder.components.buttons {
 	 * 
 	 * @author Francois
 	 */
-	public class KBButton extends BaseButton {
+	public class ButtonKube extends BaseButton {
 		
 		
 		
@@ -24,7 +24,7 @@ package com.muxxu.kube.kubebuilder.components.buttons {
 		/**
 		 * Creates an instance of <code>KBButton</code>.
 		 */
-		public function KBButton(label:String, big:Boolean = false, icon:DisplayObject = null) {
+		public function ButtonKube(label:String, big:Boolean = false, icon:DisplayObject = null) {
 			super(label, big? "buttonBig" : "button", new ButtonSkin(), icon);
 			contentMargin = big? new Margin(10, 5, 10, 5) : new Margin(0, 2, 0, 2);
 			textBoundsMode = false;

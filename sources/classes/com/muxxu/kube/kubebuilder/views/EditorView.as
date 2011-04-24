@@ -2,8 +2,8 @@ package com.muxxu.kube.kubebuilder.views {
 	import com.nurun.utils.color.ColorFunctions;
 	import gs.TweenLite;
 
-	import com.muxxu.kube.kubebuilder.controler.FrontControler;
-	import com.muxxu.kube.kubebuilder.model.Model;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
+	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.muxxu.kube.kubebuilder.vo.ToolType;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
@@ -71,7 +71,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 * @inheritDoc
 		 */
 		override public function update(event:IModelEvent):void {
-			var model:Model = event.model as Model;
+			var model:ModelKB = event.model as ModelKB;
 			_bmp.bitmapData = model.currentFace;
 			//If selected face has changed.
 			if(model.currentFace != _oldFace) {
@@ -260,7 +260,7 @@ package com.muxxu.kube.kubebuilder.views {
 					_bitmapModified = true;
 					break;
 				case ToolType.PIPETTE:
-					FrontControler.getInstance().setCurrentColor(_bmp.bitmapData.getPixel(pos.x, pos.y));
+					FrontControlerKB.getInstance().setCurrentColor(_bmp.bitmapData.getPixel(pos.x, pos.y));
 					break;
 				case ToolType.PENCIL:
 				default:

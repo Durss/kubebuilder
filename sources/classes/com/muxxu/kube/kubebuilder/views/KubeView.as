@@ -1,23 +1,23 @@
 package com.muxxu.kube.kubebuilder.views {
+	import com.muxxu.kube.common.components.cube.CubeFace;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
+	import com.muxxu.kube.kubebuilder.graphics.WingGraphic;
+	import com.muxxu.kube.kubebuilder.model.ModelKB;
+	import com.nurun.components.volume.Cube;
+	import com.nurun.structure.mvc.model.events.IModelEvent;
+	import com.nurun.structure.mvc.views.AbstractView;
+	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.filters.DropShadowFilter;
+	import flash.geom.PerspectiveProjection;
+	import flash.geom.Point;
 	import gs.TweenLite;
 	import gs.TweenMax;
 	import gs.easing.Bounce;
 	import gs.easing.Linear;
 	import gs.easing.Sine;
 
-	import com.muxxu.kube.kubebuilder.components.cube.CubeFace;
-	import com.muxxu.kube.kubebuilder.controler.FrontControler;
-	import com.muxxu.kube.kubebuilder.graphics.WingGraphic;
-	import com.muxxu.kube.kubebuilder.model.Model;
-	import com.nurun.components.volume.Cube;
-	import com.nurun.structure.mvc.model.events.IModelEvent;
-	import com.nurun.structure.mvc.views.AbstractView;
 
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.filters.DropShadowFilter;
-	import flash.geom.PerspectiveProjection;
-	import flash.geom.Point;
 	
 	/**
 	 * 
@@ -62,7 +62,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 * @inheritDoc
 		 */
 		override public function update(event:IModelEvent):void {
-			var model:Model = event.model as Model;
+			var model:ModelKB = event.model as ModelKB;
 			if(!_initialized) {
 				_initialized = true;
 				_kube.leftFace = new CubeFace(model.kubeData.faceSides);
@@ -186,7 +186,7 @@ package com.muxxu.kube.kubebuilder.views {
 		}
 
 		private function onTransitionComplete():void {
-			FrontControler.getInstance().openResultPage();
+			FrontControlerKB.getInstance().openResultPage();
 		}
 		
 	}

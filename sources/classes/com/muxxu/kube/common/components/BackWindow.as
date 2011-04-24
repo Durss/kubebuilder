@@ -1,4 +1,4 @@
-package com.muxxu.kube.kubebuilder.components {
+package com.muxxu.kube.common.components {
 	import flash.geom.Rectangle;
 	import flash.display.Sprite;
 	import flash.events.Event;
