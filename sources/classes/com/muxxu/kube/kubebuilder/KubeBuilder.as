@@ -1,21 +1,21 @@
 package com.muxxu.kube.kubebuilder {
-	import gs.plugins.RemoveChildPlugin;
-	import com.muxxu.kube.kubebuilder.views.SubmitKubeView;
-	import com.muxxu.kube.kubebuilder.views.ExceptionView;
-	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
-	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
-	import net.hires.debug.Stats;
-	import gs.plugins.ColorMatrixFilterPlugin;
-	import gs.plugins.TweenPlugin;
-	import com.muxxu.kube.kubebuilder.controler.FrontControler;
-	import com.muxxu.kube.kubebuilder.model.Model;
+	import com.muxxu.kube.common.views.ExceptionView;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
+	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.muxxu.kube.kubebuilder.views.EditorView;
 	import com.muxxu.kube.kubebuilder.views.KubeView;
 	import com.muxxu.kube.kubebuilder.views.PanelView;
+	import com.muxxu.kube.kubebuilder.views.SubmitKubeView;
 	import com.nurun.structure.mvc.views.ViewLocator;
-
+	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
+	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
 	import flash.display.MovieClip;
 	import flash.events.Event;
+	import gs.plugins.ColorMatrixFilterPlugin;
+	import gs.plugins.RemoveChildPlugin;
+	import gs.plugins.TweenPlugin;
+	import net.hires.debug.Stats;
+
 
 	/**
 	 * Bootstrap class of the application.
@@ -29,7 +29,7 @@ package com.muxxu.kube.kubebuilder {
 	[SWF(width="800", height="500", backgroundColor="#4CA5CD", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.kube.kubebuilder.KubeBuilderLoader")]
 	public class KubeBuilder extends MovieClip {
-		private var _model:Model;
+		private var _model:ModelKB;
 		private var _stats:Stats;
 		private var _ks:KeyboardSequenceDetector;
 		
@@ -70,9 +70,9 @@ package com.muxxu.kube.kubebuilder {
 		private function initialize():void {
 			TweenPlugin.activate([ColorMatrixFilterPlugin, RemoveChildPlugin]);
 			
-			_model = new Model();
+			_model = new ModelKB();
 			ViewLocator.getInstance().initialise(_model);
-			FrontControler.getInstance().initialize(_model);
+			FrontControlerKB.getInstance().initialize(_model);
 			
 			addChild(new KubeView());
 			addChild(new PanelView());

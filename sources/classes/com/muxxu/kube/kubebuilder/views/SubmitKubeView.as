@@ -1,31 +1,31 @@
 package com.muxxu.kube.kubebuilder.views {
-	import com.muxxu.kube.kubebuilder.controler.FrontControler;
-	import com.nurun.components.form.events.FormComponentEvent;
-	import gs.TweenLite;
-
-	import com.muxxu.kube.kubebuilder.components.BackWindow;
-	import com.muxxu.kube.kubebuilder.components.buttons.KBButton;
+	import com.muxxu.kube.common.components.BackWindow;
+	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.muxxu.kube.kubebuilder.components.form.SubmitForm;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.graphics.CheckIconGraphic;
-	import com.muxxu.kube.kubebuilder.model.Model;
+	import com.muxxu.kube.kubebuilder.model.ModelKB;
+	import com.nurun.components.form.events.FormComponentEvent;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.utils.pos.PosUtils;
-
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.BlurFilter;
 	import flash.geom.Point;
+	import gs.TweenLite;
+
+
 	
 	/**
 	 * 
 	 * @author Francois
 	 */
 	public class SubmitKubeView extends AbstractView {
-		private var _openFormBt:KBButton;
+		private var _openFormBt:ButtonKube;
 		private var _backForm:BackWindow;
 		private var _form:SubmitForm;
 		private var _formCtn:Sprite;
@@ -59,7 +59,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 * @inheritDoc
 		 */
 		override public function update(event:IModelEvent):void {
-			var model:Model = event.model as Model;
+			var model:ModelKB = event.model as ModelKB;
 			if(model.kubeSubmitted) {
 				TweenLite.to(this, .25, {autoAlpha:0});
 			}
@@ -76,7 +76,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Initializes the class.
 		 */
 		private function initialize():void {
-			_openFormBt = addChild(new KBButton(Label.getLabel("openForm"), true, new CheckIconGraphic())) as KBButton;
+			_openFormBt = addChild(new ButtonKube(Label.getLabel("openForm"), true, new CheckIconGraphic())) as ButtonKube;
 			
 			_disableLayer = new Sprite();
 			_formCtn = new Sprite();
@@ -146,7 +146,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Called when the form is submitted.
 		 */
 		private function submitFormHandler(event:FormComponentEvent):void {
-			FrontControler.getInstance().submit(_form.name, onPostComplete);
+			FrontControlerKB.getInstance().submit(_form.name, onPostComplete);
 		}
 		
 		/**

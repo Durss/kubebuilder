@@ -1,16 +1,16 @@
 package com.muxxu.kube.kubebuilder.components.panel {
-	import gs.TweenLite;
-	import gs.TweenMax;
-	import gs.easing.Linear;
-
-	import com.muxxu.kube.kubebuilder.controler.FrontControler;
+	import com.muxxu.kube.common.vo.KubeData;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.vo.FaceIds;
-	import com.muxxu.kube.kubebuilder.vo.KubeData;
-
 	import flash.display.Bitmap;
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
+	import gs.TweenLite;
+	import gs.TweenMax;
+	import gs.easing.Linear;
+
+
 	
 	/**
 	 * 
@@ -194,17 +194,17 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		 */
 		private function clickHandler(event:MouseEvent):void {
 			if(event.target == _top) {
-				FrontControler.getInstance().setCurrentFace(FaceIds.TOP);
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.TOP);
 			} else if(event.target == _left) {
-				FrontControler.getInstance().setCurrentFace(FaceIds.LEFT);
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.LEFT);
 			} else if(event.target == _right) {
-				FrontControler.getInstance().setCurrentFace(FaceIds.RIGHT);
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.RIGHT);
 			} else if(event.target == _front) {
-				FrontControler.getInstance().setCurrentFace(FaceIds.FRONT);
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.FRONT);
 			} else if(event.target == _back) {
-				FrontControler.getInstance().setCurrentFace(FaceIds.BACK);
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.BACK);
 			} else if(event.target == _bottom) {
-				FrontControler.getInstance().setCurrentFace(FaceIds.BOTTOM);
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.BOTTOM);
 			}
 		}
 		

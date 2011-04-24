@@ -1,13 +1,10 @@
 package com.muxxu.kube.kubebuilder.components.form.colorpicker {
-	import gs.TweenLite;
-
+	import com.muxxu.kube.common.components.input.InputKube;
 	import com.muxxu.kube.kubebuilder.components.buttons.ColorButton;
-	import com.muxxu.kube.kubebuilder.components.form.KBInput;
 	import com.muxxu.kube.kubebuilder.graphics.ColorPickerGradientGraphic;
 	import com.nurun.utils.color.ColorFunctions;
 	import com.nurun.utils.pos.PosUtils;
 	import com.nurun.utils.string.StringUtils;
-
 	import flash.display.BitmapData;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -15,6 +12,9 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
 	import flash.geom.Matrix;
+	import gs.TweenLite;
+
+
 	
 	/**
 	 * Fired when a new color is selected.
@@ -31,7 +31,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		private var _gradientCursor:Shape;
 		private var _pressed:Boolean;
 		private var _bmd:BitmapData;
-		private var _hexInput:KBInput;
+		private var _hexInput:InputKube;
 		private var _colorButtonsHolder:Sprite;
 		private var _buttons:Vector.<ColorButton>;
 		private var _color:uint;
@@ -85,7 +85,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_gradient			= addChild(new ColorPickerGradientGraphic()) as ColorPickerGradientGraphic;
 			_gradientCursor		= addChild(new Shape()) as Shape;
 			_brightnessSelector	= addChild(new BrightnessSelector()) as BrightnessSelector;
-			_hexInput			= addChild(new KBInput("")) as KBInput;
+			_hexInput			= addChild(new InputKube("")) as InputKube;
 			_colorButtonsHolder	= addChild(new Sprite()) as Sprite;
 			
 			var i:int, len:int, bt:ColorButton;

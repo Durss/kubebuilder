@@ -1,15 +1,15 @@
 package com.muxxu.kube.kubebuilder.cmd {
-	import com.muxxu.kube.kubebuilder.vo.KubeData;
+	import com.muxxu.kube.common.vo.KubeData;
 	import com.nurun.core.commands.Command;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.utils.commands.LoadFileCmd;
-
-	import mx.utils.Base64Encoder;
-
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLLoader;
+	import mx.utils.Base64Encoder;
+
+
 
 	/**
 	 * The  SubmitKubeCmd is a concrete implementation of the ICommand interface.

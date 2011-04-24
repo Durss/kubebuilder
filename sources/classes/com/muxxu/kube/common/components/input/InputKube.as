@@ -1,4 +1,4 @@
-package com.muxxu.kube.kubebuilder.components.form {
+package com.muxxu.kube.common.components.input {
 	import com.muxxu.kube.kubebuilder.graphics.InputSkin;
 	import com.nurun.components.form.Input;
 	import com.nurun.components.vo.Margin;
@@ -7,7 +7,7 @@ package com.muxxu.kube.kubebuilder.components.form {
 	 * 
 	 * @author Francois
 	 */
-	public class KBInput extends Input {
+	public class InputKube extends Input {
 		
 		
 		
@@ -18,7 +18,7 @@ package com.muxxu.kube.kubebuilder.components.form {
 		/**
 		 * Creates an instance of <code>KBInput</code>.
 		 */
-		public function KBInput(defaultLabel:String = "") {
+		public function InputKube(defaultLabel:String = "") {
 			super("input", new InputSkin(), defaultLabel, "inputDefault", new Margin(4, 2, 4, 2));
 		}
 

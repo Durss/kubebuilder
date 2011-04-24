@@ -1,8 +1,6 @@
-package com.muxxu.kube.kubebuilder.views {
-	import gs.TweenLite;
-
-	import com.muxxu.kube.kubebuilder.components.KBScrollbar;
-	import com.muxxu.kube.kubebuilder.components.buttons.KBButton;
+package com.muxxu.kube.common.views {
+	import com.muxxu.kube.common.components.ScrollbarKube;
+	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.muxxu.kube.kubebuilder.graphics.ErrorWindowArrowGraphic;
 	import com.nurun.components.button.BaseButton;
 	import com.nurun.components.button.GraphicButton;
@@ -17,7 +15,6 @@ package com.muxxu.kube.kubebuilder.views {
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.structure.mvc.views.ViewLocator;
 	import com.nurun.utils.pos.PosUtils;
-
 	import flash.display.MovieClip;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -25,6 +22,9 @@ package com.muxxu.kube.kubebuilder.views {
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
 	import flash.system.System;
+	import gs.TweenLite;
+
+
 
 	/**
 	 * 
@@ -90,7 +90,7 @@ package com.muxxu.kube.kubebuilder.views {
 			_container	= addChild(new Sprite()) as Sprite;
 			_background	= _container.addChild(new Shape()) as Shape;
 			_title		= _container.addChild(new CssTextField("errorWindowTitle")) as CssTextField;
-			_copy		= _container.addChild(new KBButton("COPY ERROR TO CLIPBOARD")) as BaseButton;
+			_copy		= _container.addChild(new ButtonKube("COPY ERROR TO CLIPBOARD")) as BaseButton;
 			
 			var back:Shape = new Shape();
 			back.graphics.beginFill(0xff0000, 0);
@@ -100,7 +100,7 @@ package com.muxxu.kube.kubebuilder.views {
 			back.graphics.endFill();
 			_splitter	= _container.addChild(new GraphicButton(back, new ErrorWindowArrowGraphic())) as GraphicButton;
 			_description= new ScrollableTextField("", "errorWindowDescription");
-			_scrollpane = _container.addChild(new ScrollPane(_description, new KBScrollbar(), new KBScrollbar())) as ScrollPane;
+			_scrollpane = _container.addChild(new ScrollPane(_description, new ScrollbarKube(), new ScrollbarKube())) as ScrollPane;
 			
 			applyDefaultFrameVisitorNoTween(_copy, _copy.background);
 			

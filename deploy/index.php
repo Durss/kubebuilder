@@ -19,31 +19,26 @@
                 font: 86% Arial, "Helvetica Neue", sans-serif;
                 margin: 0;
             }
-            #content {
-                height: 100%;
-            }
 		</style>
 		
 		<script type="text/javascript" src="js/swfobject.js"></script>
     </head>
     <body>
+		<center>
 		<div id="content">
 			<p>In order to view this page you need JavaScript and Flash Player 10+ support!</p>
 		</div>
+		</center>
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.2', 'content', '100%', '100%', '10', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.2', 'content', '800', '500', '10', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
 			so.addVariable("configXml", "xml/config.xml?v=1.2");
 			so.write('content');
 			/*]]>*/
-			
-			function reload() {
-				setTimeout("location.reload()", 2000);
-			}
         </script>
     </body>
 </html>

@@ -1,6 +1,6 @@
 package com.muxxu.kube.kubebuilder.controler {
 	
-	import com.muxxu.kube.kubebuilder.model.Model;
+	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import flash.errors.IllegalOperationError;
 	
 	/**
@@ -8,9 +8,9 @@ package com.muxxu.kube.kubebuilder.controler {
 	 * 
 	 * @author Francois
 	 */
-	public class FrontControler {
-		private static var _instance:FrontControler;
-		private var _model:Model;
+	public class FrontControlerKB {
+		private static var _instance:FrontControlerKB;
+		private var _model:ModelKB;
 		
 		
 		
@@ -20,7 +20,7 @@ package com.muxxu.kube.kubebuilder.controler {
 		/**
 		 * Creates an instance of <code>FrontControler</code>.
 		 */
-		public function FrontControler(enforcer:SingletonEnforcer) {
+		public function FrontControlerKB(enforcer:SingletonEnforcer) {
 			if(enforcer == null) {
 				throw new IllegalOperationError("A singleton can't be instanciated. Use static accessor 'getInstance()'!");
 			}
@@ -34,8 +34,8 @@ package com.muxxu.kube.kubebuilder.controler {
 		/**
 		 * Singleton instance getter.
 		 */
-		public static function getInstance():FrontControler {
-			if(_instance == null)_instance = new  FrontControler(new SingletonEnforcer());
+		public static function getInstance():FrontControlerKB {
+			if(_instance == null)_instance = new  FrontControlerKB(new SingletonEnforcer());
 			return _instance;	
 		}
 
@@ -47,7 +47,7 @@ package com.muxxu.kube.kubebuilder.controler {
 		/**
 		 * Initialize the controler with the model.
 		 */
-		public function initialize(model:Model):void {
+		public function initialize(model:ModelKB):void {
 			_model = model;
 		}
 		

@@ -1,4 +1,4 @@
-package com.muxxu.kube.kubebuilder.vo {
+package com.muxxu.kube.common.vo {
 	import com.adobe.images.PNGEncoder;
 	import flash.utils.ByteArray;
 	import com.muxxu.kube.kubebuilder.graphics.DefaultTopFaceGraphic;
