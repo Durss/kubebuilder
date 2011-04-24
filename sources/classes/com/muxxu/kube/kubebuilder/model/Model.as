@@ -1,4 +1,8 @@
 package com.muxxu.kube.kubebuilder.model {
+	import com.adobe.images.PNGEncoder;
+	import flash.external.ExternalInterface;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	import com.muxxu.kube.kubebuilder.cmd.SubmitKubeCmd;
 	import com.muxxu.kube.kubebuilder.vo.FaceIds;
 	import com.muxxu.kube.kubebuilder.vo.KubeData;
@@ -38,6 +42,7 @@ package com.muxxu.kube.kubebuilder.model {
 		private var _copy:BitmapData;
 		private var _imageModified:Boolean;
 		private var _postKubeCallback:Function;
+		private var _kubeSubmitted:Boolean;
 		
 		
 		
@@ -81,6 +86,11 @@ package com.muxxu.kube.kubebuilder.model {
 		 * Gets if th emodel has modified the image. (copy/past, image loading, reset)
 		 */
 		public function get imageModified():Boolean { return _imageModified; }
+		
+		/**
+		 * Gets if a kube has been submitted.
+		 */
+		public function get kubeSubmitted():Boolean { return _kubeSubmitted; }
 
 
 
@@ -137,7 +147,7 @@ package com.muxxu.kube.kubebuilder.model {
 		 */
 		public function loadFile():void {
 			_browseMode = true;
-			_fr.browse([new FileFilter("Image file", "*.jpg;*.jpeg;*.png;*.gif")]);
+			_fr.browse([new FileFilter("Image file (JPG, PNG, GIF)", "*.jpg;*.jpeg;*.png;*.gif")]);
 		}
 		
 		/**
@@ -170,6 +180,13 @@ package com.muxxu.kube.kubebuilder.model {
 		}
 		
 		/**
+		 * Exports the current face as an image.
+		 */
+		public function exportFace():void {
+			_fr.save(PNGEncoder.encode(_currentFace), "face.png");
+		}
+		
+		/**
 		 * Submits a kube
 		 */
 		public function submit(name:String, callback:Function):void {
@@ -177,6 +194,15 @@ package com.muxxu.kube.kubebuilder.model {
 			cmd.addEventListener(CommandEvent.COMPLETE, postKubeCompleteHandler);
 			cmd.execute();
 			_postKubeCallback = callback;
+		}
+		
+		/**
+		 * Redirects the user to the result page
+		 */
+		public function openResultPage():void {
+			if(ExternalInterface.available) {
+				navigateToURL(new URLRequest(Config.getPath("resultPage")), "_self");
+			}
 		}
 
 
@@ -261,6 +287,9 @@ package com.muxxu.kube.kubebuilder.model {
 		 */
 		private function postKubeCompleteHandler(event:CommandEvent):void {
 			_postKubeCallback();
+			_kubeSubmitted = true;
+			update();
+			_kubeSubmitted = false;
 		}
 	}
 }

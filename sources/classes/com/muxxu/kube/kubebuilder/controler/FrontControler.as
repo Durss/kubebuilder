@@ -106,6 +106,20 @@ package com.muxxu.kube.kubebuilder.controler {
 		public function submit(name:String, callback:Function):void {
 			_model.submit(name, callback);
 		}
+		
+		/**
+		 * Redirects the user to the result page
+		 */
+		public function openResultPage():void {
+			_model.openResultPage();
+		}
+		
+		/**
+		 * Exports the current face
+		 */
+		public function exportFace():void {
+			_model.exportFace();
+		}
 
 
 		

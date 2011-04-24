@@ -1,5 +1,7 @@
 package com.muxxu.kube.kubebuilder.views {
-	import flash.utils.Dictionary;
+	import com.nurun.utils.color.ColorFunctions;
+	import gs.TweenLite;
+
 	import com.muxxu.kube.kubebuilder.controler.FrontControler;
 	import com.muxxu.kube.kubebuilder.model.Model;
 	import com.muxxu.kube.kubebuilder.vo.ToolType;
@@ -16,6 +18,7 @@ package com.muxxu.kube.kubebuilder.views {
 	import flash.filters.DropShadowFilter;
 	import flash.geom.Point;
 	import flash.ui.Keyboard;
+	import flash.utils.Dictionary;
 	
 	/**
 	 * Displays the editor's grid.
@@ -35,6 +38,8 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _bitmapModified:Boolean;
 		private var _oldFace:BitmapData;
 		private var _facesHistory:Dictionary;
+		private var _highlight:Shape;
+		private var _pressed:Boolean;
 		
 		
 		
@@ -92,6 +97,10 @@ package com.muxxu.kube.kubebuilder.views {
 				addImageToHistory();
 			}
 			
+			if(model.kubeSubmitted) {
+				TweenLite.to(this, .25, {autoAlpha:0});
+			}
+			
 			_color = model.color;
 			_tool = model.tool;
 			computePositions();
@@ -109,6 +118,7 @@ package com.muxxu.kube.kubebuilder.views {
 		private function initialize():void {
 			_bmp = addChild(new Bitmap()) as Bitmap;
 			_grid = addChild(new Shape()) as Shape;
+			_highlight = addChild(new Shape()) as Shape;
 			
 			_facesHistory = new Dictionary();
 			
@@ -126,6 +136,7 @@ package com.muxxu.kube.kubebuilder.views {
 			stage.addEventListener(Event.RESIZE, computePositions, false, 1);//Higher priority to be sure it's called before panel's listener
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyUpHandler);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 			computePositions();
 		}
 		
@@ -198,8 +209,9 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Called when the mouse is pressed.
 		 */
 		private function mouseDownHandler(event:MouseEvent):void {
+			_pressed = true;
 			_bitmapModified = false;
-			addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+//			addEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 			mouseMoveHandler(event);
 		}
 
@@ -211,8 +223,9 @@ package com.muxxu.kube.kubebuilder.views {
 			if(_bitmapModified) {
 				addImageToHistory();
 			}
+			_pressed = false;
 			_bitmapModified = false;
-			removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+//			removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
 		}
 		
 		/**
@@ -220,9 +233,25 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		private function mouseMoveHandler(event:MouseEvent):void {
 			var pos:Point = new Point(Math.floor(_grid.mouseX/_CELL_SIZE), Math.floor(_grid.mouseY/_CELL_SIZE));
-			//Check if we're over inside the grid or not
-			if(pos.x < 0 || pos.y < 0 || pos.x > 15 || pos.y > 15) return;
+			//Check if we're over the grid or not
+			if(pos.x < 0 || pos.y < 0 || pos.x > 15 || pos.y > 15) {
+				_highlight.visible = false;
+				return;
+			}
 
+			_highlight.visible = true;
+			_highlight.x = pos.x * _CELL_SIZE;
+			_highlight.y = pos.y * _CELL_SIZE;
+			
+			_highlight.graphics.clear();
+			//Sets the color of the higlight depending on the luminosity of the pixel
+			//under it. To be sure it will be visible over dark and bright colors.
+			_highlight.graphics.beginFill(ColorFunctions.getLuminosity(_bmp.bitmapData.getPixel(pos.x, pos.y)) > ColorFunctions.LMAX*.5? 0 : 0xffffff, .35);
+			_highlight.graphics.drawRect(0, 0, _CELL_SIZE, _CELL_SIZE);
+			_highlight.graphics.endFill();
+			
+			if(!_pressed) return;
+			
 			var color:int = _color == uint.MAX_VALUE? 0 : _color + 0xff000000;
 			
 			switch(_tool){
