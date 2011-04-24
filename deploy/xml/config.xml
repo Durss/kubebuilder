@@ -22,10 +22,10 @@
 		<label code="errorImageLoading"><![CDATA[Le chargement du fichier a échoué. Assurez-vous qu'il s'agisse bien d'un fichier image valide.]]></label>
 		<label code="errorSubmitResultFormat"><![CDATA[L'envoi du kube a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorSubmitResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
-		<label code="errorSubmitSession"><![CDATA[L'envoi du kube a échoué. Vous devez accéder à l'application depuis Muxxu.com pour pouvoir soumettre un Kube.]]></label>
-		<label code="errorSubmitName"><![CDATA[L'envoi du kube a échoué. Aucun nom n'est définie.]]></label>
-		<label code="errorSubmitFile"><![CDATA[L'envoi du kube a échoué. Probléme de transmission du fichier.]]></label>
-		<label code="errorSubmitPost"><![CDATA[L'envoi du kube a échoué. Aucune donnée transmise, merci de réessayer]]></label>
+		<label code="errorSubmitResultSession"><![CDATA[L'envoi du kube a échoué. Vous devez accéder à l'application depuis Muxxu.com pour pouvoir soumettre un Kube.]]></label>
+		<label code="errorSubmitResultName"><![CDATA[L'envoi du kube a échoué. Aucun nom n'est définie.]]></label>
+		<label code="errorSubmitResultFile"><![CDATA[L'envoi du kube a échoué. Probléme de transmission du fichier.]]></label>
+		<label code="errorSubmitResultPost"><![CDATA[L'envoi du kube a échoué. Aucune donnée transmise, merci de réessayer]]></label>
 	</labels>
 	
 	<vars>
