@@ -26,6 +26,7 @@
 		<label code="errorSubmitResultName"><![CDATA[L'envoi du kube a échoué. Aucun nom n'est définie.]]></label>
 		<label code="errorSubmitResultFile"><![CDATA[L'envoi du kube a échoué. Probléme de transmission du fichier.]]></label>
 		<label code="errorSubmitResultPost"><![CDATA[L'envoi du kube a échoué. Aucune donnée transmise, merci de réessayer]]></label>
+		<label code="errorSubmitResultCreate"><![CDATA[L'envoi du kube a échoué. Erreure lors de la création du fichier.]]></label>
 	</labels>
 	
 	<vars>

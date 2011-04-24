@@ -1,5 +1,6 @@
 <?php 
 session_start();
+$date = date("Y-m-d H:i:s");
 include 'connection.php';
 include 'secure.php';
 
@@ -17,7 +18,6 @@ echo "<?"; ?>xml version="1.0" encoding="UTF-8"?>
 <?php
 if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 {
-	$result = 0;
 ?>
 	<session statut="1" name="<?php print $_SESSION['name'] ?>" uid="<?php print $_SESSION['uid'] ?>" />
 <?php
@@ -25,8 +25,23 @@ if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 	if (isset($name) && isset ($kube))
 	{
 		$name = secure_string($_POST['name']);
-		$kube = $_POST['kube'];
-		$result = 0;
+		if($kube = base64_decode($_POST['kube']))
+		{
+			$file = "../kubes/".md5($SESSION['uid'].$SESSION['name'].$date).".kub";
+			if($fp = fopen($file,"w"))
+			{
+				fputs($fp, $kube);
+				$result = 0;
+			}
+			else
+			{
+				$result = "Create";
+			}
+		}
+		else
+		{
+			$result = "Format";
+		}
 	}
 	elseif (isset($name))
 	{
