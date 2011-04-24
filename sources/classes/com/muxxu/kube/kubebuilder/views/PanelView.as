@@ -1,4 +1,5 @@
 package com.muxxu.kube.kubebuilder.views {
+	import flash.display.Shape;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -32,6 +33,7 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _previousButton:PanelButton;
 		private var _mainHolder:Sprite;
 		private var _initialized:Boolean;
+		private var _mask:Shape;
 		
 		
 		
@@ -62,8 +64,13 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
-			model;//Prevents from unused warnings on FDT
+			_toolsContent.color = model.color;
 			_patronContent.populate(model.kubeData);
+			
+			if(model.kubeSubmitted) {
+				TweenLite.to(this, .25, {autoAlpha:0});
+			}
+			
 			computePositions();
 		}
 
@@ -77,8 +84,9 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Initializes the class.
 		 */
 		private function initialize():void {
-			_mainHolder = addChild(new Sprite()) as Sprite;
-			_buttonsCtn = _mainHolder.addChild(new Sprite()) as Sprite;
+			_mask		= addChild(new Shape()) as Shape;
+			_mainHolder	= addChild(new Sprite()) as Sprite;
+			_buttonsCtn	= _mainHolder.addChild(new Sprite()) as Sprite;
 			
 			_toolsBt = _buttonsCtn.addChild(new PanelButton(Label.getLabel("tools"))) as PanelButton;
 			_patronBt = _buttonsCtn.addChild(new PanelButton(Label.getLabel("patron"))) as PanelButton;
@@ -91,6 +99,8 @@ package com.muxxu.kube.kubebuilder.views {
 			_toolsBt.x = _patronBt.x = _toolsBt.height;
 			_toolsBt.validate();
 			_patronBt.validate();
+			
+			_mainHolder.mask = _mask;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(MouseEvent.CLICK, clickHandler);
@@ -130,6 +140,11 @@ package com.muxxu.kube.kubebuilder.views {
 				//Close the panel at its first rendering.
 				_mainHolder.x = -_mainHolder.width + _toolsBt.height;
 			}
+			
+			_mask.graphics.clear();
+			_mask.graphics.beginFill(0xff0000, 1);
+			_mask.graphics.drawRect(0, 0, _mainHolder.width + 20, _mainHolder.height);
+			_mask.graphics.endFill();
 		}
 		
 		/**

@@ -36,6 +36,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		private var _pencilBt:ToolButton;
 		private var _group:FormComponentGroup;
 		private var _buttonToToolId:Dictionary;
+		private var _exportBt:KBButton;
 		
 		
 		
@@ -55,6 +56,10 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+		public function set color(value:uint):void {
+			_colorPicker.color = value;
+			changeColorHandler();
+		}
 
 
 
@@ -78,6 +83,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			_pastBt = addChild(new KBButton(Label.getLabel("past"))) as KBButton;
 			_resetBt = addChild(new KBButton(Label.getLabel("raz"))) as KBButton;
 			_fileBt = addChild(new KBButton(Label.getLabel("image"))) as KBButton;
+			_exportBt = addChild(new KBButton(Label.getLabel("exportImage"))) as KBButton;
 			_pencilBt = addChild(new ToolButton(new PencilGraphic())) as ToolButton;
 			_pipetteBt = addChild(new ToolButton(new PipetteGraphic())) as ToolButton;
 			_paintBucketBt = addChild(new ToolButton(new PaintBucketGraphic())) as ToolButton;
@@ -99,6 +105,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			_pastBt.width = 56;
 			_resetBt.width = 56;
 			_fileBt.width = 56;
+			_exportBt.width = 56 * 2 + 4;
 			
 			computePositions();
 			addEventListener(MouseEvent.CLICK, clickHandler);
@@ -120,6 +127,8 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		 */
 		private function computePositions():void {
 			PosUtils.hDistribute([_copyBt, _pastBt, _resetBt, _fileBt], 190, 4, 4, true);
+			_exportBt.x = Math.round(_fileBt.x + _fileBt.width + 4);
+			_exportBt.y = _fileBt.y;
 			
 			//Draw dotted line
 			var i:int, len:int, lineWidth:int, py:int;
@@ -138,14 +147,16 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		/**
 		 * Called when a new color is selected.
 		 */
-		private function changeColorHandler(event:Event):void {
+		private function changeColorHandler(event:Event = null):void {
 			var ct:ColorTransform = new ColorTransform();
 			ct.color = _colorPicker.color;
 			PencilGraphic(_pencilBt.icon)._colorMc.transform.colorTransform = ct;
 			PipetteGraphic(_pipetteBt.icon)._colorMc.transform.colorTransform = ct;
 			PaintBucketGraphic(_paintBucketBt.icon)._colorMc.transform.colorTransform = ct;
 			
-			FrontControler.getInstance().setCurrentColor(_colorPicker.color);
+			if(event != null) {
+				FrontControler.getInstance().setCurrentColor(_colorPicker.color);
+			}
 		}
 		
 		/**
@@ -168,6 +179,8 @@ package com.muxxu.kube.kubebuilder.components.panel {
 				FrontControler.getInstance().copy();
 			}else if(target == _pastBt) {
 				FrontControler.getInstance().past();
+			}else if(target == _exportBt) {
+				FrontControler.getInstance().exportFace();
 			}
 		}
 		
@@ -175,11 +188,20 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		 * Called when a key is released.
 		 */
 		private function keyUpHandler(event:KeyboardEvent):void {
-			if(!event.ctrlKey) return;
-			if(event.keyCode == Keyboard.C) {
-				FrontControler.getInstance().copy();
-			}else if(event.keyCode == Keyboard.V) {
-				FrontControler.getInstance().past();
+			if(event.ctrlKey) {
+				if(event.keyCode == Keyboard.C) {
+					FrontControler.getInstance().copy();
+				}else if(event.keyCode == Keyboard.V) {
+					FrontControler.getInstance().past();
+				}
+			}else{
+				if(event.keyCode == Keyboard.P || event.keyCode == Keyboard.ESCAPE) {
+					_pipetteBt.selected  = true;
+				}else if(event.keyCode == Keyboard.V || event.keyCode == Keyboard.C) {
+					_pencilBt.selected  = true;
+				}else if(event.keyCode == Keyboard.B) {
+					_paintBucketBt.selected  = true;
+				}
 			}
 		}
 		

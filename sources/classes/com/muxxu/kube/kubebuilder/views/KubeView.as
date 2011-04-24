@@ -1,13 +1,21 @@
 package com.muxxu.kube.kubebuilder.views {
-	import flash.filters.DropShadowFilter;
-	import flash.events.MouseEvent;
+	import gs.TweenLite;
+	import gs.TweenMax;
+	import gs.easing.Bounce;
+	import gs.easing.Linear;
+	import gs.easing.Sine;
+
 	import com.muxxu.kube.kubebuilder.components.cube.CubeFace;
+	import com.muxxu.kube.kubebuilder.controler.FrontControler;
+	import com.muxxu.kube.kubebuilder.graphics.WingGraphic;
 	import com.muxxu.kube.kubebuilder.model.Model;
 	import com.nurun.components.volume.Cube;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 
 	import flash.events.Event;
+	import flash.events.MouseEvent;
+	import flash.filters.DropShadowFilter;
 	import flash.geom.PerspectiveProjection;
 	import flash.geom.Point;
 	
@@ -23,6 +31,8 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _pressed:Boolean;
 		private var _endRX:Number;
 		private var _endRY:Number;
+		private var _wingLeft:WingGraphic;
+		private var _wingRight:WingGraphic;
 		
 		
 		
@@ -61,7 +71,12 @@ package com.muxxu.kube.kubebuilder.views {
 				_kube.backFace = new CubeFace(model.kubeData.faceSides);
 				_kube.topFace = new CubeFace(model.kubeData.faceTop); 
 				_kube.bottomFace = new CubeFace(model.kubeData.faceBottom);
-			} 
+			}
+			
+			if(model.kubeSubmitted) {
+				parent.addChild(this);//Bring to front dirtyly
+				submitTransition();
+			}
 		}
 
 
@@ -74,10 +89,15 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Initializes the class.
 		 */
 		private function initialize():void {
+			_wingLeft = new WingGraphic();
+			_wingRight = new WingGraphic();
+			
 			_kube = addChild(new Cube()) as Cube;
 			_kube.width = _kube.height = _kube.depth = 200;
 			
-			_endRX = _endRY = 0;
+			_wingRight.scaleX = -1;
+			_wingLeft.x = -_kube.width * .5;
+			_wingRight.x = _kube.width * .5;
 			
 			filters = [new DropShadowFilter(0,0,0,.25,20,20,1,3)];
 			
@@ -88,6 +108,7 @@ package com.muxxu.kube.kubebuilder.views {
 			pp.projectionCenter = new Point(0, 0);
 			_kube.transform.perspectiveProjection = pp;
 			
+			_kube.doubleClickEnabled = true;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		
@@ -138,6 +159,34 @@ package com.muxxu.kube.kubebuilder.views {
 			_kube.rotationX += (_endRX - _kube.rotationX) * .1;
 			_kube.rotationY += (_endRY - _kube.rotationY) * .1;
 			_kube.validate();
+		}
+		
+		/**
+		 * Does the transition when the kube is submitted.
+		 */
+		private function submitTransition():void {
+			removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			
+			addChildAt(_wingLeft, 0);
+			addChildAt(_wingRight, 0);
+			
+			TweenLite.to(_kube, .25, {shortRotation:{rotationX:45, rotationY:0, rotationZ:0}, onUpdate:_kube.validate});
+			TweenLite.to(this, .25, {x:stage.stageWidth * .5, y:stage.stageHeight * .6});
+			
+			_wingLeft.rotation = 50;
+			_wingRight.rotation = -50;
+			
+			TweenLite.from(_wingLeft, .4, {scaleX:0, delay:.25, ease:Bounce.easeOut});
+			TweenLite.from(_wingRight, .4, {scaleX:0, delay:.25, ease:Bounce.easeOut});
+			TweenMax.to(_wingLeft, .1, {rotation:-30, yoyo:33, delay:1});
+			TweenMax.to(_wingRight, .1, {rotation:30, yoyo:33, delay:1});
+			TweenLite.to(_kube, 3, {rotationX:-1000, delay:1, ease:Sine.easeIn, onUpdate:_kube.validate});
+			TweenMax.to(this, 3, {ease:Linear.easeNone, bezierThrough:[{x:x, y:y}, {x:stage.stageWidth * .4, y:stage.stageHeight * .6}, {x:stage.stageWidth * .8, y: -50}], scaleX:.1, scaleY:.1, delay:1, onComplete:onTransitionComplete});
+			TweenLite.to(this, 1, {rotation:45, delay:3});
+		}
+
+		private function onTransitionComplete():void {
+			FrontControler.getInstance().openResultPage();
 		}
 		
 	}

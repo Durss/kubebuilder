@@ -27,8 +27,8 @@ package com.muxxu.kube.kubebuilder {
 	 */
 	 
 	[SWF(width="800", height="500", backgroundColor="#4CA5CD", frameRate="31")]
-	[Frame(factoryClass="com.muxxu.kube.kubebuilder.ApplicationLoader")]
-	public class Application extends MovieClip {
+	[Frame(factoryClass="com.muxxu.kube.kubebuilder.KubeBuilderLoader")]
+	public class KubeBuilder extends MovieClip {
 		private var _model:Model;
 		private var _stats:Stats;
 		private var _ks:KeyboardSequenceDetector;
@@ -42,7 +42,7 @@ package com.muxxu.kube.kubebuilder {
 		/**
 		 * Creates an instance of <code>Application</code>.<br>
 		 */
-		public function Application() {
+		public function KubeBuilder() {
 			initialize();
 		}
 

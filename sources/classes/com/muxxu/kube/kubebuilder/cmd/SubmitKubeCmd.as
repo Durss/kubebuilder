@@ -1,10 +1,11 @@
 package com.muxxu.kube.kubebuilder.cmd {
-	import mx.utils.Base64Encoder;
 	import com.muxxu.kube.kubebuilder.vo.KubeData;
 	import com.nurun.core.commands.Command;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.utils.commands.LoadFileCmd;
+
+	import mx.utils.Base64Encoder;
 
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
@@ -27,7 +28,6 @@ package com.muxxu.kube.kubebuilder.cmd {
 		public function SubmitKubeCmd(wsUrl:String, kubeName:String, data:KubeData) {
 			_kubeName = kubeName;
 			super(wsUrl);
-			trace('wsUrl: ' + (wsUrl));
 			var encoder:Base64Encoder = new Base64Encoder();
 			encoder.encodeBytes(data.toByteArray());
 			_urlVariables["name"] = _kubeName;

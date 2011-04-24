@@ -58,6 +58,13 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		 * Gets the selected color.
 		 */
 		public function get color():uint { return _color; }
+		
+		/**
+		 * Sets the selected color.
+		 */
+		public function set color(value:uint):void {
+			updateFromColor(value, false);
+		}
 
 
 
@@ -227,7 +234,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		/**
 		 * Updates the selectors from a color.
 		 */
-		private function updateFromColor(color:uint):void {
+		private function updateFromColor(color:uint, fireChange:Boolean = true):void {
 			if(color != uint.MAX_VALUE) {
 				_gradientCursor.y = Math.round((1 - ColorFunctions.getSaturation(color) / ColorFunctions.SMAX) * _gradient.height - 1);
 				_gradientCursor.x = Math.round((ColorFunctions.getHue(color) / ColorFunctions.HMAX) * _gradient.width - 1);
@@ -244,7 +251,9 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 				_brightnessSelector.alpha = .4;
 			}
 			_color = color;
-			dispatchEvent(new Event(Event.CHANGE));
+			if(fireChange) {
+				dispatchEvent(new Event(Event.CHANGE));
+			}
 		}
 		
 	}

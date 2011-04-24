@@ -12,7 +12,7 @@ package com.muxxu.kube.kubebuilder {
 	 * 
 	 * @author Francois
 	 */
-	public class ApplicationLoader extends MovieClip {
+	public class KubeBuilderLoader extends MovieClip {
 		private var _env:EnvironnementManager;
 		
 		
@@ -24,7 +24,7 @@ package com.muxxu.kube.kubebuilder {
 		/**
 		 * Creates an instance of <code>ApplicationLoader</code>.<br>
 		 */
-		public function ApplicationLoader() {
+		public function KubeBuilderLoader() {
 			initialize();
 		}
 
@@ -94,7 +94,7 @@ package com.muxxu.kube.kubebuilder {
 		 */
 		private function launch():void {
 			// on frame 2
-			var mainClass:Class = Class(getDefinitionByName("com.muxxu.kube.kubebuilder.Application"));
+			var mainClass:Class = Class(getDefinitionByName("com.muxxu.kube.kubebuilder.KubeBuilder"));
 			if(mainClass) {
 				var app:Object = new mainClass();
 				addChild(app as DisplayObject);

@@ -15,6 +15,7 @@
 		<label code="past"><![CDATA[Coller]]></label>
 		<label code="raz"><![CDATA[RAZ]]></label>
 		<label code="image"><![CDATA[Image]]></label>
+		<label code="exportImage"><![CDATA[Exporter face]]></label>
 		<label code="openForm"><![CDATA[Envoyer]]></label>
 		<label code="formTitle"><![CDATA[Donnez un petit nom à votre kube et laissez-le s'envoler au pays des kubes !]]></label>
 		<label code="formSubmit"><![CDATA[Valider]]></label>
@@ -26,13 +27,16 @@
 	<vars>
 		<var code="lang"><![CDATA[fr]]></var>
 		<var code="stats"><![CDATA[false]]></var>
-		<var code="server"><![CDATA[http://localhost/muxxu/kube/kubebuilder]]></var>
+		<var code="server"><![CDATA[./]]></var>
 	</vars>
 	
 	<paths>
 		<path code="css"><![CDATA[css/styles.css]]></path>
 		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
-		<path code="postKube"><![CDATA[{v_server}php/ws/postKube.php]]></path>
+		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php]]></path>
+		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php]]></path>
+		<path code="kubesFolder"><![CDATA[{v_server}/kubes/]]></path>
+		<path code="resultPage"><![CDATA[?act=rank]]></path>
 	</paths>
 	
 	<dependencies />

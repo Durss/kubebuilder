@@ -60,7 +60,9 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:Model = event.model as Model;
-			model;
+			if(model.kubeSubmitted) {
+				TweenLite.to(this, .25, {autoAlpha:0});
+			}
 			computePositions();
 		}
 
@@ -125,7 +127,7 @@ package com.muxxu.kube.kubebuilder.views {
 				bmd.applyFilter(bmd, bmd.rect, new Point(0,0), new BlurFilter(8,8,3));
 				_disableLayer.graphics.clear();
 				_disableLayer.graphics.beginBitmapFill(bmd);
-				_disableLayer.graphics.drawRect(0, 0, stage.stageWidth, stage.stageWidth);
+				_disableLayer.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 				_disableLayer.graphics.endFill();
 				
 				_formCtn.alpha = 1;
