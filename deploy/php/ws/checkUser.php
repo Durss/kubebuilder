@@ -1,5 +1,5 @@
 ﻿<?php
-session_start()
+session_start();
 if (isset($_GET['pubkey']) && isset($_GET['uid']))
 {
 	$pubkey = $_GET['pubkey'];
