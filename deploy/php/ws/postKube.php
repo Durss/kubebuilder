@@ -1,8 +1,9 @@
-<?php 
+<?php
+header("Content-type: text/xml");
 session_start();
 $date = date("Y-m-d H:i:s");
-include 'connection.php';
-include 'secure.php';
+include '../connection.php';
+include '../secure.php';
 
 /* 	Renvoyer un XML de la forme présentée ici.
 	Prendre les variables POST suivantes en entrée :
@@ -13,15 +14,8 @@ include 'secure.php';
 	noeud <label> comme suit dans le fichier config.xml :
 		<label code="errorSubmitResultID"><![CDATA[Label de l'erreur.]]></label> */
 
-echo "<?"; ?>xml version="1.0" encoding="UTF-8"?>
-<root>
-<?php
 if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 {
-?>
-	<session statut="1" name="<?php print $_SESSION['name'] ?>" uid="<?php print $_SESSION['uid'] ?>" />
-<?php
-
 	if (isset($name) && isset ($kube))
 	{
 		$name = secure_string($_POST['name']);
@@ -64,13 +58,11 @@ else
 		$error = $_SESSION['error'];
 	else
 		$error = "unknown";
-?>
-
-	<session statut="0" error="<?php print $error ?>" />
-
-<?php
 }
-?>
-	<result><?php print $result ?></result>
 
-</root>
+echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
+echo "<root>\r\n";
+echo "	<result>".$result."</result>\r\n";
+echo "</root>";
+
+?>
