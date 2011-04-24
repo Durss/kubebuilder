@@ -30,21 +30,21 @@ if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 	}
 	elseif (isset($name))
 	{
-	$result = "errorSubmitFile";
+	$result = "File";
 	}
 	elseif (isset($kube))
 	{
-	$result = "errorSubmitName";
+	$result = "Name";
 	}
 	else
 	{
-	$result = "errorSubmitPost";
+	$result = "Post";
 	}
 }
 
 else
 {
-	$result = "errorSubmitSession";
+	$result = "Session";
 	if (isset($_SESSION['error']))
 		$error = $_SESSION['error'];
 	else
