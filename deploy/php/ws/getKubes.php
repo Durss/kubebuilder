@@ -7,7 +7,7 @@
 
 		
 // Vérification des variables envoyées en POST 
-
+session_start();
 if (isset($_POST['start']) && isset($_POST['length']))
 {
 	$start = floor(intval($_POST['start']));
@@ -32,17 +32,41 @@ $req = "SELECT * FROM kubes ORDER BY `kubes`.`score`  DESC, `kubes`.`date`  DESC
 $kubes = mysql_query($req);
 echo "<?"; ?>xml version="1.0" encoding="UTF-8"?>
 <root>
-	<kubes>	
+<?php 
 
+// noeud session
+
+if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
+{
+?>
+<session statut="1" name="<?php print $_SESSION['name'] ?>" uid="<?php print $_SESSION['uid'] ?>" />
+<?php
+}
+
+else
+{
+	if (isset($_SESSION['error']))
+		$error = $_SESSION['error'];
+	else
+		$error = "unknown";
+?>
+
+	<session statut="0" error="<?php print $error ?>" />
+
+<?php
+}
+?>
+
+	<kubes>	
 <?php
 while ($kube = mysql_fetch_assoc($kubes))
 {
 	$req = "SELECT name FROM users WHERE id=".$kube['uid'];
 	$user = mysql_fetch_assoc(mysql_query($req));
 ?>
-<kube id="<?php print $kube['id'] ?>" uid="<?php print $kube['uid'] ?>" name="<?php print $kube['name'] ?>" pseudo="<?php print $user['name'] ?>" date="<?php print $kube['date'] ?>" votes="<?php print $kube['score'] ?>" />
+		<kube id="<?php print $kube['id'] ?>" uid="<?php print $kube['uid'] ?>" name="<?php print $kube['name'] ?>" pseudo="<?php print $user['name'] ?>" date="<?php print $kube['date'] ?>" votes="<?php print $kube['score'] ?>" />
 <?php
 }
-?>	
-	</kubes>
+?>	</kubes>
+
 </root>
