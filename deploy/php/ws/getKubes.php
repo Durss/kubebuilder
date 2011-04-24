@@ -40,7 +40,7 @@ while ($kube = mysql_fetch_assoc($kubes))
 	$req = "SELECT name FROM users WHERE id=".$kube['uid'];
 	$user = mysql_fetch_assoc(mysql_query($req));
 ?>
-<kube id="<?php print $kube['id'] ?>" uid="<?php print $kube['uid'] ?>" name="<?php print $kube['name'] ?> pseudo="<?php print $user['name'] ?>" date="<?php print $kube['date'] ?>" votes="<?php print $kube['score'] ?>" />
+<kube id="<?php print $kube['id'] ?>" uid="<?php print $kube['uid'] ?>" name="<?php print $kube['name'] ?>" pseudo="<?php print $user['name'] ?>" date="<?php print $kube['date'] ?>" votes="<?php print $kube['score'] ?>" />
 <?php
 }
 ?>	
