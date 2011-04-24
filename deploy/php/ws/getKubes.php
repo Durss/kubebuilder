@@ -38,7 +38,7 @@ while ($kube = mysql_fetch_assoc($kubes))
 {
 	$req = "SELECT name FROM users WHERE id=".$kube['uid'];
 	$user = mysql_fetch_assoc(mysql_query($req));
-	$kubeNodes .= "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" />\r\n";
+	$kubeNodes .= "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" file=\"".$kube['file']."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" />\r\n";
 }
 
 

@@ -1,7 +1,9 @@
 package com.muxxu.kube.kubebuilder.controler {
-	
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
+	import com.nurun.structure.mvc.model.IModel;
+
 	import flash.errors.IllegalOperationError;
+	
 	
 	/**
 	 * Singleton FrontControler
@@ -47,8 +49,8 @@ package com.muxxu.kube.kubebuilder.controler {
 		/**
 		 * Initialize the controler with the model.
 		 */
-		public function initialize(model:ModelKB):void {
-			_model = model;
+		public function initialize(model:IModel):void {
+			_model = model as ModelKB;
 		}
 		
 		/**
