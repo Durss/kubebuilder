@@ -39,7 +39,7 @@ echo "<?"; ?>xml version="1.0" encoding="UTF-8"?>
 if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 {
 ?>
-<session statut="1" name="<?php print $_SESSION['name'] ?>" uid="<?php print $_SESSION['uid'] ?>" />
+	<session statut="1" name="<?php print $_SESSION['name'] ?>" uid="<?php print $_SESSION['uid'] ?>" />
 <?php
 }
 
