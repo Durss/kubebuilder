@@ -1,5 +1,6 @@
 package com.muxxu.kube.kubebuilder {
 	import com.muxxu.kube.common.AbstractApplication;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.muxxu.kube.kubebuilder.views.EditorView;
 	import com.muxxu.kube.kubebuilder.views.KubeView;
@@ -18,7 +19,7 @@ package com.muxxu.kube.kubebuilder {
 	 * @author Francois
 	 */
 	 
-	[SWF(width="800", height="500", backgroundColor="#4CA5CD", frameRate="31")]
+	[SWF(width="870", height="500", backgroundColor="#4CA5CD", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.kube.kubebuilder.KubeBuilderLoader")]
 	public class KubeBuilder extends AbstractApplication {
 		
@@ -58,6 +59,8 @@ package com.muxxu.kube.kubebuilder {
 		 */
 		override protected function initialize():void {
 			super.initialize();
+			
+			FrontControlerKB.getInstance().initialize(_model);
 			
 			addChild(new KubeView());
 			addChild(new PanelView());

@@ -1,7 +1,9 @@
 package com.muxxu.kube.kuberank {
 	import com.muxxu.kube.common.AbstractApplication;
+	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.views.ListView;
+	import com.muxxu.kube.kuberank.views.MenuView;
 	import com.muxxu.kube.kuberank.views.SingleKubeView;
 	import com.muxxu.kube.kuberank.views.Top3View;
 
@@ -16,7 +18,7 @@ package com.muxxu.kube.kuberank {
 	 * @author Francois
 	 */
 	 
-	[SWF(width="800", height="500", backgroundColor="#4CA5CD", frameRate="31")]
+	[SWF(width="870", height="480", backgroundColor="#4CA5CD", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.kube.kuberank.KubeRankLoader")]
 	public class KubeRank extends AbstractApplication {
 		
@@ -57,9 +59,12 @@ package com.muxxu.kube.kuberank {
 		override protected function initialize():void {
 			super.initialize();
 			
+			FrontControlerKR.getInstance().initialize(_model);
+			
 			addChild(new Top3View());
 			addChild(new SingleKubeView());
 			addChild(new ListView());
+			addChild(new MenuView());
 		}
 		
 		/**

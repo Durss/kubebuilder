@@ -65,7 +65,6 @@ package com.muxxu.kube.common {
 			TweenPlugin.activate([ColorMatrixFilterPlugin, RemoveChildPlugin]);
 			
 			ViewLocator.getInstance().initialise(_model);
-			FrontControlerKB.getInstance().initialize(_model);
 			
 			_stats = new Stats();
 			_exceptionView = new ExceptionView();

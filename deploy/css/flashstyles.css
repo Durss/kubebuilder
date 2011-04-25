@@ -29,5 +29,9 @@
 /* KUBE RANK STYLES */
 
 .menuTitle { font-family:Verdana; font-size:25; font-weight:bold; color:#265367; }
+
 .checkBox { font-family:Verdana; font-size:14; color:#265367; }
-.checkBoxSelected { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; }
+.checkBox_selected { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; }
+
+.radioButton { font-family:Verdana; font-size:14; color:#265367; }
+.radioButton_selected { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; }

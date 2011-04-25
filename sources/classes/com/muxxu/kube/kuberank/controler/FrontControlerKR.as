@@ -1,7 +1,9 @@
 package com.muxxu.kube.kuberank.controler {
-	
+	import com.nurun.structure.mvc.model.IModel;
 	import com.muxxu.kube.kuberank.model.ModelKR;
+
 	import flash.errors.IllegalOperationError;
+	
 	
 	/**
 	 * Singleton FrontControlerKR
@@ -48,8 +50,8 @@ package com.muxxu.kube.kuberank.controler {
 		/**
 		 * Initialize the class.
 		 */
-		public function initialize(model:ModelKR):void {
-			_model = model;
+		public function initialize(model:IModel):void {
+			_model = model as ModelKR;
 		}
 		
 		/**

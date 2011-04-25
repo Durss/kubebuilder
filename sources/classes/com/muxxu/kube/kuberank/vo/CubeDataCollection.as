@@ -3,6 +3,7 @@ package com.muxxu.kube.kuberank.vo {
 	import com.nurun.core.lang.vo.XMLValueObject;
 	
 	/**
+	 * Stores a collection of CubeData instances.
 	 * 
 	 * @author Francois
 	 */
@@ -33,6 +34,11 @@ package com.muxxu.kube.kuberank.vo {
 		 * @inheritDoc
 		 */
 		public function get length():uint { return _list.length; }
+		
+		/**
+		 * Gets the current data version number
+		 */
+		public function get version():Number { return _version; }
 
 
 
@@ -59,7 +65,7 @@ package com.muxxu.kube.kuberank.vo {
 			len = nodes.length();
 			_list = new Vector.<CubeData>(len, true);
 			for(i = 0; i < len; ++i) {
-				_list[i] = new CubeData();
+				_list[i] = new CubeData(i);
 				_list[i].populate(nodes[i]);
 			}
 		}
@@ -80,6 +86,13 @@ package com.muxxu.kube.kuberank.vo {
 			_version ++;
 			_list.sort(byDate? dateSort : votesSort);
 		}
+		
+		/**
+		 * Gets a string representation of the value object.
+		 */
+		public function toString():String {
+			return "[CubeDataCollection :: collection="+_list+"]";
+		}
 
 
 		
@@ -91,14 +104,29 @@ package com.muxxu.kube.kuberank.vo {
 		 * Sorts by date
 		 */
 		private function dateSort(a:CubeData, b:CubeData):Number {
-		    return (a.date > b.date)? 1 : (a.date < b.date)? -1 : 0;
+			if(a.date == b.date) {
+			    return defaultSort(a,b);
+			}else{
+			    return (a.date > b.date)? 1 : (a.date < b.date)? -1 : 0;
+			}
 		}
 		
 		/**
 		 * Sorts by votes
 		 */
 		private function votesSort(a:CubeData, b:CubeData):Number {
-		    return (a.votes > b.votes)? 1 : (a.votes < b.votes)? -1 : 0;
+			if(a.votes == b.votes) {
+			    return defaultSort(a,b);
+			}else{
+			    return (a.votes > b.votes)? 1 : (a.votes < b.votes)? -1 : 0;
+			}
+		}
+		
+		/**
+		 * Sorts by default indexes
+		 */
+		private function defaultSort(a:CubeData, b:CubeData):Number {
+			return (a.defaultIndex > b.defaultIndex)? 1 : (a.defaultIndex < b.defaultIndex)? -1 : 0;
 		}
 		
 	}

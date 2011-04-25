@@ -18,6 +18,7 @@ package com.muxxu.kube.kuberank.vo {
 		private var _date:Number;
 		private var _votes:Number;
 		private var _kub:KUBData;
+		private var _defaultIndex:int;
 		
 		
 		
@@ -28,13 +29,17 @@ package com.muxxu.kube.kuberank.vo {
 		/**
 		 * Creates an instance of <code>CubeData</code>.
 		 */
-		public function CubeData() { }
+		public function CubeData(defaultIndex:int) {
+			_defaultIndex = defaultIndex;
+		}
 
 		
 		
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+
+		public function get defaultIndex():int { return _defaultIndex; }
 
 		public function get id():Number { return _id; }
 
@@ -81,6 +86,13 @@ package com.muxxu.kube.kuberank.vo {
 		public function dispose():void {
 			_kub.dispose();
 			_kub = null;
+		}
+		
+		/**
+		 * Gets a string representation of the value object.
+		 */
+		public function toString():String {
+			return "[CubeData :: name="+name+"]";
 		}
 
 

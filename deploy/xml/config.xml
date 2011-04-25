@@ -36,12 +36,17 @@
 		<label code="sortTitle"><![CDATA[Trier par :]]></label>
 		<label code="sortByDate"><![CDATA[Date]]></label>
 		<label code="sortByVotes"><![CDATA[Votes]]></label>
+		<label code="prevPage"><![CDATA[&lt; Précédents]]></label>
+		<label code="nextPage"><![CDATA[Suivants &gt;]]></label>
 	</labels>
 	
 	<vars>
 		<var code="lang"><![CDATA[fr]]></var>
 		<var code="stats"><![CDATA[false]]></var>
 		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
+		<!-- 
+		<var code="server"><![CDATA[http://www.muxxu.free.fr/kube/apps/kubebuilder]]></var>
+		 -->
 	</vars>
 	
 	<paths>
