@@ -1,5 +1,5 @@
 package com.muxxu.kube.kubebuilder.cmd {
-	import com.muxxu.kube.common.vo.KubeData;
+	import com.muxxu.kube.common.vo.KUBData;
 	import com.nurun.core.commands.Command;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.label.Label;
@@ -25,7 +25,7 @@ package com.muxxu.kube.kubebuilder.cmd {
 		/**
 		 * Constructor
 		 */
-		public function SubmitKubeCmd(wsUrl:String, kubeName:String, data:KubeData) {
+		public function SubmitKubeCmd(wsUrl:String, kubeName:String, data:KUBData) {
 			_kubeName = kubeName;
 			super(wsUrl);
 			var encoder:Base64Encoder = new Base64Encoder();

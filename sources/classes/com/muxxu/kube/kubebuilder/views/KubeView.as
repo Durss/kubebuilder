@@ -1,4 +1,10 @@
 package com.muxxu.kube.kubebuilder.views {
+	import gs.TweenLite;
+	import gs.TweenMax;
+	import gs.easing.Bounce;
+	import gs.easing.Linear;
+	import gs.easing.Sine;
+
 	import com.muxxu.kube.common.components.cube.CubeFace;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.graphics.WingGraphic;
@@ -6,16 +12,12 @@ package com.muxxu.kube.kubebuilder.views {
 	import com.nurun.components.volume.Cube;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
+
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
 	import flash.geom.PerspectiveProjection;
 	import flash.geom.Point;
-	import gs.TweenLite;
-	import gs.TweenMax;
-	import gs.easing.Bounce;
-	import gs.easing.Linear;
-	import gs.easing.Sine;
 
 
 	
@@ -108,7 +110,6 @@ package com.muxxu.kube.kubebuilder.views {
 			pp.projectionCenter = new Point(0, 0);
 			_kube.transform.perspectiveProjection = pp;
 			
-			_kube.doubleClickEnabled = true;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		

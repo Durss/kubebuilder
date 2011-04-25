@@ -1,6 +1,6 @@
 package com.muxxu.kube.kubebuilder.model {
 	import com.adobe.images.PNGEncoder;
-	import com.muxxu.kube.common.vo.KubeData;
+	import com.muxxu.kube.common.vo.KUBData;
 	import com.muxxu.kube.kubebuilder.cmd.SubmitKubeCmd;
 	import com.muxxu.kube.kubebuilder.vo.FaceIds;
 	import com.muxxu.kube.kubebuilder.vo.ToolType;
@@ -32,7 +32,7 @@ package com.muxxu.kube.kubebuilder.model {
 	 */
 	public class ModelKB extends EventDispatcher implements IModel {
 		
-		private var _kubeData:KubeData;
+		private var _kubeData:KUBData;
 		private var _currentFace:BitmapData;
 		private var _color:uint;
 		private var _currentTool:String;
@@ -65,7 +65,7 @@ package com.muxxu.kube.kubebuilder.model {
 		/**
 		 * Gets the kube's data.
 		 */
-		public function get kubeData():KubeData { return _kubeData; }
+		public function get kubeData():KUBData { return _kubeData; }
 		
 		/**
 		 * Gets the current face.
@@ -215,7 +215,7 @@ package com.muxxu.kube.kubebuilder.model {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_kubeData = new KubeData();
+			_kubeData = new KUBData();
 			_currentFace = _kubeData.faceSides;
 			_currentTool = ToolType.PENCIL;
 			

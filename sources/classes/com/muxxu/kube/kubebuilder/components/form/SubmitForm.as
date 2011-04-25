@@ -1,6 +1,6 @@
 package com.muxxu.kube.kubebuilder.components.form {
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
-	import com.muxxu.kube.common.components.input.InputKube;
+	import com.muxxu.kube.common.components.form.input.InputKube;
 	import com.nurun.components.form.events.FormComponentEvent;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.label.Label;

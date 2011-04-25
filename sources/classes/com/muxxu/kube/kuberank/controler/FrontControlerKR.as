@@ -51,6 +51,36 @@ package com.muxxu.kube.kuberank.controler {
 		public function initialize(model:ModelKR):void {
 			_model = model;
 		}
+		
+		/**
+		 * Sorts the results.
+		 * 
+		 * @param byDate	defines if the results should be sort by date. Else it's by votes
+		 */
+		public function sort(byDate:Boolean):void {
+			_model.sort(byDate);
+		}
+		
+		/**
+		 * Loads the next page of results.
+		 */
+		public function loadNextPage():void {
+			_model.loadNextPage();
+		}
+		
+		/**
+		 * Loads the previous page of results.
+		 */
+		public function loadPrevPage():void {
+			_model.loadPrevPage();
+		}
+		
+		/**
+		 * Loads the kubes of a specific user.
+		 */
+		public function searchKubesOfUser(userName:String):void {
+			_model.searchKubesOfUser(userName);
+		}
 
 
 		

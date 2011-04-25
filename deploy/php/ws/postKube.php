@@ -5,15 +5,6 @@ $date = date("Y-m-d H:i:s");
 include '../connection.php';
 include '../secure.php';
 
-/* 	Renvoyer un XML de la forme présentée ici.
-	Prendre les variables POST suivantes en entrée :
-		name : nom du kube
-		kube : données binaires du kube
-	
-	Définir un ID arbitraire de retour pour chaque cas d'erreur possible et créer un
-	noeud <label> comme suit dans le fichier config.xml :
-		<label code="errorSubmitResultID"><![CDATA[Label de l'erreur.]]></label> */
-
 if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 {
 	if (isset($_POST['name'], $_POST['kube']))
