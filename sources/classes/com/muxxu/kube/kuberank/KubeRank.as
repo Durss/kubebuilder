@@ -1,5 +1,11 @@
 package com.muxxu.kube.kuberank {
-	import flash.display.MovieClip;
+	import com.muxxu.kube.common.AbstractApplication;
+	import com.muxxu.kube.kuberank.model.ModelKR;
+	import com.muxxu.kube.kuberank.views.ListView;
+	import com.muxxu.kube.kuberank.views.SingleKubeView;
+	import com.muxxu.kube.kuberank.views.Top3View;
+
+	import flash.events.Event;
 
 	/**
 	 * Bootstrap class of the application.
@@ -12,7 +18,7 @@ package com.muxxu.kube.kuberank {
 	 
 	[SWF(width="800", height="500", backgroundColor="#4CA5CD", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.kube.kuberank.KubeRankLoader")]
-	public class KubeRank extends MovieClip {
+	public class KubeRank extends AbstractApplication {
 		
 		
 		
@@ -24,7 +30,7 @@ package com.muxxu.kube.kuberank {
 		 * Creates an instance of <code>Application</code>.<br>
 		 */
 		public function KubeRank() {
-			initialize();
+			super(new ModelKR());
 		}
 
 		
@@ -46,18 +52,24 @@ package com.muxxu.kube.kuberank {
 		 * PRIVATE *
 		 * ******* */
 		/**
-		 * Initialize the class.<br>s
+		 * Initialize the class.<br>
 		 */
-		private function initialize():void {
+		override protected function initialize():void {
+			super.initialize();
 			
-			computePositions();
+			addChild(new Top3View());
+			addChild(new SingleKubeView());
+			addChild(new ListView());
 		}
 		
 		/**
-		 * Resize and replace the elements.<br>
+		 * Called when the stage is available.
+		 * 
+		 * Needed for a proper initial placement of the views. 
 		 */
-		private function computePositions():void {
-			
+		override protected function addedToStageHandler(event:Event):void {
+			super.addedToStageHandler(event);
+			ModelKR(_model).start();
 		}
 		
 	}

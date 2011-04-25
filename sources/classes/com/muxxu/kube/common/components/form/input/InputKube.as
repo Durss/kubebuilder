@@ -1,4 +1,4 @@
-package com.muxxu.kube.common.components.input {
+package com.muxxu.kube.common.components.form.input {
 	import com.muxxu.kube.kubebuilder.graphics.InputSkin;
 	import com.nurun.components.form.Input;
 	import com.nurun.components.vo.Margin;

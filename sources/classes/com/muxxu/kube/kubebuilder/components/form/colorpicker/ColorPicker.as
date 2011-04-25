@@ -1,5 +1,5 @@
 package com.muxxu.kube.kubebuilder.components.form.colorpicker {
-	import com.muxxu.kube.common.components.input.InputKube;
+	import com.muxxu.kube.common.components.form.input.InputKube;
 	import com.muxxu.kube.kubebuilder.components.buttons.ColorButton;
 	import com.muxxu.kube.kubebuilder.graphics.ColorPickerGradientGraphic;
 	import com.nurun.utils.color.ColorFunctions;

@@ -1,5 +1,5 @@
 package com.muxxu.kube.kubebuilder.components.panel {
-	import com.muxxu.kube.common.vo.KubeData;
+	import com.muxxu.kube.common.vo.KUBData;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.vo.FaceIds;
 	import flash.display.Bitmap;
@@ -60,7 +60,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		/**
 		 * Populates the component
 		 */
-		public function populate(data:KubeData):void {
+		public function populate(data:KUBData):void {
 			_frontBmp.bitmapData = data.faceSides;
 			_leftBmp.bitmapData = data.faceSides;
 			_rightBmp.bitmapData = data.faceSides;

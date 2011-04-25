@@ -32,6 +32,10 @@
 		
 		<label code="errorLoadResultFormat"><![CDATA[Le chargement de la liste des kubes a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorLoadResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
+		
+		<label code="sortTitle"><![CDATA[Trier par :]]></label>
+		<label code="sortByDate"><![CDATA[Date]]></label>
+		<label code="sortByVotes"><![CDATA[Votes]]></label>
 	</labels>
 	
 	<vars>
@@ -45,7 +49,6 @@
 		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
 		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php]]></path>
 		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php]]></path>
-		<path code="kubesFolder"><![CDATA[{v_server}/kubes/]]></path>
 		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name=durss&pubkey={v_pubkey}]]></path>
 	</paths>
 	
