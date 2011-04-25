@@ -88,20 +88,24 @@ package com.muxxu.kube.kuberank.model {
 		 * @param byDate	defines if the results should be sort by date. Else it's by votes
 		 */
 		public function sort(byDate:Boolean):void {
+			var exMode:Boolean = _top3Mode;
 			_sortByDate = byDate;
-			if(_data.length == 0) {
+			_top3Mode = !_sortByDate;
+			_startIndex = 0;
+			_length = _top3Mode? 3 : _ITEMS_PER_PAGE;
+//			if(_data.length == 0 || exMode != _top3Mode) {
 				loadCubes();
-			}else{
-				_data.sort(byDate);
-				update();
-			}
+//			}else{
+//				_data.sort(byDate);
+//				update();
+//			}
 		}
 		
 		/**
 		 * Loads the next page of results.
 		 */
 		public function loadNextPage():void {
-			_startIndex += _ITEMS_PER_PAGE;
+			_startIndex += _top3Mode? 3 : _ITEMS_PER_PAGE;
 			_length = _ITEMS_PER_PAGE;
 			_top3Mode = false;
 			loadCubes();

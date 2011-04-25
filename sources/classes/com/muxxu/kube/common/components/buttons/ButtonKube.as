@@ -26,7 +26,7 @@ package com.muxxu.kube.common.components.buttons {
 		 */
 		public function ButtonKube(label:String, big:Boolean = false, icon:DisplayObject = null) {
 			super(label, big? "buttonBig" : "button", new ButtonSkin(), icon);
-			contentMargin = big? new Margin(10, 5, 10, 5) : new Margin(0, 2, 0, 2);
+			contentMargin = big? new Margin(5, 5, 5, 5) : new Margin(0, 2, 0, 2);
 			textBoundsMode = false;
 			iconAlign = IconAlign.LEFT;
 			textAlign = icon == null? TextAlign.CENTER : TextAlign.LEFT;

@@ -19,9 +19,9 @@ if (isset($_POST['userName']) && strlen($_POST['userName']) > 0) {
 
 //Build request
 if (isset($_POST['orderBy']) && $_POST['orderBy'] == 'date')
-	$order = "ORDER BY `kubes`.`date`  DESC";
+	$order = "ORDER BY `kubes`.`date` DESC, `kubes`.`date` DESC";
 else
-	$order = "ORDER BY `kubes`.`score`  DESC, `kubes`.`date` DESC";
+	$order = "ORDER BY `kubes`.`score` DESC, `kubes`.`date` DESC";
 	
 if (isset($_POST['ownerId']) && $_POST['ownerId'] == intval($_POST['ownerId']))
 	$where = "WHERE uid='".$_POST[ownerId]."'";
