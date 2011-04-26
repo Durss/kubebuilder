@@ -62,11 +62,14 @@ while ($kube = mysql_fetch_assoc($kubes))
 {
 	$req = "SELECT name FROM users WHERE id=".$kube['uid'];
 	$user = mysql_fetch_assoc(mysql_query($req));
+	$req = "SELECT COUNT(*) as `total` FROM evaluation  WHERE kid=".$kube['id']." AND uid=".intval($_SESSION['uid']);
+	$uvote = mysql_fetch_assoc(mysql_query($req));
+	$uvote_ok = intval($vote['total']);
 	$fileName = "../../kubes/".$kube['file'].".kub";
 	$handle = fopen($fileName, "r");
 	$fileContent = base64_encode(fread($handle, filesize($fileName)));
 	fclose($handle);
-	$kubeNodes .= "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\"><![CDATA[".$fileContent."]]></kube>\r\n";
+	$kubeNodes .= "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" uvote=\"".$uvote_ok."\"><![CDATA[".$fileContent."]]></kube>\r\n";
 }
 
 // Retour du xml
