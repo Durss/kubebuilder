@@ -92,7 +92,7 @@ package com.muxxu.kube.kuberank.views {
 					cube.y = Math.floor(i/6) * 130 + 70;
 					cube.populate(data.getItemAt(i), new Point(cube.x, -200), new Point(cube.x, cube.y), 75);
 					TweenLite.killDelayedCallsTo(cube.doOpenTransition);
-					TweenLite.delayedCall(i*.2, cube.doOpenTransition);
+					TweenLite.delayedCall(i*.2, cube.doOpenTransition, [(len-i+1)*.2]);
 					addChild(cube);
 				}else{
 					if(contains(cube)) removeChild(cube);

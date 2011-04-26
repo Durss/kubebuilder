@@ -13,8 +13,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 	import flash.filters.GlowFilter;
 	import flash.geom.Matrix;
 	import gs.TweenLite;
-
-
+	
 	
 	/**
 	 * Fired when a new color is selected.
@@ -63,6 +62,8 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		 * Sets the selected color.
 		 */
 		public function set color(value:uint):void {
+			if(value == _color) return;
+			_hexInput.text = "#"+StringUtils.toDigit(value.toString(16), 6);
 			updateFromColor(value, false);
 		}
 
@@ -108,7 +109,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_gradientCursor.graphics.endFill();
 			
 			_brightnessSelector.color = 0xff0000;
-			_brightnessSelector.baseColor = 0xff0000;
+			_brightnessSelector.setBaseColor(0xff0000);
 			_hexInput.text = "#ff0000";
 			_hexInput.textfield.maxChars = 7;
 			_hexInput.textfield.restrict = "[0-9a-fA-F]#";
@@ -159,8 +160,11 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			if(_gradientCursor.x > _gradient.x + _gradient.width - _gradientCursor.width + 1) _gradientCursor.x = _gradient.x + _gradient.width - _gradientCursor.width + 1;
 			if(_gradientCursor.y > _gradient.y + _gradient.height - _gradientCursor.height + 1) _gradientCursor.y = _gradient.y + _gradient.height - _gradientCursor.height + 1;
 //			if(_pressed) {
-			_brightnessSelector.baseColor = _bmd.getPixel(_gradientCursor.x - _gradient.x + 1, _gradientCursor.y - _gradient.y + 1);
+				_brightnessSelector.setBaseColor(_bmd.getPixel(_gradientCursor.x - _gradient.x + 1, _gradientCursor.y - _gradient.y + 1), _pressed);
 //			}
+			if(_pressed) {
+				_hexInput.text = "#"+StringUtils.toDigit(_brightnessSelector.color.toString(16), 6);
+			}
 			if(event != null) changeColorHandler();
 		}
 		
@@ -179,6 +183,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		private function mouseUpHandler(event:MouseEvent):void {
 			_pressed = false;
 			stage.removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**
@@ -200,7 +205,6 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		private function changeColorHandler(event:Event = null):void {
 			_hexInput.text = "#"+StringUtils.toDigit(_brightnessSelector.color.toString(16), 6);
 			_color = _brightnessSelector.color;
-			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**

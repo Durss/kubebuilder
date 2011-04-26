@@ -88,7 +88,7 @@ package com.muxxu.kube.kuberank.model {
 		 * @param byDate	defines if the results should be sort by date. Else it's by votes
 		 */
 		public function sort(byDate:Boolean):void {
-			var exMode:Boolean = _top3Mode;
+//			var exMode:Boolean = _top3Mode;
 			_sortByDate = byDate;
 			_top3Mode = !_sortByDate;
 			_startIndex = 0;

@@ -1,11 +1,11 @@
 package com.muxxu.kube.kuberank.components.form {
-	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
-	import flash.events.MouseEvent;
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
+	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.nurun.components.vo.Margin;
 	import com.nurun.structure.environnement.label.Label;
 
 	import flash.display.Sprite;
+	import flash.events.MouseEvent;
 	
 	/**
 	 * Displays the pagination form (actually it's just prev and button for now)
@@ -41,6 +41,13 @@ package com.muxxu.kube.kuberank.components.form {
 		/* ****** *
 		 * PUBLIC *
 		 * ****** */
+		/**
+		 * Updates the buttons states.
+		 */
+		public function update(index:int, length:int, itemsDisplayed:int):void {
+			_prevPageBt.enabled = index > 0;
+			_nextPageBt.enabled = index + itemsDisplayed < length;
+		}
 
 
 		
@@ -71,7 +78,7 @@ package com.muxxu.kube.kuberank.components.form {
 		private function clickHandler(event:MouseEvent):void {
 			if(event.target == _nextPageBt) {
 				FrontControlerKR.getInstance().loadNextPage();
-			}else{
+			}else if(event.target == _prevPageBt){
 				FrontControlerKR.getInstance().loadPrevPage();
 			}
 		}

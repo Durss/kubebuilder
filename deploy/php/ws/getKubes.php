@@ -62,9 +62,15 @@ while ($kube = mysql_fetch_assoc($kubes))
 {
 	$req = "SELECT name FROM users WHERE id=".$kube['uid'];
 	$user = mysql_fetch_assoc(mysql_query($req));
-	$req = "SELECT COUNT(*) as `total` FROM evaluation  WHERE kid=".$kube['id']." AND uid=".intval($_SESSION['uid']);
-	$uvote = mysql_fetch_assoc(mysql_query($req));
-	$uvote_ok = intval($vote['total']);
+	
+	if(isset($_SESSION['uid'])) {
+		$req = "SELECT COUNT(*) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".intval($_SESSION['uid']);
+		$uvote = mysql_fetch_assoc(mysql_query($req));
+		$uvote_ok = intval($vote['total']);
+	}else {
+		$uvote_ok = 1;
+	}
+	
 	$fileName = "../../kubes/".$kube['file'].".kub";
 	$handle = fopen($fileName, "r");
 	$fileContent = base64_encode(fread($handle, filesize($fileName)));

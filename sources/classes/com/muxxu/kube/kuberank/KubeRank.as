@@ -75,6 +75,8 @@ package com.muxxu.kube.kuberank {
 		override protected function addedToStageHandler(event:Event):void {
 			super.addedToStageHandler(event);
 			ModelKR(_model).start();
+			
+			_background.y = stage.stageHeight - _background.height - 80;
 		}
 		
 	}
