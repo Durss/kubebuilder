@@ -1,12 +1,13 @@
 package com.muxxu.kube.common {
-	import com.muxxu.kube.common.views.ExceptionView;
+	import flash.display.DisplayObject;
+	import com.muxxu.kube.kubebuilder.graphics.ApplicationBackgroundGraphic;
 	import gs.plugins.ColorMatrixFilterPlugin;
 	import gs.plugins.RemoveChildPlugin;
 	import gs.plugins.TweenPlugin;
 
 	import net.hires.debug.Stats;
 
-	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
+	import com.muxxu.kube.common.views.ExceptionView;
 	import com.nurun.structure.mvc.model.IModel;
 	import com.nurun.structure.mvc.views.ViewLocator;
 	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
@@ -24,7 +25,8 @@ package com.muxxu.kube.common {
 		protected var _stats:Stats;
 		protected var _ks:KeyboardSequenceDetector;
 		protected var _model:IModel;
-		private var _exceptionView:ExceptionView;
+		protected var _exceptionView:ExceptionView;
+		protected var _background:DisplayObject;
 		
 		
 		
@@ -65,6 +67,8 @@ package com.muxxu.kube.common {
 			TweenPlugin.activate([ColorMatrixFilterPlugin, RemoveChildPlugin]);
 			
 			ViewLocator.getInstance().initialise(_model);
+			
+			_background = addChild(new ApplicationBackgroundGraphic());
 			
 			_stats = new Stats();
 			_exceptionView = new ExceptionView();

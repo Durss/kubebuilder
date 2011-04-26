@@ -123,7 +123,7 @@ package com.muxxu.kube.kuberank.views {
 				start.y = -250;
 				_cubes[i].populate(data.getItemAt(i), start, positions[i], sizes[i]);
 				TweenLite.killDelayedCallsTo(_cubes[i].doOpenTransition);
-				TweenLite.delayedCall((3-i)*.5, _cubes[i].doOpenTransition);
+				TweenLite.delayedCall((3-i)*.5, _cubes[i].doOpenTransition, [(len-i)*.5 - (3-i)*.5]);
 			}
 			computePositions();
 		}

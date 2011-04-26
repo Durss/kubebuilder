@@ -1,6 +1,8 @@
 package com.muxxu.kube.kuberank.views {
-	import com.muxxu.kube.common.components.Splitter;
-	import com.muxxu.kube.common.vo.SplitterType;
+	import flash.filters.BevelFilter;
+	import flash.filters.DropShadowFilter;
+	import com.muxxu.kube.kubebuilder.graphics.GradientMenuSplitter;
+	import com.muxxu.kube.kubebuilder.graphics.VerticalSplitterGraphic;
 	import com.muxxu.kube.kuberank.components.form.PaginationForm;
 	import com.muxxu.kube.kuberank.components.form.SortForm;
 	import com.muxxu.kube.kuberank.model.ModelKR;
@@ -14,11 +16,12 @@ package com.muxxu.kube.kuberank.views {
 	 * @author Francois
 	 */
 	public class MenuView extends AbstractView {
-		private var _splitterH:Splitter;
-		private var _splitterV1:Splitter;
-		private var _splitterV2:Splitter;
+		
+		private var _splitterV1:VerticalSplitterGraphic;
+		private var _splitterV2:VerticalSplitterGraphic;
 		private var _sortForm:SortForm;
 		private var _paginationForm:PaginationForm;
+		private var _shadow:GradientMenuSplitter;
 		
 		
 		
@@ -49,6 +52,7 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:ModelKR = event.model as ModelKR;
+			_paginationForm.update(model.startIndex, model.totalResults, model.data.length);
 		}
 
 
@@ -61,11 +65,15 @@ package com.muxxu.kube.kuberank.views {
 		 * Initializes the class.
 		 */
 		private function initialize():void {
-			_splitterH = addChild(new Splitter(SplitterType.HORIZONTAL)) as Splitter;
-			_splitterV1 = addChild(new Splitter(SplitterType.VERTICAL)) as Splitter;
-			_splitterV2 = addChild(new Splitter(SplitterType.VERTICAL)) as Splitter;
+			_shadow = addChild(new GradientMenuSplitter()) as GradientMenuSplitter;
+			_splitterV1 = addChild(new VerticalSplitterGraphic()) as VerticalSplitterGraphic;
+			_splitterV2 = addChild(new VerticalSplitterGraphic()) as VerticalSplitterGraphic;
 			_sortForm = addChild(new SortForm()) as SortForm;
 			_paginationForm = addChild(new PaginationForm()) as PaginationForm;
+			
+			_splitterV1.filters = _splitterV2.filters = 
+			[ new BevelFilter(5,135,0xffffff,1,0,1,5,5,.2,3),
+			new DropShadowFilter(0, 0, 0, .4, 5, 5, 1, 3) ];
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
@@ -84,15 +92,13 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		private function computePositions(event:Event = null):void {
 			y = 420;
+			_shadow.y = -7;
+			_shadow.width = stage.stageWidth;
+			_splitterV1.x = 165;
 			_splitterV1.y = 4;
 			_splitterV2.y = 4;
-			_splitterV1.x = 165;
-			
-			_splitterH.width = stage.stageWidth;
-			_splitterH.height = 4;
-			
 			_splitterV1.width = _splitterV2.width = 4;
-			_splitterV1.height = _splitterV2.height = 80;
+			_splitterV1.height = _splitterV2.height = 70;
 			
 			_sortForm.x = 4;
 			_sortForm.y = 8;

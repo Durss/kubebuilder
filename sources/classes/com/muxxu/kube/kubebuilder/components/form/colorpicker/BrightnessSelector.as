@@ -88,25 +88,25 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		}
 		
 		/**
-		 * Sets the base color of the gradient.
-		 */
-		public function set baseColor(value:uint):void {
-			_baseColor = value;
-			render();
-		}
-		
-		/**
 		 * Gets the selected color.
 		 */
-		public function get color():uint {
-			return _color;
-		}
+		public function get color():uint { return _color; }
 
 
 
 		/* ****** *
 		 * PUBLIC *
 		 * ****** */
+		
+		/**
+		 * Sets the base color of the gradient.
+		 */
+		public function setBaseColor(value:uint, fireChange:Boolean = true):void {
+			_baseColor = value;
+			_fireChange = fireChange;
+			render();
+			_fireChange = true;
+		}
 
 
 		
@@ -193,7 +193,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			graphics.endFill();
 			
 			_bmd.draw(this);
-			_color = _bmd.getPixel(1, _lastCursorPos);
+			if(_fireChange) _color = _bmd.getPixel(1, _lastCursorPos);
 			if(_color != _previousColor && _fireChange) {
 				dispatchEvent(new Event(Event.CHANGE));
 			}

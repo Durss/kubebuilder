@@ -3,6 +3,7 @@ package com.muxxu.kube.kuberank.components {
 	import gs.TweenMax;
 	import gs.easing.Back;
 	import gs.easing.Bounce;
+	import gs.easing.Elastic;
 	import gs.easing.Linear;
 	import gs.easing.Quad;
 	import gs.easing.Sine;
@@ -129,13 +130,15 @@ package com.muxxu.kube.kuberank.components {
 		/**
 		 * Does the opening transition.
 		 */
-		public function doOpenTransition():void {
+		public function doOpenTransition(lastDisplayDelay:int = 0):void {
+			var delayBase:Number = lastDisplayDelay + .5;
 			_wingLeft.rotation = 50;
 			_wingRight.rotation = -50;
 			_wingLeft.filters = _wingRight.filters = [new BlurFilter(0,8,2)];
+			_holder.filters = [];
+			
 			if(Math.random() > .98) {
 				//Atterissage en vrac
-				var delayBase:Number = .7;
 				TweenMax.to(_wingLeft, .055, {rotation:-30, yoyo:16, delay:delayBase});
 				TweenMax.to(_wingRight, .055, {rotation:30, yoyo:16, delay:delayBase});
 				TweenLite.to(_wingLeft, .3, {scaleX:0, delay:.5 + delayBase, blurFilter:{blurY:0, remove:true}, ease:Back.easeIn});
@@ -152,7 +155,26 @@ package com.muxxu.kube.kuberank.components {
 				TweenLite.delayedCall(3 + delayBase, onOpeningTransitionComplete);
 				TweenMax.to(_holder, 3, {y:-10, yoyo:0, delay:3.6 + delayBase, ease:Sine.easeInOut});
 				TweenMax.to(_shadow, 3, {alpha:.65, yoyo:0, delay:3.6 + delayBase, ease:Sine.easeInOut});
+			}else if(Math.random() > .98) {
+				//Atterissage eclaté au sol
+				_wingLeft.scaleX = _wingRight.scaleX = 0;
+				_cube.rotationX = 20;
+				_cube.rotationY = 5;
+				_holder.filters = [new BlurFilter(0,25,2)];
+				TweenLite.to(_holder, .18, {ease:Sine.easeIn, y:_size*.8, x:0, dropShadowFilter:{blurY:0, index:0, remove:true}, delay:delayBase});
+				TweenLite.to(_shadow, .18, {ease:Sine.easeIn, alpha:1, delay:delayBase});
+				TweenLite.to(_cube, .08, {ease:Linear.easeNone, height:10, delay:delayBase+.12});
+				TweenMax.to(_cube, .1, {rotationY:0, ease:Sine.easeInOut, delay:2.2 + delayBase, onUpdate:_cube.validate});
+				TweenLite.to(_cube, .2, {scaleY:.5, y:_cube.height*.25, delay:2.5 + delayBase});
+				TweenLite.to(_cube, .5, {scaleY:1, ease:Back.easeOut, delay:2.7 + delayBase});
+				TweenLite.to(_holder, .2, {y:-_size*1.1, ease:Sine.easeOut, delay:2.7 + delayBase});
+				TweenLite.to(_holder, .5, {y:-20, ease:Sine.easeInOut, delay:2.9 + delayBase});
+				TweenLite.delayedCall(3 + delayBase, onOpeningTransitionComplete);
+				TweenMax.to(_holder, 3, {y:-10, yoyo:0, delay:3.6 + delayBase, ease:Sine.easeInOut});
+				TweenMax.to(_shadow, 3, {alpha:.65, yoyo:0, delay:3.6 + delayBase, ease:Sine.easeInOut});
+				TweenLite.to(_cube, 1, {ease:Elastic.easeOut, height:_size, delay:2.73 + delayBase, easeParams:[3]});
 			}else{
+				//Atterissage normal
 				TweenMax.to(_wingLeft, .055, {rotation:-30, yoyo:16});
 				TweenMax.to(_wingRight, .055, {rotation:30, yoyo:16});
 				TweenLite.to(_wingLeft, .3, {scaleX:0, delay:.7, blurFilter:{blurY:0, remove:true}, ease:Back.easeIn});

@@ -29,14 +29,13 @@
 	if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1)) {
 
 ?>
-		<center>
 		<div id="content">
 			<p>In order to view this page you need JavaScript and Flash Player 10+ support!</p>
 		</div>
-		</center>
+		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.3', 'content', '870', '500', '10', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.3', 'content', '860', '500', '10', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
