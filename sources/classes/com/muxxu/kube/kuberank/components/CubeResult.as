@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.components {
+	import com.nurun.components.button.events.NurunButtonEvent;
+	import com.nurun.components.button.AbstractNurunButton;
 	import gs.TweenLite;
 	import gs.TweenMax;
 	import gs.easing.Back;
@@ -27,7 +29,7 @@ package com.muxxu.kube.kuberank.components {
 	 * 
 	 * @author Francois
 	 */
-	public class CubeResult extends Sprite {
+	public class CubeResult extends AbstractNurunButton {
 		
 		private var _startPos:Point;
 		private var _endPos:Point;
@@ -43,6 +45,9 @@ package com.muxxu.kube.kuberank.components {
 		private var _mouseOffset:Point;
 		private var _shadow:CubeShadowGraphic;
 		private var _holder:Sprite;
+		private var _scaleX:Number;
+		private var _scaleY:Number;
+		private var _endRX:Number;
 		
 		
 		
@@ -65,12 +70,45 @@ package com.muxxu.kube.kuberank.components {
 		/**
 		 * Gets the width of the component.
 		 */
-		override public function get width():Number { return _size; }
+		override public function get width():Number { return _size * _scaleX; }
 		
 		/**
 		 * Gets the height of the component.
 		 */
-		override public function get height():Number { return _size; }
+		override public function get height():Number { return _size * _scaleY; }
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function set scaleX(value:Number):void {
+			_scaleX = value;
+			_cube.scaleX = value;
+//			_cube.width = _cube.height = _cube.depth = _size * value;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function set scaleY(value:Number):void {
+			_scaleY = value;
+			_cube.scaleY = value;
+//			_cube.width = _cube.height = _cube.depth = _size * value;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function get scaleX():Number { return _scaleX; }
+		
+		/**
+		 * @inheritDoc
+		 */
+		override public function get scaleY():Number { return _scaleY; }
+		
+		/**
+		 * Gets the kube's data.
+		 */
+		public function get data():CubeData { return _data; }
 
 
 
@@ -116,10 +154,13 @@ package com.muxxu.kube.kuberank.components {
 			_wingLeft.x = -_cube.width * .5;
 			_wingRight.x = _cube.width * .5;
 			
+			_endRX = 20;
 			_endRZ = 13;
 			_endRY = 43;
 			_cube.rotationX = _cube.rotationY = _cube.rotationZ = 0;
 			_cube.x = _cube.y = 0;
+			
+			_scaleX = _scaleY = 1;
 			
 			x = _endPos.x;
 			y = _endPos.y;
@@ -130,7 +171,7 @@ package com.muxxu.kube.kuberank.components {
 		/**
 		 * Does the opening transition.
 		 */
-		public function doOpenTransition(lastDisplayDelay:int = 0):void {
+		public function doOpeningTransition(lastDisplayDelay:int = 0):void {
 			var delayBase:Number = lastDisplayDelay + .5;
 			_wingLeft.rotation = 50;
 			_wingRight.rotation = -50;
@@ -192,7 +233,9 @@ package com.muxxu.kube.kuberank.components {
 		/**
 		 * Makes the component garbage collectable.
 		 */
-		public function dispose():void {
+		override public function dispose():void {
+			super.dispose();
+			
 			while(_holder.numChildren > 0) {
 				if(_holder.getChildAt(0) is Disposable) Disposable(_holder.getChildAt(0)).dispose();
 				_holder.removeChildAt(0);
@@ -232,42 +275,42 @@ package com.muxxu.kube.kuberank.components {
 			_wingRight = _holder.addChild(new WingGraphic()) as WingGraphic;
 			_cube = _holder.addChild(new Cube()) as Cube;
 			
+			mouseChildren = false;
+			
 			var pp:PerspectiveProjection = new PerspectiveProjection();
 			pp.projectionCenter = new Point(0, 0);
 			_cube.transform.perspectiveProjection = pp;
-			
-			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		
 		/**
 		 * Called when the stage is available.
 		 */
-		private function addedToStageHandler(event:Event):void {
-			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
-			addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
-			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
-			addEventListener(MouseEvent.ROLL_OVER, rollOverHandler);
-			addEventListener(MouseEvent.ROLL_OUT, rollOutHandler);
+		override protected function addedToStageHandler(event:Event):void {
+			super.addedToStageHandler(event);
+			addEventListener(NurunButtonEvent.OVER, customRollOverHandler);
+			addEventListener(NurunButtonEvent.OUT, customRollOutHandler);
 		}
 		
 		/**
 		 * Called when an item is rolled over.
 		 */
-		private function rollOverHandler(event:MouseEvent):void {
-			//TODO
+		private function customRollOverHandler(event:NurunButtonEvent):void {
+			TweenLite.to(this, .25, {scaleX:1.25, scaleY:1.25});
 		}
 
 		/**
 		 * Called when an item is rolled out.
 		 */
-		private function rollOutHandler(event:MouseEvent):void {
-			//TODO
+		private function customRollOutHandler(event:NurunButtonEvent = null):void {
+			if(_pressed) return;
+			TweenLite.to(this, .25, {scaleX:1, scaleY:1});
 		}
 		
 		/**
 		 * Called when mouse is pressed.
 		 */
-		private function mouseDownHandler(event:MouseEvent):void {
+		override protected function mouseDownHandler(event:Event):void {
+			super.mouseDownHandler(event);
 			_pressed = true;
 			_rotationOffsets = new Point(_cube.rotationZ, _cube.rotationY);
 			_mouseOffset = new Point(mouseX, mouseY);
@@ -276,8 +319,15 @@ package com.muxxu.kube.kuberank.components {
 		/**
 		 * Called when mouse is released.
 		 */
-		private function mouseUpHandler(event:MouseEvent):void {
+		override protected function mouseUpHandler(event:Event):void {
+			super.mouseUpHandler(event);
 			_pressed = false;
+			_endRZ = 13;
+			_endRY = 43;
+			_endRX = 20;
+			if(stage != null && !_cube.hitTestPoint(stage.mouseX, stage.mouseY)) {
+				customRollOutHandler();
+			}
 		}
 		
 		/**
@@ -285,9 +335,10 @@ package com.muxxu.kube.kuberank.components {
 		 */
 		private function enterFrameHandler(event:Event):void {
 			if(_pressed) {
-				_endRZ = _rotationOffsets.x - (_mouseOffset.y - mouseY);
+				_endRX = _rotationOffsets.x - (_mouseOffset.y - mouseY);
 				_endRY = _rotationOffsets.y + (_mouseOffset.x - mouseX);
 			}
+			_cube.rotationX += (_endRX - _cube.rotationX) * .1;
 			_cube.rotationZ += (_endRZ - _cube.rotationZ) * .1;
 			_cube.rotationY += (_endRY - _cube.rotationY) * .1;
 			_cube.validate();
@@ -298,8 +349,9 @@ package com.muxxu.kube.kuberank.components {
 		 */
 		private function onOpeningTransitionComplete():void {
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
-			_cube.rotationZ = _cube.rotationZ % 360;
+			_cube.rotationX = _cube.rotationX % 360;
 			_cube.rotationY = _cube.rotationY % 360;
+			_cube.rotationZ = _cube.rotationZ % 360;
 		}
 		
 	}

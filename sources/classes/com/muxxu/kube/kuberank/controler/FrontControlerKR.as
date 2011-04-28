@@ -1,6 +1,7 @@
 package com.muxxu.kube.kuberank.controler {
-	import com.nurun.structure.mvc.model.IModel;
 	import com.muxxu.kube.kuberank.model.ModelKR;
+	import com.muxxu.kube.kuberank.vo.CubeData;
+	import com.nurun.structure.mvc.model.IModel;
 
 	import flash.errors.IllegalOperationError;
 	
@@ -82,6 +83,20 @@ package com.muxxu.kube.kuberank.controler {
 		 */
 		public function searchKubesOfUser(userName:String):void {
 			_model.searchKubesOfUser(userName);
+		}
+		
+		/**
+		 * Opens a cube
+		 */
+		public function openKube(data:CubeData):void {
+			_model.openKube(data);
+		}
+		
+		/**
+		 * Closes a cube
+		 */
+		public function closeKube():void {
+			_model.closeKube();
 		}
 
 
