@@ -21,7 +21,7 @@ if (get_magic_quotes_gpc()) {
 // Prevents from SQL nor XSL injections.
 function secure_string($string)
 {
-	$secure_string = mysql_real_escape_string(nl2br(htmlspecialchars(utf8_decode($string))));
+	$secure_string = mysql_real_escape_string(nl2br(utf8_decode($string)));
 	return $secure_string;
 }
 ?>
