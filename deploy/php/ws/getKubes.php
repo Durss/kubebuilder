@@ -66,7 +66,7 @@ while ($kube = mysql_fetch_assoc($kubes))
 	if(isset($_SESSION['uid'])) {
 		$req = "SELECT COUNT(*) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".intval($_SESSION['uid']);
 		$uvote = mysql_fetch_assoc(mysql_query($req));
-		$uvote_ok = intval($vote['total']);
+		$uvote_ok = intval($uvote['total']);
 	}else {
 		$uvote_ok = 1;
 	}

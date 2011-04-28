@@ -21,6 +21,7 @@ package com.muxxu.kube.kubebuilder.views {
 
 	
 	/**
+	 * Displays the submit button at the bottom and contains the submit form
 	 * 
 	 * @author Francois
 	 */

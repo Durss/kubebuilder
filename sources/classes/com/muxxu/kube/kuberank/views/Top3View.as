@@ -9,7 +9,6 @@ package com.muxxu.kube.kuberank.views {
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
-	import com.nurun.utils.pos.PosUtils;
 
 	import flash.events.Event;
 	import flash.filters.DropShadowFilter;
@@ -122,8 +121,8 @@ package com.muxxu.kube.kuberank.views {
 				start = Point(positions[i]).clone();
 				start.y = -250;
 				_cubes[i].populate(data.getItemAt(i), start, positions[i], sizes[i]);
-				TweenLite.killDelayedCallsTo(_cubes[i].doOpenTransition);
-				TweenLite.delayedCall((3-i)*.5, _cubes[i].doOpenTransition, [(len-i)*.5 - (3-i)*.5]);
+				TweenLite.killDelayedCallsTo(_cubes[i].doOpeningTransition);
+				TweenLite.delayedCall((3-i)*.5, _cubes[i].doOpeningTransition, [(len-i)*.5 - (3-i)*.5]);
 			}
 			computePositions();
 		}

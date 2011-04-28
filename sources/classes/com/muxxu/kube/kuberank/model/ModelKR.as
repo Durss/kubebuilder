@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.model {
+	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.cmd.LoadCubesCmd;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
 	import com.nurun.core.commands.events.CommandEvent;
@@ -23,6 +24,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _length:int;
 		private var _userName:String;
 		private var _top3Mode:Boolean;
+		private var _openedCube:CubeData;
 		
 		
 		
@@ -52,6 +54,8 @@ package com.muxxu.kube.kuberank.model {
 		public function get startIndex():int { return _startIndex; }
 
 		public function get top3Mode():Boolean { return _top3Mode; }
+
+		public function get openedCube():CubeData { return _openedCube; }
 
 
 
@@ -129,6 +133,22 @@ package com.muxxu.kube.kuberank.model {
 			_userName = userName;
 			_top3Mode = false;
 			loadCubes();
+		}
+		
+		/**
+		 * Opens a cube
+		 */
+		public function openKube(data:CubeData):void {
+			_openedCube = data;
+			update();
+		}
+		
+		/**
+		 * Closes a cube
+		 */
+		public function closeKube():void {
+			_openedCube = null;
+			update();
 		}
 
 

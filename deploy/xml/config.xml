@@ -38,15 +38,17 @@
 		<label code="sortByVotes"><![CDATA[Votes]]></label>
 		<label code="prevPage"><![CDATA[&lt; Précédents]]></label>
 		<label code="nextPage"><![CDATA[Suivants &gt;]]></label>
+		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a><br />Le : {DATE}]]></label>
+		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a><br />Aujourd'hui à : {DATE}]]></label>
 	</labels>
 	
 	<vars>
 		<var code="lang"><![CDATA[fr]]></var>
 		<var code="stats"><![CDATA[false]]></var>
-		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
 		<!-- 
-		<var code="server"><![CDATA[http://www.muxxu.free.fr/kube/apps/kubebuilder]]></var>
+		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
 		 -->
+		<var code="server"><![CDATA[http://www.muxxu.free.fr/kube/apps/kubebuilder]]></var>
 	</vars>
 	
 	<paths>

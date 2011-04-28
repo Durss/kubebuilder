@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank {
+	import com.muxxu.kube.kuberank.views.DisableLayerView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
@@ -62,9 +63,10 @@ package com.muxxu.kube.kuberank {
 			FrontControlerKR.getInstance().initialize(_model);
 			
 			addChild(new Top3View());
-			addChild(new SingleKubeView());
 			addChild(new ListView());
 			addChild(new MenuView());
+			addChild(new DisableLayerView());
+			addChild(new SingleKubeView());
 		}
 		
 		/**

@@ -49,7 +49,7 @@ package com.muxxu.kube.kuberank.vo {
 
 		public function get file():String { return _file; }
 
-		public function get pseudo():String { return _pseudo; }
+		public function get userName():String { return _pseudo; }
 
 		public function get date():Number { return _date; }
 
