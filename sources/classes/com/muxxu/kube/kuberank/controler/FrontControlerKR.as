@@ -65,17 +65,17 @@ package com.muxxu.kube.kuberank.controler {
 		}
 		
 		/**
-		 * Loads the next page of results.
+		 * Shows the full list of kubes
 		 */
-		public function loadNextPage():void {
-			_model.loadNextPage();
+		public function showFullList():void {
+			_model.showFullList();
 		}
 		
 		/**
-		 * Loads the previous page of results.
+		 * Shows the top 3
 		 */
-		public function loadPrevPage():void {
-			_model.loadPrevPage();
+		public function showTop3():void {
+			_model.showTop3();
 		}
 		
 		/**
@@ -97,6 +97,14 @@ package com.muxxu.kube.kuberank.controler {
 		 */
 		public function closeKube():void {
 			_model.closeKube();
+		}
+		
+		/**
+		 * Sets the current display index.
+		 * The index represents the kubes at the right of the screen.
+		 */
+		public function setCurrentDisplayIndex(index:int):void {
+			_model.setCurrentDisplayIndex(index);
 		}
 
 

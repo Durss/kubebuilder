@@ -51,7 +51,7 @@ package com.muxxu.kube.kuberank.views {
 			var model:ModelKR = event.model as ModelKR;
 			_opened = model.openedCube != null;
 			if(_opened) render();
-			TweenLite.to(this, .5, {autoAlpha:_opened? 1 : 0, onUpdate:render});
+			TweenLite.to(this, .25, {autoAlpha:_opened? 1 : 0, onUpdate:render});
 			
 		}
 

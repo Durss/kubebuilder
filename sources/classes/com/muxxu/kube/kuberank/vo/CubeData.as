@@ -1,14 +1,21 @@
 package com.muxxu.kube.kuberank.vo {
+	import flash.events.Event;
+	import flash.events.EventDispatcher;
 	import mx.utils.Base64Decoder;
 	import com.muxxu.kube.common.vo.KUBData;
 	import com.nurun.core.lang.vo.XMLValueObject;
+	
+	/**
+	 * Fired when data is updated
+	 */
+	[Event(name="change", type="flash.events.Event")]
 	
 	/**
 	 * Stores the informations about a cube.
 	 * 
 	 * @author Francois
 	 */
-	public class CubeData implements XMLValueObject {
+	public class CubeData extends EventDispatcher implements XMLValueObject {
 		
 		private var _id:Number;
 		private var _uid:Number;
@@ -19,6 +26,7 @@ package com.muxxu.kube.kuberank.vo {
 		private var _votes:Number;
 		private var _kub:KUBData;
 		private var _defaultIndex:int;
+		private var _rawData:XML;
 		
 		
 		
@@ -28,6 +36,8 @@ package com.muxxu.kube.kuberank.vo {
 		 * *********** */
 		/**
 		 * Creates an instance of <code>CubeData</code>.
+		 * 
+		 * @param defaultIndex	default index of the item in the collection (used for default sorting)
 		 */
 		public function CubeData(defaultIndex:int) {
 			_defaultIndex = defaultIndex;
@@ -38,6 +48,8 @@ package com.muxxu.kube.kuberank.vo {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+
+		public function get rawData():XML { return _rawData; }
 
 		public function get defaultIndex():int { return _defaultIndex; }
 
@@ -66,6 +78,7 @@ package com.muxxu.kube.kuberank.vo {
 		 * @inheritDoc
 		 */
 		public function populate(xml:XML, ...optionnals:Array):void {
+			_rawData = xml;
 			_id = parseInt(xml.@id);
 			_uid = parseInt(xml.@uid);
 			_name = xml.@name;
@@ -78,6 +91,8 @@ package com.muxxu.kube.kuberank.vo {
 			decoder.decode(xml[0]);
 			_kub.fromByteArray(decoder.drain());
 			decoder.reset();
+			
+			dispatchEvent(new Event(Event.CHANGE));
 		}
 		
 		/**
@@ -91,8 +106,17 @@ package com.muxxu.kube.kuberank.vo {
 		/**
 		 * Gets a string representation of the value object.
 		 */
-		public function toString():String {
-			return "[CubeData :: name="+name+"]";
+		override public function toString():String {
+			return "[CubeData :: name=" + name + "]";
+		}
+		
+		/**
+		 * Gets a clone of the object
+		 */
+		public function clone():CubeData {
+			var ret:CubeData = new CubeData(_defaultIndex);
+			ret.populate(_rawData);
+			return ret;
 		}
 
 

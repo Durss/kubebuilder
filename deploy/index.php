@@ -35,7 +35,7 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.3', 'content', '860', '500', '10', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.6', 'content', '860', '500', '10', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');

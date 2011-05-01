@@ -1,9 +1,11 @@
 package com.muxxu.kube.kuberank {
+	import com.muxxu.kube.kuberank.views.LockStateView;
+	import com.muxxu.kube.kuberank.views.SmoothListView;
+	import net.hires.debug.Stats;
 	import com.muxxu.kube.kuberank.views.DisableLayerView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
-	import com.muxxu.kube.kuberank.views.ListView;
 	import com.muxxu.kube.kuberank.views.MenuView;
 	import com.muxxu.kube.kuberank.views.SingleKubeView;
 	import com.muxxu.kube.kuberank.views.Top3View;
@@ -63,10 +65,13 @@ package com.muxxu.kube.kuberank {
 			FrontControlerKR.getInstance().initialize(_model);
 			
 			addChild(new Top3View());
-			addChild(new ListView());
+//			addChild(new ListView());
+			addChild(new SmoothListView());
 			addChild(new MenuView());
 			addChild(new DisableLayerView());
 			addChild(new SingleKubeView());
+			addChild(new LockStateView());
+			addChild(new Stats());
 		}
 		
 		/**

@@ -1,11 +1,12 @@
 package com.muxxu.kube.kuberank.model {
-	import com.muxxu.kube.kuberank.vo.CubeData;
+	import com.nurun.structure.mvc.views.ViewLocator;
+	import com.muxxu.kube.common.events.KubeModelEvent;
 	import com.muxxu.kube.kuberank.cmd.LoadCubesCmd;
+	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.mvc.model.IModel;
-	import com.nurun.structure.mvc.model.events.ModelEvent;
 
 	import flash.events.EventDispatcher;
 	
@@ -25,6 +26,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _userName:String;
 		private var _top3Mode:Boolean;
 		private var _openedCube:CubeData;
+		private var _lock:Boolean;
 		
 		
 		
@@ -76,11 +78,8 @@ package com.muxxu.kube.kuberank.model {
 		 * Loads the cubes list
 		 */
 		public function loadCubes():void {
-			if(_cmd != null) {
-				_cmd.dispose();
-				_cmd.removeEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
-			}
-			
+			//Do not clear the previous command, that the item are still loaded
+			//and there won't be "holes" in the slide.
 			_cmd = new LoadCubesCmd(Config.getPath("getKubes"), _startIndex, _length, _userName, _sortByDate);
 			_cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
 			_cmd.execute();
@@ -92,37 +91,45 @@ package com.muxxu.kube.kuberank.model {
 		 * @param byDate	defines if the results should be sort by date. Else it's by votes
 		 */
 		public function sort(byDate:Boolean):void {
-//			var exMode:Boolean = _top3Mode;
+			lock();
 			_sortByDate = byDate;
-			_top3Mode = !_sortByDate;
+			_top3Mode = false;//!_sortByDate;
 			_startIndex = 0;
-			_length = _top3Mode? 3 : _ITEMS_PER_PAGE;
-//			if(_data.length == 0 || exMode != _top3Mode) {
-				loadCubes();
-//			}else{
-//				_data.sort(byDate);
-//				update();
-//			}
+			_length = _top3Mode? 3 : _ITEMS_PER_PAGE * 2;
+			_data.clear();
+			loadCubes();
 		}
 		
 		/**
-		 * Loads the next page of results.
+		 * Sets the current display index.
+		 * The index represents the kubes at the right of the screen.
 		 */
-		public function loadNextPage():void {
-			_startIndex += _top3Mode? 3 : _ITEMS_PER_PAGE;
-			_length = _ITEMS_PER_PAGE;
+		public function setCurrentDisplayIndex(index:int):void {
+			if(!_top3Mode && index + 9 > _startIndex + _length && index < _totalResults) {
+				_startIndex += _length;
+				loadCubes();
+			}
+		}
+		
+		/**
+		 * Shows the full list of kubes
+		 */
+		public function showFullList():void {
+			lock();
+			_startIndex = 0;
+			_length = _ITEMS_PER_PAGE * 2;//load two pages
 			_top3Mode = false;
 			loadCubes();
 		}
 		
 		/**
-		 * Loads the previous page of results.
+		 * Shows the top 3
 		 */
-		public function loadPrevPage():void {
-			_startIndex -= _ITEMS_PER_PAGE;
-			if(_startIndex < 0) _startIndex = 0;
-			_top3Mode = !_sortByDate && _startIndex == 0;
-			_length = _top3Mode? 3 : _ITEMS_PER_PAGE;
+		public function showTop3():void {
+			lock();
+			_top3Mode = true;
+			_startIndex = 0;
+			_length = 3;
 			loadCubes();
 		}
 		
@@ -130,6 +137,7 @@ package com.muxxu.kube.kuberank.model {
 		 * Loads the kubes of a specific user.
 		 */
 		public function searchKubesOfUser(userName:String):void {
+			lock();
 			_userName = userName;
 			_top3Mode = false;
 			loadCubes();
@@ -169,17 +177,34 @@ package com.muxxu.kube.kuberank.model {
 		 * Called when cubes loading completes.
 		 */
 		private function loadCubesCompleteHandler(event:CommandEvent):void {
-			_totalResults = XML(event.data).child("pagination").@total;
-			_data.clear();
-			_data.populate(XML(event.data).child("kubes")[0]);
+			_totalResults = parseInt(XML(event.data).child("pagination").@total);
+			var startIndex:Number = parseInt(XML(event.data).child("pagination").@startIndex);
+			_data.populate(XML(event.data).child("kubes")[0], startIndex);
 			update();
+			unlock();
 		}
 		
 		/**
 		 * Fires an update to the views.
 		 */
 		private function update():void {
-			dispatchEvent(new ModelEvent(ModelEvent.UPDATE, this));
+			dispatchEvent(new KubeModelEvent(KubeModelEvent.UPDATE, this));
+		}
+		
+		/**
+		 * Tells the view that the model is locked
+		 */
+		private function lock():void {
+			_lock = true;
+			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.LOCK, this));
+		}
+		
+		/**
+		 * Tells the view that the model is unlocked
+		 */
+		private function unlock():void {
+			_lock = true;
+			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.UNLOCK, this));
 		}
 		
 	}
