@@ -1,6 +1,4 @@
 package com.muxxu.kube.kuberank.components {
-	import com.nurun.components.button.events.NurunButtonEvent;
-	import com.nurun.components.button.AbstractNurunButton;
 	import gs.TweenLite;
 	import gs.TweenMax;
 	import gs.easing.Back;
@@ -12,10 +10,14 @@ package com.muxxu.kube.kuberank.components {
 
 	import com.muxxu.kube.common.components.cube.CubeFace;
 	import com.muxxu.kube.kubebuilder.graphics.CubeShadowGraphic;
+	import com.muxxu.kube.kubebuilder.graphics.StarGraphic;
 	import com.muxxu.kube.kubebuilder.graphics.WingGraphic;
 	import com.muxxu.kube.kuberank.vo.CubeData;
+	import com.nurun.components.button.AbstractNurunButton;
+	import com.nurun.components.button.events.NurunButtonEvent;
 	import com.nurun.components.volume.Cube;
 	import com.nurun.core.lang.Disposable;
+	import com.nurun.utils.math.MathUtils;
 
 	import flash.display.Sprite;
 	import flash.events.Event;
@@ -23,6 +25,7 @@ package com.muxxu.kube.kuberank.components {
 	import flash.filters.BlurFilter;
 	import flash.geom.PerspectiveProjection;
 	import flash.geom.Point;
+	import flash.utils.Dictionary;
 	
 	/**
 	 * Creates a result cube
@@ -48,6 +51,10 @@ package com.muxxu.kube.kuberank.components {
 		private var _scaleX:Number;
 		private var _scaleY:Number;
 		private var _endRX:Number;
+		private var _starPool:Vector.<StarGraphic>;
+		private var _starFalls:Boolean;
+		private var _ready:Boolean;
+		private var _starSpeeds:Dictionary;
 		
 		
 		
@@ -116,21 +123,32 @@ package com.muxxu.kube.kuberank.components {
 		 * PUBLIC *
 		 * ****** */
 		/**
+		 * Stops all the animations
+		 */
+		public function stopAllAnimations():void {
+			TweenLite.killTweensOf(_cube);
+			TweenLite.killTweensOf(_holder);
+			TweenLite.killTweensOf(_shadow);
+			TweenLite.killTweensOf(_wingLeft);
+			TweenLite.killTweensOf(_wingRight);
+			TweenLite.killDelayedCallsTo(stopStarfall);
+			TweenLite.killDelayedCallsTo(onOpeningTransitionComplete);
+			
+			_ready = false;
+			_starFalls = false;
+		}
+		
+		/**
 		 * Populates the component.
 		 * 
 		 * @param data		data to display
 		 * @param startPos	position to start the transition from
 		 * @param endPos	position to end the transition to
 		 * @param size		size of th cube
+		 * @param wingFrame	frame of the wing (to select the color)
 		 */
-		public function populate(data:CubeData, startPos:Point, endPos:Point, size:int = 70):void {
-			TweenLite.killTweensOf(_cube);
-			TweenLite.killTweensOf(_holder);
-			TweenLite.killTweensOf(_shadow);
-			TweenLite.killTweensOf(_wingLeft);
-			TweenLite.killTweensOf(_wingRight);
-			TweenLite.killDelayedCallsTo(onOpeningTransitionComplete);
-			removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+		public function populate(data:CubeData, startPos:Point, endPos:Point, size:int = 70, wingFrame:int = 1):void {
+			stopAllAnimations();
 			
 			_size = size;
 			_data = data;
@@ -154,6 +172,9 @@ package com.muxxu.kube.kuberank.components {
 			_wingLeft.x = -_cube.width * .5;
 			_wingRight.x = _cube.width * .5;
 			
+			_wingLeft.gotoAndStop(wingFrame);
+			_wingRight.gotoAndStop(wingFrame);
+			
 			_endRX = 20;
 			_endRZ = 13;
 			_endRY = 43;
@@ -166,17 +187,59 @@ package com.muxxu.kube.kuberank.components {
 			y = _endPos.y;
 			_holder.x = _startPos.x - _endPos.x;
 			_holder.y = _startPos.y - _endPos.y;
+			
+			_starSpeeds = new Dictionary();
+			var i:int, len:int, star:StarGraphic;
+			len = _starPool.length;
+			for(i = 0; i < len; ++i) {
+				star = _starPool[i];
+				star.scaleX = star.scaleY = MathUtils.randomNumberFromRange(.3, 1);
+				star.gotoAndStop(wingFrame);
+				TweenLite.killTweensOf(star);
+				star.alpha = Math.random();
+				star.visible = true;
+				_starSpeeds[star] = MathUtils.randomNumberFromRange(5, 20);
+				star.y = _holder.y + MathUtils.randomNumberFromRange(-_size * .25, 100);
+				star.x = MathUtils.randomNumberFromRange(_wingLeft.x - _wingLeft.width, _wingRight.x + _wingRight.width);
+			}
 		}
 		
 		/**
 		 * Does the opening transition.
 		 */
-		public function doOpeningTransition(lastDisplayDelay:int = 0):void {
+		public function doOpeningTransition(lastDisplayDelay:int = 0, simple:Boolean = false):void {
 			var delayBase:Number = lastDisplayDelay + .5;
 			_wingLeft.rotation = 50;
 			_wingRight.rotation = -50;
 			_wingLeft.filters = _wingRight.filters = [new BlurFilter(0,8,2)];
 			_holder.filters = [];
+			
+			_starFalls = !simple;
+			if(_starFalls) {
+				TweenLite.delayedCall(1, stopStarfall);
+			}else{
+				var i:int, len:int;
+				len = _starPool.length;
+				for(i = 0; i < len; ++i) {
+					_starPool[i].visible = false;
+				}
+			}
+			
+			if(simple) {
+				_wingRight.scaleX = _wingLeft.scaleX = 0;
+				_wingLeft.filters = _wingRight.filters = [];
+				_cube.rotationX = _endRX;
+				_cube.rotationY = _endRY;
+				_cube.rotationZ = _endRZ;
+				_holder.y = 0;
+				_shadow.alpha = 1;
+				_cube.alpha = 1;
+				TweenLite.from(_cube, .25, {autoAlpha:0});
+//				TweenMax.to(_holder, 3, {y:-10, yoyo:0, ease:Sine.easeInOut});
+//				TweenMax.to(_shadow, 3, {alpha:.65, yoyo:0, ease:Sine.easeInOut});
+				onOpeningTransitionComplete();
+				return;
+			}
 			
 			if(Math.random() > .98) {
 				//Atterissage en vrac
@@ -275,6 +338,16 @@ package com.muxxu.kube.kuberank.components {
 			_wingRight = _holder.addChild(new WingGraphic()) as WingGraphic;
 			_cube = _holder.addChild(new Cube()) as Cube;
 			
+			_starPool = new Vector.<StarGraphic>(50);
+			var i:int, len:int, star:StarGraphic;
+			len = _starPool.length;
+			for(i = 0; i < len; ++i) {
+				star = new StarGraphic();
+				_starPool[i] = star;
+				star.visible = false;
+				addChildAt(star, 0);
+			}
+			
 			mouseChildren = false;
 			
 			var pp:PerspectiveProjection = new PerspectiveProjection();
@@ -289,6 +362,7 @@ package com.muxxu.kube.kuberank.components {
 			super.addedToStageHandler(event);
 			addEventListener(NurunButtonEvent.OVER, customRollOverHandler);
 			addEventListener(NurunButtonEvent.OUT, customRollOutHandler);
+			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
 		
 		/**
@@ -312,7 +386,7 @@ package com.muxxu.kube.kuberank.components {
 		override protected function mouseDownHandler(event:Event):void {
 			super.mouseDownHandler(event);
 			_pressed = true;
-			_rotationOffsets = new Point(_cube.rotationZ, _cube.rotationY);
+			_rotationOffsets = new Point(_cube.rotationX, _cube.rotationY);
 			_mouseOffset = new Point(mouseX, mouseY);
 		}
 
@@ -334,24 +408,53 @@ package com.muxxu.kube.kuberank.components {
 		 * Called on ENTER_FRAME event.
 		 */
 		private function enterFrameHandler(event:Event):void {
-			if(_pressed) {
-				_endRX = _rotationOffsets.x - (_mouseOffset.y - mouseY);
-				_endRY = _rotationOffsets.y + (_mouseOffset.x - mouseX);
+			if(_ready) {
+				if(_pressed) {
+					_endRX = _rotationOffsets.x - (_mouseOffset.y - mouseY);
+					_endRY = _rotationOffsets.y + (_mouseOffset.x - mouseX);
+				}
+				_cube.rotationX += (_endRX - _cube.rotationX) * .1;
+				_cube.rotationY += (_endRY - _cube.rotationY) * .1;
+				_cube.rotationZ += (_endRZ - _cube.rotationZ) * .1;
+				_cube.validate();
+			}else if(_starFalls) {
+				var i:int, len:int, speed:Number, star:StarGraphic;
+				len = _starPool.length;
+				for(i = 0; i < len; ++i) {
+					star = _starPool[i];
+					speed = _starSpeeds[star];
+					if(star.alpha <= 0 || (star.x == 0 && star.y == 0)) {
+						star.alpha = 1;
+						star.y = _holder.y + MathUtils.randomNumberFromRange(-_size * .25, _size * 1.5);
+						star.x = MathUtils.randomNumberFromRange(_wingLeft.x - _wingLeft.width, _wingRight.x + _wingRight.width);
+					}
+					star.y += 10;
+					star.alpha -= .1;
+					star.rotation = Math.random() * 90;
+				}
 			}
-			_cube.rotationX += (_endRX - _cube.rotationX) * .1;
-			_cube.rotationZ += (_endRZ - _cube.rotationZ) * .1;
-			_cube.rotationY += (_endRY - _cube.rotationY) * .1;
-			_cube.validate();
 		}
 		
 		/**
 		 * Called when wings are hidden
 		 */
 		private function onOpeningTransitionComplete():void {
-			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			_cube.rotationX = _cube.rotationX % 360;
 			_cube.rotationY = _cube.rotationY % 360;
 			_cube.rotationZ = _cube.rotationZ % 360;
+			_ready = true;
+		}
+		
+		/**
+		 * Stops the star fall
+		 */
+		private function stopStarfall():void {
+			_starFalls = false;
+			var i:int, len:int;
+			len = _starPool.length;
+			for(i = 0; i < len; ++i) {
+				TweenLite.to(_starPool[i], .25, {y:"+"+_starSpeeds[_starPool[i]]*5, autoAlpha:0});
+			}
 		}
 		
 	}

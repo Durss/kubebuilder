@@ -3,12 +3,18 @@ package com.muxxu.kube.kuberank.views {
 
 	import com.muxxu.kube.common.components.BackWindow;
 	import com.muxxu.kube.kuberank.components.CubeResult;
+	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
+	import com.nurun.components.text.CssTextField;
+	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
+	import com.nurun.utils.date.DateUtils;
 
+	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.geom.Point;
 	
 	/**
@@ -19,6 +25,8 @@ package com.muxxu.kube.kuberank.views {
 		private var _data:CubeData;
 		private var _cube:CubeResult;
 		private var _background:BackWindow;
+		private var _opened:Boolean;
+		private var _details:CssTextField;
 		
 		
 		
@@ -52,8 +60,9 @@ package com.muxxu.kube.kuberank.views {
 			_data = model.openedCube;
 			if(_data != null) {
 				populate();
-				TweenLite.to(this, .25, {autoAlpha:1});
+				TweenLite.to(this, .25, {autoAlpha:1, onComplete:onAppearComplete});
 			}else{
+				_opened = false;
 				TweenLite.to(this, .25, {autoAlpha:0});
 			}
 		}
@@ -70,8 +79,11 @@ package com.muxxu.kube.kuberank.views {
 		private function initialize():void {
 			alpha = 0;
 			visible = false;
+			
 			_background = addChild(new BackWindow()) as BackWindow;
 			_cube = addChild(new CubeResult()) as CubeResult;
+			_details = addChild(new CssTextField("kubeDetails")) as CssTextField;
+			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
 		
@@ -81,8 +93,24 @@ package com.muxxu.kube.kuberank.views {
 		private function addedToStageHandler(event:Event):void {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			stage.addEventListener(Event.RESIZE, computePositions);
+			stage.addEventListener(MouseEvent.CLICK, clickHandler);
 			computePositions();
 		}
+		
+		/**
+		 * Called when the user clicks somewhere
+		 */
+		private function clickHandler(event:MouseEvent):void {
+			if(_opened && !contains(event.target as DisplayObject)) {
+				FrontControlerKR.getInstance().closeKube();
+			}
+		}
+		
+		/**
+		 * Flags the content as opened when its opening transition completes.
+		 */
+		private function onAppearComplete():void { _opened = true; }
+
 		
 		/**
 		 * Resizes and replaces the elements.
@@ -90,6 +118,10 @@ package com.muxxu.kube.kuberank.views {
 		private function computePositions(event:Event = null):void {
 			_background.width = 700;
 			_background.height = 300;
+			
+			_details.x = _cube.x + _cube.width;
+			_details.y = 15;
+			
 			x = Math.round((stage.stageWidth - _background.width) * .5);
 			y = Math.round((stage.stageHeight - _background.height) * .5);
 		}
@@ -102,7 +134,22 @@ package com.muxxu.kube.kuberank.views {
 			var startPos:Point = endPos.clone();
 			startPos.y = -300;
 			_cube.populate(_data, startPos, endPos, 150);
-			_cube.doOpeningTransition();
+			_cube.doOpeningTransition(0, true);
+			
+			var details:String;
+
+			var date:Date = new Date(_data.date * 1000);
+			if(new Date().getDay() != date.getDay()) {
+				details = Label.getLabel("kubeDetailsLong");
+				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_w_/_m_/_Y_"));
+			}else{
+				details = Label.getLabel("kubeDetailsLongToday");
+				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_h_:_I_"));
+			}
+			details = details.replace(/\{KUBE_NAME\}/gi, _data.name);
+			details = details.replace(/\{USER_ID\}/gi, _data.uid);
+			details = details.replace(/\{USER_NAME\}/gi, _data.userName);
+			_details.text = details;
 			
 			computePositions();
 		}

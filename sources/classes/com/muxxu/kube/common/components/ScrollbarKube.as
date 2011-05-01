@@ -1,12 +1,16 @@
 package com.muxxu.kube.common.components {
 	import com.muxxu.kube.kubebuilder.graphics.ScrollbarDownBtSkin;
+	import com.muxxu.kube.kubebuilder.graphics.ScrollbarScrollerBtBigSkin;
 	import com.muxxu.kube.kubebuilder.graphics.ScrollbarScrollerBtSkin;
 	import com.muxxu.kube.kubebuilder.graphics.ScrollbarTrackBtSkin;
 	import com.muxxu.kube.kubebuilder.graphics.ScrollbarUpBtSkin;
 	import com.nurun.components.scroll.scroller.scrollbar.Scrollbar;
 	import com.nurun.components.scroll.scroller.scrollbar.ScrollbarClassicSkin;
+
+	import flash.display.MovieClip;
 	
 	/**
+	 * Creates a pre-skined scrollbar
 	 * 
 	 * @author Francois
 	 */
@@ -21,8 +25,16 @@ package com.muxxu.kube.common.components {
 		/**
 		 * Creates an instance of <code>KBScrollbar</code>.
 		 */
-		public function ScrollbarKube() {
-			super(new ScrollbarClassicSkin(new ScrollbarUpBtSkin(), new ScrollbarDownBtSkin(), new ScrollbarScrollerBtSkin(), null, new ScrollbarTrackBtSkin()));
+		public function ScrollbarKube(slider:Boolean = false) {
+			var upBt:ScrollbarUpBtSkin, downBt:ScrollbarDownBtSkin, scrollerBt:MovieClip;
+			if(!slider) {
+				upBt = new ScrollbarUpBtSkin();
+				downBt = new ScrollbarDownBtSkin();
+				scrollerBt = new ScrollbarScrollerBtSkin();
+			}else{
+				scrollerBt = new ScrollbarScrollerBtBigSkin();
+			}
+			super(new ScrollbarClassicSkin(upBt, downBt, scrollerBt, null, new ScrollbarTrackBtSkin()));
 		}
 
 		

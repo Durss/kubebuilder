@@ -13,8 +13,9 @@ package com.muxxu.kube.kuberank.components.form {
 	 * @author Francois
 	 */
 	public class PaginationForm extends Sprite {
-		private var _nextPageBt:ButtonKube;
-		private var _prevPageBt:ButtonKube;
+		
+		private var _showAllBt:ButtonKube;
+		private var _showTopBt:ButtonKube;
 		
 		
 		
@@ -34,7 +35,7 @@ package com.muxxu.kube.kuberank.components.form {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
-		override public function get width():Number { return _nextPageBt.width; }
+		override public function get width():Number { return _showAllBt.width; }
 
 
 
@@ -44,9 +45,9 @@ package com.muxxu.kube.kuberank.components.form {
 		/**
 		 * Updates the buttons states.
 		 */
-		public function update(index:int, length:int, itemsDisplayed:int):void {
-			_prevPageBt.enabled = index > 0;
-			_nextPageBt.enabled = index + itemsDisplayed < length;
+		public function update(topMode:Boolean):void {
+			_showTopBt.enabled = !topMode;
+			_showAllBt.enabled = topMode;
 		}
 
 
@@ -59,15 +60,15 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_nextPageBt = addChild(new ButtonKube(Label.getLabel("nextPage"), true)) as ButtonKube;
-			_prevPageBt = addChild(new ButtonKube(Label.getLabel("prevPage"), true)) as ButtonKube;
+			_showAllBt = addChild(new ButtonKube(Label.getLabel("showAll"), true)) as ButtonKube;
+			_showTopBt = addChild(new ButtonKube(Label.getLabel("showTop"), true)) as ButtonKube;
 			
-			_nextPageBt.width = _prevPageBt.width = Math.max(_nextPageBt.width, _prevPageBt.width) + 5;
-			_nextPageBt.contentMargin = _prevPageBt.contentMargin = new Margin(0, 2, 0, 1);
+			_showAllBt.width = _showTopBt.width = Math.max(_showAllBt.width, _showTopBt.width) + 5;
+			_showAllBt.contentMargin = _showTopBt.contentMargin = new Margin(0, 2, 0, 1);
 			
-			_nextPageBt.height = Math.round(_nextPageBt.height);
-			_prevPageBt.height = Math.round(_prevPageBt.height);
-			_nextPageBt.y = _prevPageBt.height;
+			_showAllBt.height = Math.round(_showAllBt.height);
+			_showTopBt.height = Math.round(_showTopBt.height);
+			_showAllBt.y = _showTopBt.height;
 			
 			addEventListener(MouseEvent.CLICK, clickHandler);
 		}
@@ -76,10 +77,10 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Called when a component is clicked.
 		 */
 		private function clickHandler(event:MouseEvent):void {
-			if(event.target == _nextPageBt) {
-				FrontControlerKR.getInstance().loadNextPage();
-			}else if(event.target == _prevPageBt){
-				FrontControlerKR.getInstance().loadPrevPage();
+			if(event.target == _showAllBt) {
+				FrontControlerKR.getInstance().showFullList();
+			}else if(event.target == _showTopBt){
+				FrontControlerKR.getInstance().showTop3();
 			}
 		}
 		

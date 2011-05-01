@@ -1,13 +1,15 @@
 package com.muxxu.kube.kuberank.vo {
 	import com.nurun.core.collection.Collection;
 	import com.nurun.core.lang.vo.XMLValueObject;
+
+	import flash.events.EventDispatcher;
 	
 	/**
 	 * Stores a collection of CubeData instances.
 	 * 
 	 * @author Francois
 	 */
-	public class CubeDataCollection implements XMLValueObject, Collection {
+	public class CubeDataCollection extends EventDispatcher implements XMLValueObject, Collection {
 		
 		private var _list:Vector.<CubeData>;
 		private var _version:Number;
@@ -33,7 +35,7 @@ package com.muxxu.kube.kuberank.vo {
 		/**
 		 * @inheritDoc
 		 */
-		public function get length():uint { return _list.length; }
+		public function get length():uint { return _list == null? 0 : _list.length; }
 		
 		/**
 		 * Gets the current data version number
@@ -59,14 +61,15 @@ package com.muxxu.kube.kuberank.vo {
 		 * @inheritDoc
 		 */
 		public function populate(xml:XML, ...optionnals:Array):void {
+			if(_list == null) _list = new Vector.<CubeData>();
 			_version ++;
-			var i:int, len:int, nodes:XMLList;
+			var i:int, len:int, offset:int, nodes:XMLList;
 			nodes = xml.child("kube");
-			len = nodes.length();
-			_list = new Vector.<CubeData>(len, true);
+			offset = optionnals[0];
+			len = nodes.length() + i;
 			for(i = 0; i < len; ++i) {
-				_list[i] = new CubeData(i);
-				_list[i].populate(nodes[i]);
+				_list[i+offset] = new CubeData(i);
+				_list[i+offset].populate(nodes[i]);
 			}
 		}
 		
@@ -90,7 +93,7 @@ package com.muxxu.kube.kuberank.vo {
 		/**
 		 * Gets a string representation of the value object.
 		 */
-		public function toString():String {
+		override public function toString():String {
 			return "[CubeDataCollection :: collection="+_list+"]";
 		}
 

@@ -1,6 +1,4 @@
 package com.muxxu.kube.common {
-	import flash.display.DisplayObject;
-	import com.muxxu.kube.kubebuilder.graphics.ApplicationBackgroundGraphic;
 	import gs.plugins.ColorMatrixFilterPlugin;
 	import gs.plugins.RemoveChildPlugin;
 	import gs.plugins.TweenPlugin;
@@ -8,11 +6,19 @@ package com.muxxu.kube.common {
 	import net.hires.debug.Stats;
 
 	import com.muxxu.kube.common.views.ExceptionView;
+	import com.muxxu.kube.kubebuilder.graphics.ApplicationBackgroundGraphic;
+	import com.muxxu.kube.kubebuilder.graphics.KeyFocusGraphics;
+	import com.nurun.components.button.AbstractNurunButton;
+	import com.nurun.components.button.focus.NurunButtonKeyFocusManager;
+	import com.nurun.components.form.IFormComponent;
+	import com.nurun.components.invalidator.Invalidator;
+	import com.nurun.components.vo.Margin;
 	import com.nurun.structure.mvc.model.IModel;
 	import com.nurun.structure.mvc.views.ViewLocator;
 	import com.nurun.utils.input.keyboard.KeyboardSequenceDetector;
 	import com.nurun.utils.input.keyboard.events.KeyboardSequenceEvent;
 
+	import flash.display.DisplayObject;
 	import flash.display.MovieClip;
 	import flash.events.Event;
 	
@@ -65,6 +71,7 @@ package com.muxxu.kube.common {
 		 */
 		protected function initialize():void {
 			TweenPlugin.activate([ColorMatrixFilterPlugin, RemoveChildPlugin]);
+			Invalidator.globalEventType = Event.EXIT_FRAME;
 			
 			ViewLocator.getInstance().initialise(_model);
 			
@@ -89,6 +96,9 @@ package com.muxxu.kube.common {
 			_ks.addEventListener(KeyboardSequenceEvent.SEQUENCE, keySequenceHandler);
 			
 			addChild(_exceptionView);
+			addChild(NurunButtonKeyFocusManager.getInstance());
+			NurunButtonKeyFocusManager.getInstance().initialize(stage, new KeyFocusGraphics(), [AbstractNurunButton, IFormComponent], new Margin(2, 2, 2, 2));
+			stage.stageFocusRect = false;
 			
 			stage.addEventListener(Event.RESIZE, resizeHandler);
 			resizeHandler();

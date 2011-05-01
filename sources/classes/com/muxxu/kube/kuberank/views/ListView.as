@@ -14,10 +14,12 @@ package com.muxxu.kube.kuberank.views {
 	import flash.geom.Point;
 	
 	/**
+	 * Displays the classic list view
 	 * 
 	 * @author Francois
 	 */
 	public class ListView extends AbstractView {
+		
 		private var _lastVersion:Number;
 		private var _cubes:Vector.<CubeResult>;
 		private var _rolledItem:CubeResult;
@@ -102,7 +104,7 @@ package com.muxxu.kube.kuberank.views {
 					cube.y = Math.floor(i/6) * 130 + 70;
 					cube.populate(data.getItemAt(i), new Point(cube.x, -200), new Point(cube.x, cube.y), 75);
 					TweenLite.killDelayedCallsTo(cube.doOpeningTransition);
-					TweenLite.delayedCall(i*.2, cube.doOpeningTransition, [(dataLen-i+1)*.2]);
+					TweenLite.delayedCall(i*.05, cube.doOpeningTransition, [(dataLen-i+1)*.2, true]);
 					addChild(cube);
 				}else{
 					if(contains(cube)) removeChild(cube);
@@ -156,8 +158,8 @@ package com.muxxu.kube.kuberank.views {
 		private function enterFrameHandler(event:Event = null):void {
 			_details.populate(_rolledItem.data);
 			
-			_details.height = Math.round(_rolledItem.height * .8 * 2);
-			_details.width = Math.round(_rolledItem.width * 3.5);
+			_details.height = Math.round(_rolledItem.height * 1.6);
+			_details.width = Math.round(_rolledItem.width * 1.6 + 170);
 			_details.x = Math.max(0, Math.round(_rolledItem.x - _rolledItem.width * .8));
 			_details.y = Math.max(0, Math.round(_rolledItem.y - _rolledItem.height * .8));
 			

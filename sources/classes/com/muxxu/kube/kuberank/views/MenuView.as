@@ -1,6 +1,4 @@
 package com.muxxu.kube.kuberank.views {
-	import flash.filters.BevelFilter;
-	import flash.filters.DropShadowFilter;
 	import com.muxxu.kube.kubebuilder.graphics.GradientMenuSplitter;
 	import com.muxxu.kube.kubebuilder.graphics.VerticalSplitterGraphic;
 	import com.muxxu.kube.kuberank.components.form.PaginationForm;
@@ -10,6 +8,8 @@ package com.muxxu.kube.kuberank.views {
 	import com.nurun.structure.mvc.views.AbstractView;
 
 	import flash.events.Event;
+	import flash.filters.BevelFilter;
+	import flash.filters.DropShadowFilter;
 	
 	/**
 	 * 
@@ -52,7 +52,8 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:ModelKR = event.model as ModelKR;
-			_paginationForm.update(model.startIndex, model.totalResults, model.data.length);
+			_paginationForm.update(model.top3Mode);
+			_paginationForm.visible = !model.sortByDate;
 		}
 
 
@@ -71,9 +72,11 @@ package com.muxxu.kube.kuberank.views {
 			_sortForm = addChild(new SortForm()) as SortForm;
 			_paginationForm = addChild(new PaginationForm()) as PaginationForm;
 			
+			_paginationForm.visible = false;
+			
 			_splitterV1.filters = _splitterV2.filters = 
-			[ new BevelFilter(5,135,0xffffff,1,0,1,5,5,.2,3),
-			new DropShadowFilter(0, 0, 0, .4, 5, 5, 1, 3) ];
+				[ new BevelFilter(5,135,0xffffff,1,0,1,5,5,.2,3),
+				new DropShadowFilter(0, 0, 0, .4, 5, 5, 1, 3) ];
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
