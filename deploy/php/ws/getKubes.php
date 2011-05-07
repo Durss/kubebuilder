@@ -1,9 +1,6 @@
 <?php
 header("Content-type: text/xml");
 		
-// Vérification des variables envoyées en POST 
-session_start();
-
 $resultCode = 0;
 //TODO gérer les cas d'erreurs SQL
 
@@ -47,6 +44,7 @@ else
 
 // Connection Mysql et récupération de la liste des kubes
 include '../connection.php';
+include '../getUserInfos.php';
 
 //Gets the number of results
 $sql = "SELECT COUNT(*) as `total` FROM kubes ".$where;
@@ -63,10 +61,10 @@ while ($kube = mysql_fetch_assoc($kubes))
 	$req = "SELECT name FROM users WHERE id=".$kube['uid'];
 	$user = mysql_fetch_assoc(mysql_query($req));
 	
-	if(isset($_SESSION['uid'])) {
-		$req = "SELECT COUNT(*) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".intval($_SESSION['uid']);
+	if(isset($_UID)) {
+		$req = "SELECT COUNT(*) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
 		$uvote = mysql_fetch_assoc(mysql_query($req));
-		$uvote_ok = intval($uvote['total']);
+		$uvote_ok = intval($uvote['total'])>0? 1 : 0;
 	}else {
 		$uvote_ok = 1;
 	}
@@ -88,5 +86,7 @@ echo "	<kubes>\r\n";
 echo $kubeNodes;
 echo "	</kubes>\r\n";
 echo "</root>";
+
+mysql_close();
 
 ?>

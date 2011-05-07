@@ -19,9 +19,10 @@
 		<label code="openForm"><![CDATA[Envoyer]]></label>
 		<label code="formTitle"><![CDATA[Donnez un petit nom à votre kube et laissez-le s'envoler au pays des kubes !]]></label>
 		<label code="formSubmit"><![CDATA[Valider]]></label>
+		<label code="clickToCreate"><![CDATA[<font size="22"><b>Créer mon kube</b></font>]]></label>
 		
 		<label code="errorImageLoading"><![CDATA[Le chargement du fichier a échoué. Assurez-vous qu'il s'agisse bien d'un fichier image valide.]]></label>
-		<label code="errorSubmitResultFormat"><![CDATA[L'envoi du kube a échoué. Le format des données retournées est invalide.]]></label>
+		<label code="errorSubmitResultFormat"><![CDATA[L'envoi du kube a échoué. Le format des données envoyées est invalide.]]></label>
 		<label code="errorSubmitResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 		<label code="errorSubmitResultName"><![CDATA[L'envoi du kube a échoué. Aucun nom de kube défini.]]></label>
 		<label code="errorSubmitResultFile"><![CDATA[L'envoi du kube a échoué. Probléme de transmission du fichier.]]></label>
@@ -29,6 +30,7 @@
 		<label code="errorSubmitResultCreate"><![CDATA[L'envoi du kube a échoué. Erreur lors de la création du fichier.]]></label>
 		<label code="errorSubmitResultSql"><![CDATA[L'envoi du kube a échoué. Erreur SQL.]]></label>
 		<label code="errorSubmitResultWrite"><![CDATA[L'envoi du kube a échoué. Ecriture du fichier impossible.]]></label>
+		<label code="errorSubmitResultAuth"><![CDATA[L'authentification a échoué. Essayez de recharger la page.]]></label>
 		
 		<label code="errorLoadResultFormat"><![CDATA[Le chargement de la liste des kubes a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorLoadResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
@@ -45,6 +47,7 @@
 	</labels>
 	
 	<vars>
+		<var code="key"><![CDATA[b98a71f19d72b3d5cd5909a3e6d4d416]]></var>
 		<var code="lang"><![CDATA[fr]]></var>
 		<var code="stats"><![CDATA[false]]></var>
 		<!-- 
@@ -57,9 +60,11 @@
 	<paths>
 		<path code="css"><![CDATA[css/styles.css]]></path>
 		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
-		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php]]></path>
-		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php]]></path>
-		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name=durss&pubkey={v_pubkey}]]></path>
+		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php?key={v_key}]]></path>
+		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php?key={v_key}]]></path>
+		<path code="postVote"><![CDATA[{v_server}/php/ws/postVote.php?key={v_key}]]></path>
+		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
 	</paths>
 	
 	<dependencies />

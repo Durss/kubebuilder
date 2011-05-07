@@ -1,18 +1,18 @@
 <?php
 header("Content-type: text/xml");
-session_start();
 $date = date("Y-m-d H:i:s");
 include '../connection.php';
 include '../secure.php';
+include '../getUserInfos.php';
 
-if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
+if (isset($_UID, $_UNAME))
 {
 	if (isset($_POST['name'], $_POST['kube']))
 	{
 		$name = secure_string($_POST['name']);
 		if($kube = base64_decode($_POST['kube']))
 		{
-			$fileName = md5($_SESSION['uid'].$_SESSION['name'].$date);
+			$fileName = $_UID."_".$date;
 			$file = "../../kubes/".$fileName.".kub";
 			$handle = fopen($file,"w");
 			if($handle !== false)
@@ -20,9 +20,10 @@ if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 				if (fputs($handle, $kube) === false) {
 					$result = "Write";
 				}else{
-					$req = "INSERT INTO `kubes` ( `name` , `uid` , `file` ) VALUES ('".secure_string($_POST['name'])."', ".secure_string($_SESSION['uid']).", '".$fileName."')";
+					$req = "INSERT INTO `kubes` ( `name` , `uid` , `file` ) VALUES ('".secure_string($_POST['name'])."', ".$_UID.", '".$fileName."')";
 					$kubes = mysql_query($req);
 					$result = $kubes === false? "Sql" : 0;
+					mysql_close();
 				}
 				fclose($handle);
 			}
@@ -52,11 +53,7 @@ if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1))
 
 else
 {
-	$result = "Session";
-	if (isset($_SESSION['error']))
-		$error = $_SESSION['error'];
-	else
-		$error = "unknown";
+	$result = "Auth";
 }
 
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";

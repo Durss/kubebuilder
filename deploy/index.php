@@ -26,16 +26,16 @@
     </head>
     <body>
 <?php
-	if (isset($_SESSION['statut']) && ($_SESSION['statut'] == 1)) {
+	if ($errorCheckCode == 0) {
 
 ?>
 		<div id="content">
-			<p>In order to view this page you need JavaScript and Flash Player 10+ support!</p>
+			<p>Pour voir cette page vous devez posséder la version 10.1+ du plugin Flash Player!<br /><a href="http://get.adobe.com/fr/flashplayer/">Installer la dernière version</a></p>
 		</div>
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.6', 'content', '860', '500', '10', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.6', 'content', '860', '500', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
@@ -43,7 +43,9 @@
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('uid', '".$_GET['uid']."');\r\n";
+		echo "\t\t\tso.addVariable('uname', '".$_GET['name']."');\r\n";
 		echo "\t\t\tso.addVariable('pubkey', '".$_GET['pubkey']."');\r\n";
+		echo "\t\t\tso.addVariable('key', '".$userKey."');\r\n";
 	}
 ?>
 			so.write('content');
