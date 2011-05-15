@@ -1,5 +1,5 @@
 package com.muxxu.kube.kuberank.components {
-	import gs.TweenLite;
+	import flash.utils.setTimeout;
 
 	import com.muxxu.kube.common.components.cube.CubeFace;
 	import com.muxxu.kube.kubebuilder.graphics.CubeShadowGraphic;
@@ -82,7 +82,7 @@ package com.muxxu.kube.kuberank.components {
 			_data = value as CubeData;
 			_data.addEventListener(Event.CHANGE, changeDataHandler);
 			changeDataHandler();
-			buttonMode = _data.id > -1;
+			buttonMode = true;//_data.id > -1;
 		}
 		
 		/**
@@ -116,11 +116,11 @@ package com.muxxu.kube.kuberank.components {
 			_shadow = addChild(new CubeShadowGraphic()) as CubeShadowGraphic;
 			_cube = addChild(new Cube()) as Cube;
 			
-			mouseChildren = false;
+			var projection:PerspectiveProjection = new PerspectiveProjection();
+			projection.projectionCenter = new Point(0, 0);
+			_cube.transform.perspectiveProjection = projection;
 			
-			var pp:PerspectiveProjection = new PerspectiveProjection();
-			pp.projectionCenter = new Point(0, 0);
-			_cube.transform.perspectiveProjection = pp;
+			mouseChildren = false;
 		}
 		
 		/**
@@ -145,11 +145,21 @@ package com.muxxu.kube.kuberank.components {
 			_shadow.scaleX = _shadow.scaleY = _width/70;
 			_shadow.y = _width * .85;
 			_shadow.x = _cube.x - _shadow.width * .5;
+
+			var projection:PerspectiveProjection = new PerspectiveProjection();
+			projection.projectionCenter = new Point(0, 0);
+			_cube.transform.perspectiveProjection = projection;
 			
-			//Fuckin' hack >_<
-			//The top face of the first cubes wasn't displayed properly the first
-			//time... so we force the rendering multiple times \o/
-			TweenLite.to(this, .25, {onUpdate:_cube.validate});
+			_cube.validate();
+			//Fuckin' hack to be sure the cube is well rendered.
+			//The method for back face culling seems to have some problems.
+			//Actually it's more the perspective projection that seems to have
+			//a random delay before being ready. And while the projection isn't
+			//set correctyle the backface culling is based on wrong values, so
+			//the wrong faces are displayed... wooooohooo -_-..
+			setTimeout(_cube.validate, 0);
+			setTimeout(_cube.validate, 40);
+			setTimeout(_cube.validate, 500);
 		}
 		
 	}

@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.views {
+	import com.muxxu.kube.kuberank.components.form.SearchForm;
 	import com.muxxu.kube.kubebuilder.graphics.GradientMenuSplitter;
 	import com.muxxu.kube.kubebuilder.graphics.VerticalSplitterGraphic;
 	import com.muxxu.kube.kuberank.components.form.PaginationForm;
@@ -22,6 +23,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _sortForm:SortForm;
 		private var _paginationForm:PaginationForm;
 		private var _shadow:GradientMenuSplitter;
+		private var _searchForm:SearchForm;
 		
 		
 		
@@ -70,6 +72,7 @@ package com.muxxu.kube.kuberank.views {
 			_splitterV1 = addChild(new VerticalSplitterGraphic()) as VerticalSplitterGraphic;
 			_splitterV2 = addChild(new VerticalSplitterGraphic()) as VerticalSplitterGraphic;
 			_sortForm = addChild(new SortForm()) as SortForm;
+			_searchForm = addChild(new SearchForm()) as SearchForm;
 			_paginationForm = addChild(new PaginationForm()) as PaginationForm;
 			
 			_paginationForm.visible = false;
@@ -104,7 +107,10 @@ package com.muxxu.kube.kuberank.views {
 			_splitterV1.height = _splitterV2.height = 70;
 			
 			_sortForm.x = 4;
-			_sortForm.y = 8;
+			_sortForm.y = -5;
+			
+			_searchForm.x = _splitterV1.x + _splitterV1.width + 10;
+			_searchForm.y = _sortForm.y;
 			
 			_paginationForm.x = stage.stageWidth - _paginationForm.width - 1;
 			_paginationForm.y = 6;

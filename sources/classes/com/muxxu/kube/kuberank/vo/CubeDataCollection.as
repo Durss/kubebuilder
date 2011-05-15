@@ -61,11 +61,11 @@ package com.muxxu.kube.kuberank.vo {
 		 * @inheritDoc
 		 */
 		public function populate(xml:XML, ...optionnals:Array):void {
-			if(_list == null) _list = new Vector.<CubeData>();
 			_version ++;
 			var i:int, len:int, offset:int, nodes:XMLList;
 			nodes = xml.child("kube");
 			offset = optionnals[0];
+			if(_list == null || offset == 0) _list = new Vector.<CubeData>();
 			len = nodes.length() + i;
 			for(i = 0; i < len; ++i) {
 				_list[i+offset] = new CubeData(i);

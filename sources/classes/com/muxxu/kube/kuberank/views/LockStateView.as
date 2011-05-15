@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.views {
+	import flash.display.DisplayObject;
+	import com.muxxu.kube.common.views.ExceptionView;
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.events.KubeModelEvent;
@@ -16,7 +18,8 @@ package com.muxxu.kube.kuberank.views {
 	 * @author Francois
 	 */
 	public class LockStateView extends AbstractView {
-		private var _locked : Boolean;
+		private var _locked:Boolean;
+		private var _exceptionView:ExceptionView;
 		
 		
 		
@@ -27,7 +30,8 @@ package com.muxxu.kube.kuberank.views {
 		/**
 		 * Creates an instance of <code>LockStateView</code>.
 		 */
-		public function LockStateView() {
+		public function LockStateView(exceptionView:ExceptionView) {
+			_exceptionView = exceptionView;
 			initialize();
 		}
 
@@ -99,7 +103,8 @@ package com.muxxu.kube.kuberank.views {
 		/**
 		 * Resizes and replaces the elements.
 		 */
-		private function computePositions():void {
+		private function computePositions(event:Event = null):void {
+			graphics.clear();
 			graphics.beginFill(0, .5);
 			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 			graphics.endFill();
@@ -117,7 +122,7 @@ package com.muxxu.kube.kuberank.views {
 		 * Called when an input (mouse/keyboard) event occurs
 		 */
 		private function inputEventHandler(event:Event):void {
-			if(_locked) {
+			if(_locked && !_exceptionView.contains(event.target as DisplayObject)) {
 				event.stopPropagation();
 				event.preventDefault();
 			}

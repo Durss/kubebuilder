@@ -1,5 +1,28 @@
 <?php
+	include 'php/constants.php';
+	include 'php/connection.php';
 	include 'php/checkUser.php';
+	
+	$sql = "SELECT COUNT(uid) as total FROM `evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
+	$req = mysql_query($sql);
+	$errorSql = $req !== false;
+	$results = mysql_fetch_assoc($req);
+	$votesDone = $results["total"];
+	
+	//Converts act var into multiple GET vars if necessary.
+	//If the following act var is past :
+	//act=value_var1=value1_var2=value2
+	//then $_GET["act"] value will only be "value" and two
+	//GET vars named "var1" and "var2" will be created with
+	//the corresponding value.
+	if (isset($_GET["act"])) {
+		$params = explode("_", $_GET["act"]);
+		$_GET["act"] = $params[0];
+		for ($i = 1; $i < count($params); $i++) {
+			list($var, $value) = explode("=", $params[$i]);
+			$_GET[$var] = $value;
+		}
+	}
 	$swf = isset($_GET["act"]) && $_GET["act"] == "editor"? "kubeBuilder.swf" : "kubeRank.swf";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -46,6 +69,34 @@
 		echo "\t\t\tso.addVariable('uname', '".$_GET['name']."');\r\n";
 		echo "\t\t\tso.addVariable('pubkey', '".$_GET['pubkey']."');\r\n";
 		echo "\t\t\tso.addVariable('key', '".$userKey."');\r\n";
+		echo "\t\t\tso.addVariable('votesTotal', '".MAX_VOTES_PER_DAY."');\r\n";
+		echo "\t\t\tso.addVariable('votesDone', '".$votesDone."');\r\n";
+		if(isset($_GET["kid"])) {
+			$sql = "SELECT * FROM kubes WHERE id=".intval($_GET["kid"]);
+			$req = mysql_query($sql);
+			if($req !== false) {
+				$kube = mysql_fetch_assoc($req);
+				if ($kube !== false) {
+					$req = "SELECT name FROM users WHERE id=".$kube['uid'];
+					$user = mysql_fetch_assoc(mysql_query($req));
+					
+					if(isset($_UID)) {
+						$req = "SELECT COUNT(kid) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
+						$uvote = mysql_fetch_assoc(mysql_query($req));
+						$voted = intval($uvote['total']) > 0? true : false;
+					}else {
+						$voted = true;
+					}
+					
+					$fileName = "kubes/".$kube['file'].".kub";
+					$handle = fopen($fileName, "r");
+					$fileContent = base64_encode(fread($handle, filesize($fileName)));
+					fclose($handle);
+					$xml = "<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" voted=\"".$voted."\"><![CDATA[".$fileContent."]]></kube>";
+					echo "\t\t\tso.addVariable('directKube', '".urlencode($xml)."');\r\n";
+				}
+			}
+		}
 	}
 ?>
 			so.write('content');
@@ -53,6 +104,8 @@
         </script>
 <?php
 
+	} else if($errorSql) {
+		echo "Une erreur est survenue. Essayez de recharger la page, si le problème persiste merci de contactez Durss.";
 	} else {
 ?>
 		<center>

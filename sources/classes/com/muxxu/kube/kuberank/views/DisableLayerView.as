@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.views {
+	import com.muxxu.kube.common.views.ExceptionView;
 	import gs.TweenLite;
 
 	import com.muxxu.kube.kuberank.model.ModelKR;
@@ -83,8 +84,11 @@ package com.muxxu.kube.kuberank.views {
 		private function render(event:Event = null):void {
 			if(!_opened) return;
 			
-			var view:SingleKubeView = ViewLocator.getInstance().locateViewByType(SingleKubeView) as SingleKubeView;
-			view.visible = false;
+			var kubeView:SingleKubeView = ViewLocator.getInstance().locateViewByType(SingleKubeView) as SingleKubeView;
+			var exceptionView:ExceptionView = ViewLocator.getInstance().locateViewByType(ExceptionView) as ExceptionView;
+			var oldEVState:Boolean = exceptionView.visible;
+			kubeView.visible = false;
+			exceptionView.visible = false;
 			visible = false;
 			var bmd:BitmapData = new BitmapData(stage.stageWidth, stage.stageHeight, true, 0);
 			bmd.draw(stage);
@@ -95,7 +99,8 @@ package com.muxxu.kube.kuberank.views {
 			graphics.endFill();
 //			bmd.dispose();
 			visible = true;
-			view.visible = true;
+			kubeView.visible = true;
+			exceptionView.visible = oldEVState;
 		}
 		
 	}

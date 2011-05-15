@@ -14,6 +14,7 @@ package com.muxxu.kube.kuberank.components.form {
 	 * @author Francois
 	 */
 	public class SortForm extends Sprite {
+		
 		private var _title:CssTextField;
 		private var _group:FormComponentGroup;
 		private var _dateRB:KubeRadioButton;
@@ -73,7 +74,6 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Resize and replace the elements.
 		 */
 		private function computePositions():void {
-			_title.y = -6;
 			PosUtils.vPlaceNext(5, _title, _votesRB, _dateRB);
 			_votesRB.y -=4;
 			_dateRB.y -=4;

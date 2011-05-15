@@ -106,6 +106,20 @@ package com.muxxu.kube.kuberank.controler {
 		public function setCurrentDisplayIndex(index:int):void {
 			_model.setCurrentDisplayIndex(index);
 		}
+		
+		/**
+		 * Votes for a specific kube
+		 */
+		public function vote(cube:CubeData):void {
+			_model.vote(cube);
+		}
+		
+		/**
+		 * Reports a specific kube as bad.
+		 */
+		public function report(cube:CubeData):void {
+			_model.report(cube);
+		}
 
 
 		

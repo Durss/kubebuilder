@@ -3,6 +3,7 @@ package com.muxxu.kube.kuberank.views {
 
 	import com.muxxu.kube.common.components.BackWindow;
 	import com.muxxu.kube.kuberank.components.CubeResult;
+	import com.muxxu.kube.kuberank.components.form.KubeDetailsForm;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
@@ -18,6 +19,7 @@ package com.muxxu.kube.kuberank.views {
 	import flash.geom.Point;
 	
 	/**
+	 * Displays the details about a kube and provides buttons to vote for.
 	 * 
 	 * @author Francois
 	 */
@@ -27,6 +29,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _background:BackWindow;
 		private var _opened:Boolean;
 		private var _details:CssTextField;
+		private var _form:KubeDetailsForm;
 		
 		
 		
@@ -59,6 +62,7 @@ package com.muxxu.kube.kuberank.views {
 			var model:ModelKR = event.model as ModelKR;
 			_data = model.openedCube;
 			if(_data != null) {
+			_form.populate(_data, model.votesDone, model.votesTotal);
 				populate();
 				TweenLite.to(this, .25, {autoAlpha:1, onComplete:onAppearComplete});
 			}else{
@@ -83,6 +87,7 @@ package com.muxxu.kube.kuberank.views {
 			_background = addChild(new BackWindow()) as BackWindow;
 			_cube = addChild(new CubeResult()) as CubeResult;
 			_details = addChild(new CssTextField("kubeDetails")) as CssTextField;
+			_form = addChild(new KubeDetailsForm()) as KubeDetailsForm;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
@@ -122,6 +127,9 @@ package com.muxxu.kube.kuberank.views {
 			_details.x = _cube.x + _cube.width;
 			_details.y = 15;
 			
+			_form.x = _details.x;
+			_form.y = Math.round(_details.y + _details.height + 30);
+			
 			x = Math.round((stage.stageWidth - _background.width) * .5);
 			y = Math.round((stage.stageHeight - _background.height) * .5);
 		}
@@ -139,12 +147,12 @@ package com.muxxu.kube.kuberank.views {
 			var details:String;
 
 			var date:Date = new Date(_data.date * 1000);
-			if(new Date().getDay() != date.getDay()) {
-				details = Label.getLabel("kubeDetailsLong");
-				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_w_/_m_/_Y_"));
-			}else{
+			if(new Date().getDay() == date.getDay() && new Date().getTime() - date.getTime() < 24 * 60 * 60 * 1000) {
 				details = Label.getLabel("kubeDetailsLongToday");
 				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_h_:_I_"));
+			}else{
+				details = Label.getLabel("kubeDetailsLong");
+				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_w_/_m_/_Y_"));
 			}
 			details = details.replace(/\{KUBE_NAME\}/gi, _data.name);
 			details = details.replace(/\{USER_ID\}/gi, _data.uid);

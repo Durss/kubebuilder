@@ -1,13 +1,12 @@
 package com.muxxu.kube.kuberank {
-	import com.muxxu.kube.kuberank.views.LockStateView;
-	import com.muxxu.kube.kuberank.views.SmoothListView;
-	import net.hires.debug.Stats;
-	import com.muxxu.kube.kuberank.views.DisableLayerView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
+	import com.muxxu.kube.kuberank.views.DisableLayerView;
+	import com.muxxu.kube.kuberank.views.LockStateView;
 	import com.muxxu.kube.kuberank.views.MenuView;
 	import com.muxxu.kube.kuberank.views.SingleKubeView;
+	import com.muxxu.kube.kuberank.views.SmoothListView;
 	import com.muxxu.kube.kuberank.views.Top3View;
 
 	import flash.events.Event;
@@ -70,8 +69,7 @@ package com.muxxu.kube.kuberank {
 			addChild(new MenuView());
 			addChild(new DisableLayerView());
 			addChild(new SingleKubeView());
-			addChild(new LockStateView());
-			addChild(new Stats());
+			addChild(new LockStateView(_exceptionView));
 		}
 		
 		/**
@@ -82,8 +80,6 @@ package com.muxxu.kube.kuberank {
 		override protected function addedToStageHandler(event:Event):void {
 			super.addedToStageHandler(event);
 			ModelKR(_model).start();
-			
-			_background.y = stage.stageHeight - _background.height - 80;
 		}
 		
 	}

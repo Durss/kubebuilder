@@ -9,6 +9,7 @@
 	</fonts>
 	
 	<labels>
+		<label code="closeError"><![CDATA[Fermer]]></label>
 		<label code="tools"><![CDATA[Outils]]></label>
 		<label code="patron"><![CDATA[Patron]]></label>
 		<label code="copy"><![CDATA[Copier]]></label>
@@ -19,41 +20,70 @@
 		<label code="openForm"><![CDATA[Envoyer]]></label>
 		<label code="formTitle"><![CDATA[Donnez un petit nom à votre kube et laissez-le s'envoler au pays des kubes !]]></label>
 		<label code="formSubmit"><![CDATA[Valider]]></label>
-		<label code="clickToCreate"><![CDATA[<font size="22"><b>Créer mon kube</b></font>]]></label>
 		
 		<label code="errorImageLoading"><![CDATA[Le chargement du fichier a échoué. Assurez-vous qu'il s'agisse bien d'un fichier image valide.]]></label>
 		<label code="errorSubmitResultFormat"><![CDATA[L'envoi du kube a échoué. Le format des données envoyées est invalide.]]></label>
 		<label code="errorSubmitResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 		<label code="errorSubmitResultName"><![CDATA[L'envoi du kube a échoué. Aucun nom de kube défini.]]></label>
 		<label code="errorSubmitResultFile"><![CDATA[L'envoi du kube a échoué. Probléme de transmission du fichier.]]></label>
-		<label code="errorSubmitResultPost"><![CDATA[L'envoi du kube a échoué. Aucune donnée transmise, merci de réessayer]]></label>
+		<label code="errorSubmitResultPost"><![CDATA[L'envoi du kube a échoué. Aucune donnée transmise, merci de réessayer.]]></label>
 		<label code="errorSubmitResultCreate"><![CDATA[L'envoi du kube a échoué. Erreur lors de la création du fichier.]]></label>
 		<label code="errorSubmitResultSql"><![CDATA[L'envoi du kube a échoué. Erreur SQL.]]></label>
 		<label code="errorSubmitResultWrite"><![CDATA[L'envoi du kube a échoué. Ecriture du fichier impossible.]]></label>
 		<label code="errorSubmitResultAuth"><![CDATA[L'authentification a échoué. Essayez de recharger la page.]]></label>
 		
+		<label code="errorLoadResultUserNotFound"><![CDATA[Aucun utilisateur portant le pseudo spécifié n'a été trouvé.]]></label>
+		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[Cet utilisateur n'a soumit aucun kube pour l'instant.]]></label>
 		<label code="errorLoadResultFormat"><![CDATA[Le chargement de la liste des kubes a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorLoadResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
+		
+		<label code="errorVoteResultPost"><![CDATA[Le vote a échoué. Paramètres de requêtes manquants.]]></label>
+		<label code="errorVoteResultAuth"><![CDATA[L'authentification a échoué. Essayez de recharger la page.]]></label>
+		<label code="errorVoteResultSql"><![CDATA[Le vote a échoué. Une erreur SQL est survenue.]]></label>
+		<label code="errorVoteResultVotesLeft"><![CDATA[Vous ne pouvez plus voter pour aujourd'hui.]]></label>
+		<label code="errorVoteResultAlreadyVoted"><![CDATA[Vous avez déjà voté pour ce kube!]]></label>
+		<label code="errorVoteResultFormat"><![CDATA[Le vote a échoué. Le format des données retournées est invalide.]]></label>
+		<label code="errorVoteResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
+		
+		<label code="errorReportResultPost"><![CDATA[Le rapport a échoué. Paramètres de requêtes manquants.]]></label>
+		<label code="errorReportResultAuth"><![CDATA[L'authentification a échoué. Essayez de recharger la page.]]></label>
+		<label code="errorReportResultSql"><![CDATA[Le rapport a échoué. Une erreur SQL est survenue.]]></label>
+		<label code="errorReportResultFormat"><![CDATA[Le rapport a échoué. Le format des données retournées est invalide.]]></label>
+		<label code="errorReportResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 		
 		<label code="sortTitle"><![CDATA[Trier par :]]></label>
 		<label code="sortByDate"><![CDATA[Date]]></label>
 		<label code="sortByVotes"><![CDATA[Votes]]></label>
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="showAll"><![CDATA[Voir tous]]></label>
+		<label code="searchTitle"><![CDATA[Rechercher :]]></label>
+		<label code="searchByName"><![CDATA[Les kubes de :]]></label>
+		<label code="searchByKID"><![CDATA[Le kube N° :]]></label>
+		<label code="searchByNameInput"><![CDATA[pseudo...]]></label>
+		<label code="searchByKIDInput"><![CDATA[kube ID...]]></label>
+		<label code="searchLabel"><![CDATA[Chercher]]></label>
+		
 		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <b>{USER_NAME}</b><br />Le : {DATE}]]></label>
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <b>{USER_NAME}</b><br />Aujourd'hui à : {DATE}]]></label>
 		<label code="kubeDetailsLong"><![CDATA[Nom du kube : <b>{KUBE_NAME}</b><br /><br />Créé par <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> le {DATE}]]></label>
 		<label code="kubeDetailsLongToday"><![CDATA[Nom du kube : <b>{KUBE_NAME}</b><br /><br />Créé par <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Aujourd'hui à {DATE}]]></label>
+		<label code="clickToCreate"><![CDATA[<font size="22"><b>Créer mon kube</b></font>]]></label>
+		<label code="vote"><![CDATA[J'aime ce kube]]></label>
+		<label code="voted"><![CDATA[Tu as déjà voté pour ce kube]]></label>
+		<label code="warn"><![CDATA[<span class="warnKube">Signaler ce kube</span>]]></label>
+		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Merci de n'utiliser ce bouton que si le kube représente un message raciste, obscène, insultant ou si vous êtes propriétaire de l'image qu'il représente!<br />Tout abus sera sanctionné par le retrait de votre droit de vote.</span>]]></label>
+		<label code="voteTooltip"><![CDATA[<b>Attention :</b> Il te reste <b>{VOTES}/{TOTAL}</b> votes pour aujourd'hui!]]></label>
+		<label code="alreadyVotedTitle"><![CDATA[Vous avez déjà voté pour ce kube]]></label>
 	</labels>
 	
 	<vars>
-		<var code="key"><![CDATA[b98a71f19d72b3d5cd5909a3e6d4d416]]></var>
+		<var code="key"><![CDATA[55a419c5210f8398e01335a347bf422d]]></var>
 		<var code="lang"><![CDATA[fr]]></var>
 		<var code="stats"><![CDATA[false]]></var>
-		<!-- 
 		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
-		 -->
+		<!-- 
 		<var code="server"><![CDATA[http://www.muxxu.free.fr/kube/apps/kubebuilder]]></var>
+		 -->
 		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" uvote="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
 	</vars>
 	
@@ -63,6 +93,7 @@
 		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php?key={v_key}]]></path>
 		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php?key={v_key}]]></path>
 		<path code="postVote"><![CDATA[{v_server}/php/ws/postVote.php?key={v_key}]]></path>
+		<path code="postReport"><![CDATA[{v_server}/php/ws/reportKube.php?key={v_key}]]></path>
 		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
 		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
 	</paths>
