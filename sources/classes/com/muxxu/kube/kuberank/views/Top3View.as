@@ -60,19 +60,7 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var i:int, len:int;
-			//Bug quand on ouvre le détail d'un kube ça nique tous les tweens du
-			//coup on peut plus faire tourner les kubes et ils ne flottent plus.
 			var model:ModelKR = event.model as ModelKR;
-			TweenLite.killTweensOf(this);
-			TweenLite.killTweensOf(_podium);
-			TweenLite.killTweensOf(_podium._maskMc);
-			len = _cubes.length;
-			for(i = 0; i < len; ++i) {
-				_cubes[i].alpha = 1;
-				_cubes[i].visible = true;
-				_cubes[i].stopAllAnimations();
-				TweenLite.killTweensOf(_cubes[i]);
-			}
 			
 			if(model.top3Mode) {
 				if(model.data.version == _lastVersion) return;
@@ -81,7 +69,18 @@ package com.muxxu.kube.kuberank.views {
 				TweenLite.to(this, .25, {autoAlpha:1});
 				TweenLite.to(_podium, .5, {frame:_podium.totalFrames, delay:.25, ease:Sine.easeInOut});
 				TweenLite.to(_podium._maskMc, .5, {frame:_podium._maskMc.totalFrames, delay:.25, ease:Sine.easeInOut});
+				TweenMax.to(_podium, 2, {ease:Linear.easeNone, yoyo:0, dropShadowFilter:{distance:50, blurY:50, alpha:.25, index:0}});
 			}else{
+				TweenLite.killTweensOf(this);
+				TweenLite.killTweensOf(_podium);
+				TweenLite.killTweensOf(_podium._maskMc);
+				len = _cubes.length;
+				for(i = 0; i < len; ++i) {
+					_cubes[i].alpha = 1;
+					_cubes[i].visible = true;
+					_cubes[i].stopAllAnimations();
+					TweenLite.killTweensOf(_cubes[i]);
+				}
 				TweenLite.to(this, .25, {autoAlpha:0, delay:.25});
 				TweenLite.to(_podium, .5, {frame:1, ease:Sine.easeInOut});
 				TweenLite.to(_podium._maskMc, .5, {frame:1, ease:Sine.easeInOut});
@@ -107,7 +106,6 @@ package com.muxxu.kube.kuberank.views {
 			_details = new CubeDetailsWindow();
 			_podium = addChild(new PodiumGraphic()) as PodiumGraphic;
 			_podium.filters = [new DropShadowFilter(20,270,0xffffff,.1,0,20,1,2)];
-			TweenMax.to(_podium, 2, {ease:Linear.easeNone, yoyo:0, dropShadowFilter:{distance:50, blurY:50, alpha:.25, index:0}});
 			
 			_podium.stop();
 			_podium._maskMc.stop();
@@ -190,6 +188,7 @@ package com.muxxu.kube.kuberank.views {
 			TweenLite.killTweensOf(_details);
 			_details.alpha = 1;
 			_details.visible = true;
+			_details.populate(_rolledItem.data);
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			enterFrameHandler();
 		}
@@ -208,8 +207,6 @@ package com.muxxu.kube.kuberank.views {
 		 * Called on ENTER_FRAME event to place the details behind the rolled kube.
 		 */
 		private function enterFrameHandler(event:Event = null):void {
-			_details.populate(_rolledItem.data);
-			
 			_details.height = Math.round(_rolledItem.height * 1.6);
 			_details.width = Math.round(_rolledItem.width * 1.6 + 170);
 			_details.x = Math.max(-x, Math.round(_rolledItem.x - _rolledItem.width * .8));

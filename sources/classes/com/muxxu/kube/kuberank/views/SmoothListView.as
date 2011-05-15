@@ -46,6 +46,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _lastSortType:Boolean;
 		private var _details:CubeDetailsWindow;
 		private var _rolledItem:TileEngineItem;
+		private var _lastUserName:String;
 		
 		
 		
@@ -77,9 +78,10 @@ package com.muxxu.kube.kuberank.views {
 		override public function update(event:IModelEvent):void {
 			var model:ModelKR = event.model as ModelKR;
 			if(!model.top3Mode) {
+				var resetChange:Boolean = (_lastSortType != model.sortByDate || _lastUserName != model.userName);
 				if(model.data.version != _lastVersion) {
-					if(_opened && _lastSortType != model.sortByDate) {
-						TweenLite.to(this, .35, {x:-15, autoAlpha:0, ease:Sine.easeIn, onComplete:populate, onCompleteParams:[model.data, _lastSortType != model.sortByDate]});
+					if(_opened && resetChange) {
+						TweenLite.to(this, .35, {x:-15, autoAlpha:0, ease:Sine.easeIn, onComplete:populate, onCompleteParams:[model.data, resetChange]});
 						TweenLite.to(this, .35, {x:0, autoAlpha:1, delay:.5, ease:Sine.easeOut, onComplete:onShowComplete});
 					}else{
 						populate(model.data);
@@ -87,21 +89,26 @@ package com.muxxu.kube.kuberank.views {
 				}
 				if(!_opened) {
 					_opened = true;
-					TweenLite.to(this, .25, {autoAlpha:1});
+					TweenLite.to(this, .25, {autoAlpha:1, delay:.5});
 					stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 					stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 					stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseWheelHandler);
 					addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 					_scrollbar.height = stage.stageWidth;
 					_scrollbar.y = 400 + 13;
-				}else if(_lastSortType == model.sortByDate && model.data.version != _lastVersion){
+				}else if(model.data.version != _lastVersion && !resetChange && model.data.length > _lastLength){
 					_loadSignal.y = Math.round((400 - 100) * .5);
 					_loadSignal.x = Math.round(stage.stageWidth - 100);
 					TweenLite.to(_loadSignal, .5, {autoAlpha:1});
 					TweenLite.to(_loadSignal, .5, {autoAlpha:0, delay:1});
 				}
 				_lastSortType = model.sortByDate;
+				_lastUserName = model.userName;
 				_lastVersion = model.data.version;
+				_lastLength = model.data.length;
+				graphics.beginFill(0xff0000, 0);
+				graphics.drawRect(0, 0, stage.stageWidth, _scrollbar.y);
+				graphics.endFill();
 			}else{
 				_opened = false;
 				TweenLite.to(this, .25, {autoAlpha:0});
@@ -163,14 +170,19 @@ package com.muxxu.kube.kuberank.views {
 			var i:int, len:int, dataLen:int, engine:TileEngine;
 			if(resetEngines) {
 				_endScrollX = 0;
+				_lastLength = 0;
 				len = _engines.length;
-				for(i = 0; i < len; ++i) _engines[i].offsetX = 0;
+				for(i = 0; i < len; ++i) {
+					_engines[i].clear();
+					_engines[i].offsetX = 0;
+				}
 			}
 			dataLen = data.length;
 			len = Math.ceil(dataLen/18) * 18;
 			if(_lastLength != data.length) {
 				for(i = _lastLength; i < len; ++i) {
-					engine = _engines[Math.floor(i/6)%3];
+					engine = _engines[i%3];
+//					engine = _engines[Math.floor(i/6)%3];
 					if(i >= dataLen) {
 						engine.addItem(_emptyItem);
 					}else{
@@ -211,26 +223,24 @@ package com.muxxu.kube.kuberank.views {
 			}
 			if(_scrollPressed) {
 				_endScrollX -= (_scrollbar.percent - .5) * 200;
-			}else{
+			}else if(Math.abs(_scrollbar.percent - .5) > .01){
 				//Replaces the scroll continuously at the center
 				_scrollbar.percent += (.5-_scrollbar.percent) * .1;
 				_scrollbar.validate();
 			}
-			
 			_endScrollX = Math.min(_engines[0].offsetXMax, Math.max(_endScrollX, _engines[0].offsetXMin));
 			for(i = 0; i < len; ++i) {
 				engine = _engines[i];
-				engine.offsetX += (_endScrollX - engine.offsetX) * .1;
-				engine.validate();
+				if(Math.abs(engine.offsetX - _endScrollX) > 1) {
+					engine.offsetX += (_endScrollX - engine.offsetX) * .3;
+					engine.validate();
+				}
 			}
 			
 			var index:int = -Math.round((engine.offsetX - _scrollIncrement * 6) / _scrollIncrement)-1;
 			FrontControlerKR.getInstance().setCurrentDisplayIndex(index * 3);
 			
-			
 			if(_rolledItem != null) {
-				_details.populate(_rolledItem.getData() as CubeData);
-				
 				_details.width = Math.round(_rolledItem.width * 1.2 + 170);
 				_details.height = Math.round(_rolledItem.height);
 				_details.x = Math.round(_rolledItem.x - _rolledItem.width * .2);
@@ -252,7 +262,7 @@ package com.muxxu.kube.kuberank.views {
 		private function mouseDownHandler(event:MouseEvent):void {
 			if(_scrollbar.contains(event.target as DisplayObject)) {
 				_scrollPressed = true;
-			}else{
+			}else if(contains(event.target as DisplayObject)) {
 				_pressed = true;
 				_offsetDrag = _engines[0].offsetX;
 				_offsetMouseDrag = mouseX;
@@ -293,25 +303,24 @@ package com.muxxu.kube.kuberank.views {
 		
 		
 		
-		//__________________________________________________________ MOUSE EVENTS
+		//__________________________________________________________ CUBE MOUSE EVENTS
 		
 		/**
 		 * Called when a cube is clicked
 		 */
 		private function clickCubeHandler(event:TileEngineEvent):void {
-			if(CubeData(event.item.getData()).id == -1) return;
 			FrontControlerKR.getInstance().openKube(event.item.getData() as CubeData);
 		}
 		
 		/**
-		 * Called when a component is rolled over
+		 * Called when a cube is rolled over
 		 */
 		private function mouseOverCubeHandler(event:TileEngineEvent):void {
 			_rolledItem = event.item as TileEngineItem;
-			if(CubeData(_rolledItem.getData()).id == -1) {
-				_rolledItem = null;
-				return;
-			}
+//			if(CubeData(_rolledItem.getData()).id == -1) {
+//				_rolledItem = null;
+//				return;
+//			}
 			_rolledItem.parent.addChild(_details);
 			_rolledItem.parent.addChild(_rolledItem);
 			addChild(_rolledItem.parent.parent as TileEngine);
@@ -321,14 +330,16 @@ package com.muxxu.kube.kuberank.views {
 			TweenLite.killTweensOf(_details);
 			_details.alpha = 1;
 			_details.visible = true;
+			_details.populate(_rolledItem.getData() as CubeData);
 		}
 		
 		/**
-		 * Called when a component is rolled out.
+		 * Called when a cube is rolled out.
 		 */
 		private function mouseOutCubeHandler(event:TileEngineEvent):void {
+			if(_rolledItem == null) return;
+			_rolledItem.parent.removeChild(_details);
 			_rolledItem = null;
-			TweenLite.to(_details, .25, {autoAlpha:0, width:_details.width*.9, height:_details.height*.9, onUpdate:_details.validate, removeChild:true});
 		}
 		
 	}

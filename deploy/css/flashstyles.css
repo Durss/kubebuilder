@@ -3,17 +3,19 @@
 .error { font-family:Verdana; font-size:12; color:#CC0000; }
 
 .link { color:#CC0000; text-decoration:underline; }
+.tooltipContent { font-family:Verdana; font-size:12; color:#ffffff; }
+.tooltipContentWarn { font-family:Verdana; font-weight:bold; font-size:12; color:#aa0000; }
 
 .errorWindowTitle { font-family:Verdana; font-weight:bold; font-size:12; color:#ffffff; }
 .errorWindowDescription { font-family:Verdana; font-size:10; color:#000000; }
 
-.input { font-family:Verdana; font-size:12; font-weight:bold; color:#000000; }
-.inputDefault { font-family:Verdana; font-size:12; font-weight:bold; color:#000000; }
+.input { font-family:Verdana; font-size:12; font-weight:bold; font-style:normal; color:#265367; }
+.inputDefault { font-family:Verdana; font-size:12; font-weight:normal; font-style:italic; color:#265367; }
 
 .button { font-family:Verdana; font-size:12; font-weight:bold; color:#265367; flash-alpha:1; }
-.buttonBig_over { font-family:Verdana; font-size:12; font-weight:bold; color:#36748D; }
-.buttonBig_down { font-family:Verdana; font-size:12; font-weight:bold; color:#234B5C; }
-.buttonBig_disabled { font-family:Verdana; font-size:12; font-weight:bold; color:#234B5C; flash-alpha:.4; }
+.button_over { font-family:Verdana; font-size:12; font-weight:bold; color:#36748D; }
+.button_down { font-family:Verdana; font-size:12; font-weight:bold; color:#234B5C; }
+.button_disabled { font-family:Verdana; font-size:12; font-weight:bold; color:#234B5C; flash-alpha:.4; }
 
 .buttonBig { font-family:Verdana; font-size:25; font-weight:bold; color:#265367; flash-alpha:1; }
 .buttonBig_over { font-family:Verdana; font-size:25; font-weight:bold; color:#36748D; }
@@ -29,7 +31,10 @@
 
 
 /* KUBE RANK STYLES */
+.warnKube { color:#8E2424; }
 .menuTitle { font-family:Verdana; font-size:25; font-weight:bold; color:#265367; }
+.menuTitleSearchLabel { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; text-align:right; }
+.votedText { font-family:Verdana; font-size:15; font-weight:bold; font-style:italic; color:#ffffff; }
 .kubeDetails { font-family:Verdana; font-size:16; color:#ffffff; }
 
 .checkBox { font-family:Verdana; font-size:14; color:#265367; }

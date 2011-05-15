@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.vo {
+	import com.nurun.core.lang.boolean.parseBoolean;
 	import flash.events.Event;
 	import flash.events.EventDispatcher;
 	import mx.utils.Base64Decoder;
@@ -23,10 +24,11 @@ package com.muxxu.kube.kuberank.vo {
 		private var _file:String;
 		private var _pseudo:String;
 		private var _date:Number;
-		private var _votes:Number;
 		private var _kub:KUBData;
 		private var _defaultIndex:int;
 		private var _rawData:XML;
+		private var _voted:Boolean;
+		private var _votes:Number;
 		
 		
 		
@@ -65,9 +67,13 @@ package com.muxxu.kube.kuberank.vo {
 
 		public function get date():Number { return _date; }
 
-		public function get votes():Number { return _votes; }
-
 		public function get kub():KUBData { return _kub; }
+
+		public function get voted():Boolean { return _voted; }
+
+		public function set voted(value:Boolean):void { _voted = value; }
+
+		public function get votes():Number { return _votes; }
 
 
 
@@ -85,8 +91,9 @@ package com.muxxu.kube.kuberank.vo {
 			_file = xml.@file;
 			_pseudo = xml.@pseudo;
 			_date = parseInt(xml.@date);
-			_votes = parseInt(xml.@votes);
 			_kub = new KUBData();
+			_voted = parseBoolean(xml.@voted);
+			_votes = parseInt(xml.@votes);
 			var decoder:Base64Decoder = new Base64Decoder();
 			decoder.decode(xml[0]);
 			_kub.fromByteArray(decoder.drain());

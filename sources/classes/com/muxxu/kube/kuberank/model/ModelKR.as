@@ -1,14 +1,17 @@
 package com.muxxu.kube.kuberank.model {
-	import com.nurun.structure.mvc.views.ViewLocator;
 	import com.muxxu.kube.common.events.KubeModelEvent;
 	import com.muxxu.kube.kuberank.cmd.LoadCubesCmd;
+	import com.muxxu.kube.kuberank.cmd.VoteCmd;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.mvc.model.IModel;
+	import com.nurun.structure.mvc.views.ViewLocator;
 
 	import flash.events.EventDispatcher;
+	import flash.net.URLRequest;
+	import flash.net.navigateToURL;
 	
 	/**
 	 * 
@@ -18,7 +21,6 @@ package com.muxxu.kube.kuberank.model {
 		
 		private const _ITEMS_PER_PAGE:int = 18;
 		private var _data:CubeDataCollection;
-		private var _cmd:LoadCubesCmd;
 		private var _sortByDate:Boolean;
 		private var _totalResults:Number;
 		private var _startIndex:int;
@@ -27,6 +29,8 @@ package com.muxxu.kube.kuberank.model {
 		private var _top3Mode:Boolean;
 		private var _openedCube:CubeData;
 		private var _lock:Boolean;
+		private var _votesDone:Number;
+		private var _votesTotal:Number;
 		
 		
 		
@@ -59,6 +63,12 @@ package com.muxxu.kube.kuberank.model {
 
 		public function get openedCube():CubeData { return _openedCube; }
 
+		public function get votesDone():Number { return _votesDone; }
+
+		public function get votesTotal():Number { return _votesTotal; }
+
+		public function get userName():String { return _userName; }
+
 
 
 		/* ****** *
@@ -79,10 +89,29 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function loadCubes():void {
 			//Do not clear the previous command, that the item are still loaded
-			//and there won't be "holes" in the slide.
-			_cmd = new LoadCubesCmd(Config.getPath("getKubes"), _startIndex, _length, _userName, _sortByDate);
-			_cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
-			_cmd.execute();
+			// and there won't be "holes" in the slide.
+			var cmd:LoadCubesCmd = new LoadCubesCmd(Config.getPath("getKubes"), _startIndex, _length, _userName, _sortByDate);
+			cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+		
+		/**
+		 * Votes for a specific kube
+		 */
+		public function vote(cube:CubeData):void {
+			lock();
+			var cmd:VoteCmd = new VoteCmd(Config.getPath("postVote"), cube.id.toString());
+			cmd.addEventListener(CommandEvent.COMPLETE, voteCubeCompleteHandler);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+		
+		/**
+		 * Reports a specific kube as bad.
+		 */
+		public function report(cube:CubeData):void {
+			
 		}
 		
 		/**
@@ -93,7 +122,7 @@ package com.muxxu.kube.kuberank.model {
 		public function sort(byDate:Boolean):void {
 			lock();
 			_sortByDate = byDate;
-			_top3Mode = false;//!_sortByDate;
+			_top3Mode = false;
 			_startIndex = 0;
 			_length = _top3Mode? 3 : _ITEMS_PER_PAGE * 2;
 			_data.clear();
@@ -140,15 +169,21 @@ package com.muxxu.kube.kuberank.model {
 			lock();
 			_userName = userName;
 			_top3Mode = false;
+			_startIndex = 0;
+			_length = _ITEMS_PER_PAGE * 2;
 			loadCubes();
 		}
 		
 		/**
 		 * Opens a cube
 		 */
-		public function openKube(data:CubeData):void {
-			_openedCube = data;
-			update();
+		public function openKube(vo:CubeData):void {
+			if(vo.id == -1) {
+				navigateToURL(new URLRequest(Config.getPath("editorPage")), "_self");
+			}else{
+				_openedCube = vo;
+				update();
+			}
 		}
 		
 		/**
@@ -171,6 +206,13 @@ package com.muxxu.kube.kuberank.model {
 		private function initialize():void {
 			_data = new CubeDataCollection();
 			_userName = "";
+			_votesDone = Config.getNumVariable("votesDone");
+			_votesTotal = Config.getNumVariable("votesTotal");
+			//Opens default kube if a directKube is defined (direct link to a specific kube)
+			if(Config.getVariable("directKube") != null) {
+				_openedCube = new CubeData(0);
+				_openedCube.populate(new XML(Config.getVariable("directKube")));
+			}
 		}
 		
 		/**
@@ -185,6 +227,16 @@ package com.muxxu.kube.kuberank.model {
 		}
 		
 		/**
+		 * Called when cube's vote completes.
+		 */
+		private function voteCubeCompleteHandler(event:CommandEvent):void {
+			_votesDone = parseInt(XML(event.data).child("result").@votesDone);
+			_votesTotal = parseInt(XML(event.data).child("result").@totalVotes);
+			update();
+			unlock();
+		}
+		
+		/**
 		 * Fires an update to the views.
 		 */
 		private function update():void {
@@ -194,7 +246,7 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Tells the view that the model is locked
 		 */
-		private function lock():void {
+		private function lock(...args):void {
 			_lock = true;
 			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.LOCK, this));
 		}
@@ -202,7 +254,7 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Tells the view that the model is unlocked
 		 */
-		private function unlock():void {
+		private function unlock(...args):void {
 			_lock = true;
 			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.UNLOCK, this));
 		}

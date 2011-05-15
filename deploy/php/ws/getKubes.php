@@ -1,27 +1,36 @@
 <?php
 header("Content-type: text/xml");
+
+// Connection Mysql et récupération de la liste des kubes
+include '../constants.php';
+include '../connection.php';
+include '../getUserInfos.php';
+include '../secure.php';
 		
 $resultCode = 0;
 //TODO gérer les cas d'erreurs SQL
 
 //If a user name is specified gets its ID to search its kubes.
 if (isset($_POST['userName']) && strlen($_POST['userName']) > 0) {
-	$sql = "SELECT uid FROM users WHERE name_low = '%".secure_string(strtolower($_POST['userName']))."'%";
-	$res = mysql_query($sql);
-	if (mysql_num_rows($result) > 0) {
-		$user = mysql_fetch_assoc($res);
-		$_POST['ownerId'] = $user['uid'];
+	$sql = "SELECT id FROM users WHERE name_low='".secure_string(strtolower($_POST['userName']))."'";
+	$req = mysql_query($sql);
+	if ($req !== false && mysql_num_rows($req) > 0) {
+		$user = mysql_fetch_assoc($req);
+		$_POST['ownerId'] = $user['id'];
+	}else {
+		$_POST['ownerId'] = -1;
+		$resultCode = "UserNotFound";
 	}
 }
 
 //Build request
 if (isset($_POST['orderBy']) && $_POST['orderBy'] == 'date')
-	$order = "ORDER BY `kubes`.`date` DESC, `kubes`.`date` DESC";
+	$order = "ORDER BY `kubes`.`date` DESC, `kubes`.`score` ASC";
 else
 	$order = "ORDER BY `kubes`.`score` DESC, `kubes`.`date` DESC";
 	
 if (isset($_POST['ownerId']) && $_POST['ownerId'] == intval($_POST['ownerId']))
-	$where = "WHERE uid='".$_POST[ownerId]."'";
+	$where = "WHERE uid=".intval($_POST['ownerId']);
 else
 	$where = "";
 
@@ -42,10 +51,6 @@ else
 	$length = 50;
 }
 
-// Connection Mysql et récupération de la liste des kubes
-include '../connection.php';
-include '../getUserInfos.php';
-
 //Gets the number of results
 $sql = "SELECT COUNT(*) as `total` FROM kubes ".$where;
 $query = mysql_query($sql);
@@ -55,25 +60,34 @@ $totalKubes = intval($res["total"]);
 $req = "SELECT * FROM kubes ".$where." ".$order." LIMIT ".$start.",".$length;
 $kubes = mysql_query($req);
 $kubeNodes = "";
-
+$uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
+if(mysql_num_rows($kubes) == 0 && $resultCode === 0) {
+	$resultCode = "NoResultsForThisUser";
+}
 while ($kube = mysql_fetch_assoc($kubes))
 {
-	$req = "SELECT name FROM users WHERE id=".$kube['uid'];
-	$user = mysql_fetch_assoc(mysql_query($req));
-	
-	if(isset($_UID)) {
-		$req = "SELECT COUNT(*) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
-		$uvote = mysql_fetch_assoc(mysql_query($req));
-		$uvote_ok = intval($uvote['total'])>0? 1 : 0;
+	if(!isset($uidCache[$kube['uid']])) {
+		$req = "SELECT name FROM users WHERE id=".$kube['uid'];
+		$user = mysql_fetch_assoc(mysql_query($req));
+		$uidCache[$kube['uid']] = $user;
 	}else {
-		$uvote_ok = 1;
+		//If user's informations have already been loaded, just load them back from cache.
+		$user = $uidCache[$kube['uid']];
+	}
+	
+	if (isset($_UID)) {
+		$req = "SELECT COUNT(kid) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
+		$uvote = mysql_fetch_assoc(mysql_query($req));
+		$voted = intval($uvote['total']) > 0? true : false;
+	}else {
+		$voted = true;
 	}
 	
 	$fileName = "../../kubes/".$kube['file'].".kub";
 	$handle = fopen($fileName, "r");
 	$fileContent = base64_encode(fread($handle, filesize($fileName)));
 	fclose($handle);
-	$kubeNodes .= "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" uvote=\"".$uvote_ok."\"><![CDATA[".$fileContent."]]></kube>\r\n";
+	$kubeNodes .= "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" voted=\"".$voted."\"><![CDATA[".$fileContent."]]></kube>\r\n";
 }
 
 // Retour du xml

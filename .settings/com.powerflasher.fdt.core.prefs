@@ -1,4 +1,4 @@
-#Mon Apr 18 01:28:36 CEST 2011
+#Sun May 08 14:15:50 CEST 2011
 com.powerflasher.fdt.core.CompatiblePlayers=External_SWF_Viewer\:Browser\:Standalone_Flash_Player
 com.powerflasher.fdt.core.CompilerArguments=-target-player\={playerVersion}\n-library-path+\="{flexSDK}/frameworks/locale/en_US"\n-default-size\=550,400
 com.powerflasher.fdt.core.DefaultOutputFolder=deploy/swf
@@ -11,5 +11,5 @@ com.powerflasher.fdt.core.PassSwcs=true
 com.powerflasher.fdt.core.PlayerVersion=10.1
 com.powerflasher.fdt.core.ProjectTypeHint=Flex 4
 com.powerflasher.fdt.core.Runtime=Flash_Player
-com.powerflasher.fdt.core.SdkName=Flex 4.5
+com.powerflasher.fdt.core.SdkName=Flex 4.1
 eclipse.preferences.version=1

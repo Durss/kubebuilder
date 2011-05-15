@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.cmd {
+	import com.muxxu.kube.common.error.KubeExceptionLevel;
+	import com.muxxu.kube.common.error.KubeException;
 	import com.nurun.core.commands.Command;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.label.Label;
@@ -47,14 +49,15 @@ package com.muxxu.kube.kuberank.cmd {
 				data = new XML(URLLoader(event.target).data);
 			}catch(error:Error) {
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR));
-				throw new Error(Label.getLabel("errorLoadResultFormat"));
+				throw new KubeException(Label.getLabel("errorLoadResultFormat"), KubeExceptionLevel.ERROR);
 			}
+			
 			var result:String = data.child("result")[0];
 			if(result == "0") {
 				dispatchEvent(new CommandEvent(CommandEvent.COMPLETE, data));
 			}else{
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR));
-				throw new Error(Label.getLabel("errorLoadResult"+result));
+				throw new KubeException(Label.getLabel("errorLoadResult"+result), KubeExceptionLevel.ERROR);
 			}
 		}
 		
@@ -63,7 +66,7 @@ package com.muxxu.kube.kuberank.cmd {
 		 */
 		override protected function loadErrorHandler(event:IOErrorEvent):void {
 			super.loadErrorHandler(event);
-			throw new Error(Label.getLabel("errorLoadResult404"));
+			throw new KubeException(Label.getLabel("errorLoadResult404"), KubeExceptionLevel.ERROR);
 		}
 	}
 }

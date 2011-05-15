@@ -115,6 +115,7 @@ package com.muxxu.kube.common {
 			graphics.beginFill(0x4CA5CD, 1);
 			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 			graphics.endFill();
+			_background.y = stage.stageHeight - _background.height - 80;
 		}
 		
 		/**

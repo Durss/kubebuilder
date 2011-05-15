@@ -86,18 +86,21 @@ package com.muxxu.kube.common.components {
 		public function populate(data:CubeData):void {
 			var details:String;
 
-			var date:Date = new Date(data.date * 1000);
-			if(new Date().getDay() != date.getDay()) {
-				details = Label.getLabel("kubeDetails");
-				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_w_/_m_/_Y_"));
+			if(data.id > -1) {
+				var date:Date = new Date(data.date * 1000);
+				if(new Date().getDay() == date.getDay() && new Date().getTime() - date.getTime() < 24 * 60 * 60 * 1000) {
+					details = Label.getLabel("kubeDetailsToday");
+					details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_h_:_i_"));
+				}else{
+					details = Label.getLabel("kubeDetails");
+					details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_w_/_m_/_Y_"));
+				}
+				details = details.replace(/\{KUBE_NAME\}/gi, data.name);
+				details = details.replace(/\{USER_ID\}/gi, data.uid);
+				details = details.replace(/\{USER_NAME\}/gi, data.userName);
 			}else{
-				details = Label.getLabel("kubeDetailsToday");
-				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_h_:_I_"));
+				details = Label.getLabel("clickToCreate");
 			}
-			details = details.replace(/\{KUBE_NAME\}/gi, data.name);
-			details = details.replace(/\{USER_ID\}/gi, data.uid);
-			details = details.replace(/\{USER_NAME\}/gi, data.userName);
-			
 			_infos.text = details;
 			
 			_invalidator.invalidate();
