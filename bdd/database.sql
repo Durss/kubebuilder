@@ -1,19 +1,13 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 3.3.9
 -- http://www.phpmyadmin.net
 --
 -- Serveur: localhost
--- Généré le : Dim 08 Mai 2011 à 20:00
+-- Généré le : Dim 15 Mai 2011 à 23:16
 -- Version du serveur: 5.1.53
 -- Version de PHP: 5.3.4
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Base de données: `kubebuilder`
@@ -48,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `kubes` (
   `file` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `score` int(11) unsigned NOT NULL,
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=103 ;
 
 -- --------------------------------------------------------
 
