@@ -4,11 +4,14 @@ package com.muxxu.kube.kuberank.components {
 
 	import com.muxxu.kube.common.components.cube.CubeFace;
 	import com.muxxu.kube.common.vo.KUBData;
+	import com.nurun.components.button.BaseButton;
 	import com.nurun.components.volume.Cube;
 
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.geom.PerspectiveProjection;
+	import flash.geom.Point;
 	import flash.utils.ByteArray;
 	
 	/**
@@ -66,6 +69,7 @@ package com.muxxu.kube.kuberank.components {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
+			mouseChildren = false;
 			_cube = addChild(new Cube()) as Cube;
 			_cube.width = _cube.height = _cube.depth = 32;
 			var data:KUBData = new KUBData();
@@ -80,6 +84,15 @@ package com.muxxu.kube.kuberank.components {
 			_cube.y = _cube.height * .5;
 			_cube.validate();
 			
+			//Hit bounds to prevent from rollout when mouse is on a edge of the cube.
+			graphics.beginFill(0xff0000, 0);
+			graphics.drawRect(0, 0, _cube.width, _cube.height);
+			graphics.endFill();
+
+			var pp:PerspectiveProjection = new PerspectiveProjection();
+			pp.projectionCenter = new Point(0,0);
+			_cube.transform.perspectiveProjection = pp;
+			
 			addEventListener(Event.ADDED, addedHandler);
 		}
 		
@@ -88,8 +101,14 @@ package com.muxxu.kube.kuberank.components {
 		 */
 		private function addedHandler(event:Event):void {
 			removeEventListener(Event.ADDED, addedHandler);
-			parent.addEventListener(MouseEvent.ROLL_OVER, rollOverKubeHandler);
-			parent.addEventListener(MouseEvent.ROLL_OUT, rollOutKubeHandler);
+			if(parent is BaseButton) {
+				parent.addEventListener(MouseEvent.ROLL_OVER, rollOverKubeHandler);
+				parent.addEventListener(MouseEvent.ROLL_OUT, rollOutKubeHandler);
+			}else{
+				buttonMode = true;
+				addEventListener(MouseEvent.ROLL_OVER, rollOverKubeHandler);
+				addEventListener(MouseEvent.ROLL_OUT, rollOutKubeHandler);
+			}
 		}
 		
 		

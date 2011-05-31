@@ -17,9 +17,15 @@
 		<label code="raz"><![CDATA[RAZ]]></label>
 		<label code="image"><![CDATA[Image]]></label>
 		<label code="exportImage"><![CDATA[Exporter face]]></label>
-		<label code="openForm"><![CDATA[Envoyer]]></label>
+		<label code="downloadKub"><![CDATA[Enregistrer le kube]]></label>
+		<label code="uploadKub"><![CDATA[Charger un kube]]></label>
+		<label code="openForm"><![CDATA[Soumettre]]></label>
 		<label code="formTitle"><![CDATA[Donnez un petit nom à votre kube et laissez-le s'envoler au pays des kubes !]]></label>
 		<label code="formSubmit"><![CDATA[Valider]]></label>
+		
+		<label code="tooltipLoad"><![CDATA[Charger un kube enregistré sur votre ordinateur]]></label>
+		<label code="tooltipSave"><![CDATA[Enregistrer le kube sur votre ordinateur]]></label>
+		<label code="tooltipSubmit"><![CDATA[Envoyer votre kube sur le serveur]]></label>
 		
 		<label code="errorImageLoading"><![CDATA[Le chargement du fichier a échoué. Assurez-vous qu'il s'agisse bien d'un fichier image valide.]]></label>
 		<label code="errorSubmitResultFormat"><![CDATA[L'envoi du kube a échoué. Le format des données envoyées est invalide.]]></label>
@@ -45,10 +51,10 @@
 		<label code="errorVoteResultFormat"><![CDATA[Le vote a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorVoteResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 		
-		<label code="errorReportResultPost"><![CDATA[Le rapport a échoué. Paramètres de requêtes manquants.]]></label>
+		<label code="errorReportResultPost"><![CDATA[Le signalement a échoué. Paramètres de requêtes manquants.]]></label>
 		<label code="errorReportResultAuth"><![CDATA[L'authentification a échoué. Essayez de recharger la page.]]></label>
-		<label code="errorReportResultSql"><![CDATA[Le rapport a échoué. Une erreur SQL est survenue.]]></label>
-		<label code="errorReportResultFormat"><![CDATA[Le rapport a échoué. Le format des données retournées est invalide.]]></label>
+		<label code="errorReportResultSql"><![CDATA[Le signalement a échoué. Une erreur SQL est survenue.]]></label>
+		<label code="errorReportResultFormat"><![CDATA[Le signalement a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorReportResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
 		
 		<label code="sortTitle"><![CDATA[Trier par :]]></label>
@@ -68,23 +74,28 @@
 		<label code="kubeDetailsLong"><![CDATA[Nom du kube : <b>{KUBE_NAME}</b><br /><br />Créé par <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> le {DATE}]]></label>
 		<label code="kubeDetailsLongToday"><![CDATA[Nom du kube : <b>{KUBE_NAME}</b><br /><br />Créé par <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Aujourd'hui à {DATE}]]></label>
 		<label code="clickToCreate"><![CDATA[<font size="22"><b>Créer mon kube</b></font>]]></label>
-		<label code="vote"><![CDATA[J'aime ce kube]]></label>
+		<label code="vote"><![CDATA[Voter pour ce kube]]></label>
 		<label code="voted"><![CDATA[Tu as déjà voté pour ce kube]]></label>
+		<label code="confirmVote"><![CDATA[Ton vote a bien été enregistré!]]></label>
 		<label code="warn"><![CDATA[<span class="warnKube">Signaler ce kube</span>]]></label>
 		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Merci de n'utiliser ce bouton que si le kube représente un message raciste, obscène, insultant ou si vous êtes propriétaire de l'image qu'il représente!<br />Tout abus sera sanctionné par le retrait de votre droit de vote.</span>]]></label>
 		<label code="voteTooltip"><![CDATA[<b>Attention :</b> Il te reste <b>{VOTES}/{TOTAL}</b> votes pour aujourd'hui!]]></label>
+		<label code="voteInformations"><![CDATA[<b>Information :</b> Le vote de chaque joueur est pondéré en fonction de ses statistiques sur Kube.]]></label>
 		<label code="alreadyVotedTitle"><![CDATA[Vous avez déjà voté pour ce kube]]></label>
+		<label code="lastKubesTitle"><![CDATA[Dernières créations]]></label>
+		<label code="lastKubesNext"><![CDATA[Suite]]></label>
 	</labels>
 	
 	<vars>
-		<var code="key"><![CDATA[55a419c5210f8398e01335a347bf422d]]></var>
+		<var code="key"><![CDATA[0c66b1438ef5bd89ed4baf59455d9e6b]]></var>
 		<var code="lang"><![CDATA[fr]]></var>
-		<var code="stats"><![CDATA[false]]></var>
-		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
-		<!-- 
+		<var code="newItemsToShow"><![CDATA[8]]></var>
 		<var code="server"><![CDATA[http://www.muxxu.free.fr/kube/apps/kubebuilder]]></var>
+		<!-- 
+		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
 		 -->
-		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" uvote="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
+		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
+		<var code="nextKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIR9iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABBUlEQVR42pWT6Q6CQAyEef/XM6ICcq9c4pEQwl07jfqX7iaEkOx8nU6L4/DZ1pXyIKDweKT0cqHU8+heFLTMMznaM08TmTAUSMYwQJ5NQ9M42kPi00kgeOAERw1ZloXy61Vaic9nynyfHnVN27bZOSmSREAJQxKG1Xlu52QcBgkWELSFdmpj7CEQmyiSUOGkLUs7yND3VMQxRRwsIAi4rSo9BBchRJgAwU2lzQOXDIJk61WWSQ4AqMQYW5mmUhlvQDAZdWWkj628cUUEie9X2yptf1caot8Yu/dbZ1vSZtuwDjH67rtOIeY/Mjgc/hVleRiCXdgVr7z/ketKUD8xRocd2NN+AJv3n0eEWHuKAAAAAElFTkSuQmCCDAIMAgwCDIR9iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABBUlEQVR42pWT6Q6CQAyEef/XM6ICcq9c4pEQwl07jfqX7iaEkOx8nU6L4/DZ1pXyIKDweKT0cqHU8+heFLTMMznaM08TmTAUSMYwQJ5NQ9M42kPi00kgeOAERw1ZloXy61Vaic9nynyfHnVN27bZOSmSREAJQxKG1Xlu52QcBgkWELSFdmpj7CEQmyiSUOGkLUs7yND3VMQxRRwsIAi4rSo9BBchRJgAwU2lzQOXDIJk61WWSQ4AqMQYW5mmUhlvQDAZdWWkj628cUUEie9X2yptf1caot8Yu/dbZ1vSZtuwDjH67rtOIeY/Mjgc/hVleRiCXdgVr7z/ketKUD8xRocd2NN+AJv3n0eEWHuKAAAAAElFTkSuQmCCDIUPiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABDklEQVR42rWTiWrDMBBE9f+/F3I7vlUfqdsGjPE91ayV4kLrOoEKBJa082ZWwkr954AdT4uLLEMWx49DRJym8Pd7aM+TuRrCwlxrBMcjwtMJie8jchwkQYCPoliGjOOI3ESmgGLPJIjOZ2RRJMD4ckF5u+FX57c8l0LtuhKb7gRxLw3Dad/Mqiy/Q9qmwWuSiFtwOIgTC+uqkt61WfPsxUB5xoRNXU+Qvuvwfr3Kpm/F8bzApmMCd7udzi2QBorOjCl9m6i8rLl4fj8UEkIxE1Kn7mI+GQu6tsXSC4nQAjgVXUnlou97rHlmz5oJ4C5ecv6pHWezkddRvLBHxF+QYYC320E+nv3ZhhUt/zk+AcgQn0f+DjFbAAAAAElFTkSuQmCCBAAEAAyEfYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAQVJREFUeNqVk+kOgkAMhHn/1zOiAnKvXOKREMJdO436l+4mhJDsfJ1Oi+Pw2daV8iCg8Hik9HKh1PPoXhS0zDM52jNPE5kwFEjGMECeTUPTONpD4tNJIHjgBEcNWZaF8utVWonPZ8p8nx51Tdu22TkpkkRACUMShtV5budkHAYJFhC0hXZqY+whEJsoklDhpC1LO8jQ91TEMUUcLCAIuK0qPQQXIUSYAMFNpc0DlwyCZOtVlkkOAKjEGFuZplIZb0AwGXVlpI+tvHFFBInvV9sqbX9XGqLfGLv3W2db0mbbsA4x+u67TiHmPzI4HP4VZXkYgl3YFa+8/5HrSlA/MUaHHdjTfgCb959HhFh7igAAAABJRU5ErkJggg==]]></kube></var>
 	</vars>
 	
 	<paths>

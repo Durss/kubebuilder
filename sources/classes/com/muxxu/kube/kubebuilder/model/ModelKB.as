@@ -9,6 +9,7 @@ package com.muxxu.kube.kubebuilder.model {
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.IModel;
 	import com.nurun.structure.mvc.model.events.ModelEvent;
+
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.Loader;
@@ -43,6 +44,7 @@ package com.muxxu.kube.kubebuilder.model {
 		private var _imageModified:Boolean;
 		private var _postKubeCallback:Function;
 		private var _kubeSubmitted:Boolean;
+		private var _currentFaceId:String;
 		
 		
 		
@@ -124,6 +126,7 @@ package com.muxxu.kube.kubebuilder.model {
 		 * Sets the current face id to modify.
 		 */
 		public function setCurrentFace(face:String):void {
+			_currentFaceId = face;
 			switch(face){
 				case FaceIds.TOP:
 					_currentFace = _kubeData.faceTop;
@@ -184,6 +187,22 @@ package com.muxxu.kube.kubebuilder.model {
 		 */
 		public function exportFace():void {
 			_fr.save(PNGEncoder.encode(_currentFace), "face.png");
+		}
+		
+		/**
+		 * Downloads the .kub file
+		 */
+		public function downloadKub():void {
+			_browseMode = false;
+			_fr.save(_kubeData.toByteArray(), "kube.kub");
+		}
+		
+		/**
+		 * Uploads a .kub file
+		 */
+		public function uploadKub():void {
+			_browseMode = true;
+			_fr.browse([new FileFilter(".KUB file", "*.kub")]);
 		}
 		
 		/**
@@ -251,7 +270,12 @@ package com.muxxu.kube.kubebuilder.model {
 
 		private function loadFileCompleteHandler(event:Event):void {
 			if(_browseMode) {
-				_imageLoader.loadBytes(_fr.data);
+				if(/.*\.kub$/gi.test(_fr.name)) {
+					_kubeData.fromByteArray(_fr.data);
+					setCurrentFace(_currentFaceId);
+				}else{
+					_imageLoader.loadBytes(_fr.data);
+				}
 			}
 		}
 		

@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.cmd {
+	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.error.KubeException;
 	import com.nurun.core.commands.Command;
@@ -20,12 +21,15 @@ package com.muxxu.kube.kuberank.cmd {
 	public class VoteCmd extends LoadFileCmd implements Command {
 		
 
+		private var _cubeData:CubeData;
+
 		/**
 		 * Constructor
 		 */
-		public function  VoteCmd(wsUrl:String, cubeId:String) {
+		public function  VoteCmd(wsUrl:String, cubeData:CubeData) {
+			_cubeData = cubeData;
 			super(wsUrl);
-			_urlVariables["kid"] = cubeId;
+			_urlVariables["kid"] = cubeData.id.toString();
 		}
 
 		/**
@@ -55,6 +59,10 @@ package com.muxxu.kube.kuberank.cmd {
 		override protected function loadErrorHandler(event:IOErrorEvent):void {
 			super.loadErrorHandler(event);
 			throw new KubeException(Label.getLabel("errorVoteResult404"), KubeExceptionLevel.ERROR);
+		}
+
+		public function get cubeData():CubeData {
+			return _cubeData;
 		}
 	}
 }

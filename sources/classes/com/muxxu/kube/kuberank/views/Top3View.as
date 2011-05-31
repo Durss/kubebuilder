@@ -11,10 +11,12 @@ package com.muxxu.kube.kuberank.views {
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
 	import com.nurun.components.button.events.NurunButtonEvent;
+	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 
 	import flash.events.Event;
+	import flash.filters.BevelFilter;
 	import flash.filters.DropShadowFilter;
 	import flash.geom.Point;
 	
@@ -30,6 +32,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _lastVersion:Number;
 		private var _details:CubeDetailsWindow;
 		private var _rolledItem:CubeResult;
+		private var _labels:Vector.<CssTextField>;
 		
 		
 		
@@ -80,12 +83,14 @@ package com.muxxu.kube.kuberank.views {
 					_cubes[i].visible = true;
 					_cubes[i].stopAllAnimations();
 					TweenLite.killTweensOf(_cubes[i]);
+					TweenLite.killTweensOf(_labels[i]);
 				}
 				TweenLite.to(this, .25, {autoAlpha:0, delay:.25});
 				TweenLite.to(_podium, .5, {frame:1, ease:Sine.easeInOut});
 				TweenLite.to(_podium._maskMc, .5, {frame:1, ease:Sine.easeInOut});
 				for(i = 0; i < len; ++i) {
 					TweenLite.to(_cubes[i], .5, {y:"-50", autoAlpha:0, delay:(len-i)*.1, ease:Sine.easeInOut});
+					TweenLite.to(_labels[i], .1, {y:"80", autoAlpha:0, delay:(len-i-1)*.1, ease:Sine.easeInOut});
 				}
 			}
 		}
@@ -110,11 +115,16 @@ package com.muxxu.kube.kuberank.views {
 			_podium.stop();
 			_podium._maskMc.stop();
 							
-			var i:int, len:int, cube:CubeResult;
+			var i:int, len:int, cube:CubeResult, tf:CssTextField;
 			len = 3;
 			_cubes = new Vector.<CubeResult>(len, true);
+			_labels = new Vector.<CssTextField>(len, true);
 			for(i = 0; i < len; ++i) {
-				cube = addChildAt(new CubeResult(), 1) as CubeResult;
+				tf = addChildAt(new CssTextField("top3Pseudo"), 1) as CssTextField;
+				tf.width = 130;
+				tf.filters = [new BevelFilter(1,230,0xffffff,.6,0,.6,1,1,2,3,"outer")];
+				_labels[i] = tf;
+				cube = addChild(new CubeResult()) as CubeResult;
 				_cubes[i] = cube;
 			}
 			
@@ -147,15 +157,25 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		private function populate(data:CubeDataCollection):void {
 			var i:int, len:int, start:Point;
-			var positions:Array = [new Point(270, -30), new Point(100, 15), new Point(430, 70)];
+			var positions:Array = [new Point(270, -45), new Point(100, 0), new Point(430, 60)];
+			var labelsPos:Array = [new Point(275, 70), new Point(90, 100), new Point(440, 140)];
 			var sizes:Array = [77, 66, 55];
 			len = 3;
 			for(i = 0; i < len; ++i) {
 				start = Point(positions[i]).clone();
-				start.y = -250;
+				start.y = -310;
 				_cubes[i].alpha = 1;
 				_cubes[i].visible = true;
-				_cubes[i].populate(data.getItemAt(i), start, positions[i], sizes[i], i + 2);
+				_cubes[i].populate(data.getItemAt(i), start, positions[i], sizes[i] + 20, i + 2);
+				
+				_labels[i].alpha = 0;
+				_labels[i].visible = false;
+				_labels[i].text = data.getItemAt(i).userName;
+				_labels[i].x = Math.round(labelsPos[i].x - _labels[i].width * .5);
+				_labels[i].y = labelsPos[i].y;
+				TweenLite.killTweensOf(_cubes[i]);
+				TweenLite.killTweensOf(_labels[i]);
+				TweenLite.to(_labels[i], .5, {autoAlpha:1, delay:.8});
 				TweenLite.killDelayedCallsTo(_cubes[i].doOpeningTransition);
 				TweenLite.delayedCall((3-i)*.5, _cubes[i].doOpeningTransition, [(len-i)*.5 - (3-i)*.5]);
 			}

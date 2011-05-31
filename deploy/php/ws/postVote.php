@@ -28,7 +28,7 @@ if (isset($_UID, $_UNAME))
 			
 				//Check votes for this kube
 				if(ONE_VOTE_PER_KUBE) {
-					$sql = "SELECT COUNT(uid) as total FROM `evaluation` WHERE kid=".$kid;
+					$sql = "SELECT COUNT(uid) as total FROM `evaluation` WHERE kid=".$kid." AND uid=".$kid;
 					$req = mysql_query($sql);
 				}
 				if (ONE_VOTE_PER_KUBE && $req === false) {

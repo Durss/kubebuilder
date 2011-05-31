@@ -213,6 +213,9 @@ package com.muxxu.kube.kuberank.components {
 			_wingRight.rotation = -50;
 			_wingLeft.filters = _wingRight.filters = [new BlurFilter(0,8,2)];
 			_holder.filters = [];
+			_cube.rotationX = 0;
+			_cube.rotationY = 0;
+			_cube.rotationZ = 0;
 			
 			_starFalls = !simple;
 			if(_starFalls) {

@@ -54,8 +54,9 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:ModelKR = event.model as ModelKR;
-			_paginationForm.update(model.top3Mode);
-			_paginationForm.visible = !model.sortByDate;
+			_paginationForm.update(model.top3Mode, model.sortByDate);
+			_paginationForm.visible = true;//!model.sortByDate;
+			_sortForm.update(model.sortByDate);
 		}
 
 

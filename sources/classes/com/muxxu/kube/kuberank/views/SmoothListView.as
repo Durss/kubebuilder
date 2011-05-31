@@ -76,10 +76,12 @@ package com.muxxu.kube.kuberank.views {
 		 * @inheritDoc
 		 */
 		override public function update(event:IModelEvent):void {
+			TweenLite.killTweensOf(this);
 			var model:ModelKR = event.model as ModelKR;
 			if(!model.top3Mode) {
 				var resetChange:Boolean = (_lastSortType != model.sortByDate || _lastUserName != model.userName);
 				if(model.data.version != _lastVersion) {
+					//If already opened but new sort type, hide, populate then show back the view.
 					if(_opened && resetChange) {
 						TweenLite.to(this, .35, {x:-15, autoAlpha:0, ease:Sine.easeIn, onComplete:populate, onCompleteParams:[model.data, resetChange]});
 						TweenLite.to(this, .35, {x:0, autoAlpha:1, delay:.5, ease:Sine.easeOut, onComplete:onShowComplete});
@@ -87,6 +89,7 @@ package com.muxxu.kube.kuberank.views {
 						populate(model.data);
 					}
 				}
+				//if view is closed, show it.
 				if(!_opened) {
 					_opened = true;
 					TweenLite.to(this, .25, {autoAlpha:1, delay:.5});
@@ -97,6 +100,8 @@ package com.muxxu.kube.kuberank.views {
 					_scrollbar.height = stage.stageWidth;
 					_scrollbar.y = 400 + 13;
 				}else if(model.data.version != _lastVersion && !resetChange && model.data.length > _lastLength){
+					//If the view si already opened and if it's not a sort update
+					//then display the load signal.
 					_loadSignal.y = Math.round((400 - 100) * .5);
 					_loadSignal.x = Math.round(stage.stageWidth - 100);
 					TweenLite.to(_loadSignal, .5, {autoAlpha:1});
@@ -110,6 +115,7 @@ package com.muxxu.kube.kuberank.views {
 				graphics.drawRect(0, 0, stage.stageWidth, _scrollbar.y);
 				graphics.endFill();
 			}else{
+				//Close the view
 				_opened = false;
 				TweenLite.to(this, .25, {autoAlpha:0});
 				stage.removeEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
@@ -137,10 +143,10 @@ package com.muxxu.kube.kuberank.views {
 			_emptyItem.populate(new XML(Config.getVariable("defaultKube")).child("kube")[0]);
 			
 			for(i = 0; i < len; ++i) {
-				engine = new TileEngine(TileEngineItem, 75, 130, 800, 70);
+				engine = new TileEngine(TileEngineItem, 72, 130, 800, 70);
 				engine.disableMask();
 				addChild(engine);
-				engine.y = i * 130 + 30;
+				engine.y = i * 120 + 30;
 				engine.x = 30;
 				engine.addEventListener(TileEngineEvent.CLICK, clickCubeHandler);
 				engine.addEventListener(TileEngineEvent.ROLL_OVER, mouseOverCubeHandler);
@@ -190,8 +196,6 @@ package com.muxxu.kube.kuberank.views {
 					}
 				}
 			}
-			
-			_lastLength = data.length;
 		}
 		
 		/**
@@ -243,12 +247,12 @@ package com.muxxu.kube.kuberank.views {
 			if(_rolledItem != null) {
 				_details.width = Math.round(_rolledItem.width * 1.2 + 170);
 				_details.height = Math.round(_rolledItem.height);
-				_details.x = Math.round(_rolledItem.x - _rolledItem.width * .2);
-				_details.y = Math.round(_rolledItem.y - _rolledItem.height * .2);
+				_details.x = Math.round(_rolledItem.x - _rolledItem.width * .15);
+				_details.y = Math.round(_rolledItem.y - _rolledItem.height * .07);
 				
 				if(_details.x + _details.width + 50 > stage.stageWidth) {
 					_details.displayLeft = true;
-					_details.x = Math.round(_rolledItem.x + _rolledItem.width * .8 - _details.width);
+					_details.x = Math.round(_rolledItem.x + _rolledItem.width * 1.1 - _details.width);
 				}else{
 					_details.displayLeft = false;
 				}
@@ -317,10 +321,6 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		private function mouseOverCubeHandler(event:TileEngineEvent):void {
 			_rolledItem = event.item as TileEngineItem;
-//			if(CubeData(_rolledItem.getData()).id == -1) {
-//				_rolledItem = null;
-//				return;
-//			}
 			_rolledItem.parent.addChild(_details);
 			_rolledItem.parent.addChild(_rolledItem);
 			addChild(_rolledItem.parent.parent as TileEngine);

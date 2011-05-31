@@ -88,9 +88,9 @@ package com.muxxu.kube.kuberank.model {
 		 * Loads the cubes list
 		 */
 		public function loadCubes():void {
-			//Do not clear the previous command, that the item are still loaded
-			// and there won't be "holes" in the slide.
-			var cmd:LoadCubesCmd = new LoadCubesCmd(Config.getPath("getKubes"), _startIndex, _length, _userName, _sortByDate);
+			//Do not clear the previous command, that, the items are still loaded
+			//and there won't be "holes" in the slide.
+			var cmd:LoadCubesCmd = new LoadCubesCmd(Config.getPath("getKubes"), _startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0);
 			cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
@@ -101,7 +101,7 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function vote(cube:CubeData):void {
 			lock();
-			var cmd:VoteCmd = new VoteCmd(Config.getPath("postVote"), cube.id.toString());
+			var cmd:VoteCmd = new VoteCmd(Config.getPath("postVote"), cube);
 			cmd.addEventListener(CommandEvent.COMPLETE, voteCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
@@ -124,7 +124,7 @@ package com.muxxu.kube.kuberank.model {
 			_sortByDate = byDate;
 			_top3Mode = false;
 			_startIndex = 0;
-			_length = _top3Mode? 3 : _ITEMS_PER_PAGE * 2;
+			_length = _ITEMS_PER_PAGE * 2;
 			_data.clear();
 			loadCubes();
 		}
@@ -159,6 +159,7 @@ package com.muxxu.kube.kuberank.model {
 			_top3Mode = true;
 			_startIndex = 0;
 			_length = 3;
+			_data.clear();
 			loadCubes();
 		}
 		
@@ -230,6 +231,7 @@ package com.muxxu.kube.kuberank.model {
 		 * Called when cube's vote completes.
 		 */
 		private function voteCubeCompleteHandler(event:CommandEvent):void {
+			VoteCmd(event.target).cubeData.voted = true;
 			_votesDone = parseInt(XML(event.data).child("result").@votesDone);
 			_votesTotal = parseInt(XML(event.data).child("result").@totalVotes);
 			update();

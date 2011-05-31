@@ -67,12 +67,18 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Sets the current cube's data.
 		 */
 		public function populate(data:CubeData, votesDone:int, votesTotal:int):void {
+			if(data == _data) {
+				_votedTxt.text = Label.getLabel("confirmVote");
+			}else{
+				_votedTxt.text = Label.getLabel("voted");
+			}
 			_votesDone = votesDone;
 			_votesTotal = votesTotal;
 			_data = data;
 			_voteBt.enabled = !_data.voted;
 			_voteBt.alpha = _data.voted? .25 : 1;
 			_votedTxt.visible = _data.voted;
+			computePositions();
 		}
 
 
@@ -94,8 +100,6 @@ package com.muxxu.kube.kuberank.components.form {
 			_tooltipMessages = new Dictionary();
 			_tooltipMessages[_voteBt] = Label.getLabel("voteTooltip");
 			_tooltipMessages[_alertBt] = Label.getLabel("warnTooltip");
-			
-			_votedTxt.text = Label.getLabel("voted");
 			
 			_tooltip.mouseEnabled = false;
 			_tooltip.mouseChildren = false;

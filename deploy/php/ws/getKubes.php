@@ -57,15 +57,11 @@ $query = mysql_query($sql);
 $res = mysql_fetch_assoc($query);
 $totalKubes = intval($res["total"]);
 
-$req = "SELECT * FROM kubes ".$where." ".$order." LIMIT ".$start.",".$length;
-$kubes = mysql_query($req);
-$kubeNodes = "";
-$uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
-if(mysql_num_rows($kubes) == 0 && $resultCode === 0) {
-	$resultCode = "NoResultsForThisUser";
-}
-while ($kube = mysql_fetch_assoc($kubes))
-{
+/**
+ * Gets the details about a kube
+ */
+function getKubeDetails($kube) {
+	global $uidCache, $_UID;
 	if(!isset($uidCache[$kube['uid']])) {
 		$req = "SELECT name FROM users WHERE id=".$kube['uid'];
 		$user = mysql_fetch_assoc(mysql_query($req));
@@ -78,16 +74,47 @@ while ($kube = mysql_fetch_assoc($kubes))
 	if (isset($_UID)) {
 		$req = "SELECT COUNT(kid) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
 		$uvote = mysql_fetch_assoc(mysql_query($req));
-		$voted = intval($uvote['total']) > 0? true : false;
+		$voted = intval($uvote['total']) > 0? "true" : "false";
 	}else {
-		$voted = true;
+		$voted = "true";
 	}
+	
+	return array("voted" => $voted, "user" => $user);
+}
+
+/**
+ * Creates the XML node of a kube
+ */
+function createKubeNode($kube) {
+	$details = getKubeDetails($kube);
 	
 	$fileName = "../../kubes/".$kube['file'].".kub";
 	$handle = fopen($fileName, "r");
 	$fileContent = base64_encode(fread($handle, filesize($fileName)));
 	fclose($handle);
-	$kubeNodes .= "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" voted=\"".$voted."\"><![CDATA[".$fileContent."]]></kube>\r\n";
+	return "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($details['user']['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" voted=\"".$details['voted']."\"><![CDATA[".$fileContent."]]></kube>\r\n";
+
+}
+
+$req = "SELECT * FROM kubes ".$where." ".$order." LIMIT ".$start.",".$length;
+$kubes = mysql_query($req);
+$kubeNodes = "";
+$lastKubesNode = "";
+$uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
+if(mysql_num_rows($kubes) == 0 && $resultCode === 0) {
+	$resultCode = "NoResultsForThisUser";
+}
+while ($kube = mysql_fetch_assoc($kubes)) {
+	$kubeNodes .= createKubeNode($kube);
+}
+
+//If last added kubes asked, load them
+if(isset($_POST["lastToLoad"]) && intval($_POST["lastToLoad"]) > 0) {
+	$req = "SELECT * FROM kubes ORDER BY date DESC LIMIT 0,".intval($_POST["lastToLoad"]);
+	$kubes = mysql_query($req);
+	while ($kube = mysql_fetch_assoc($kubes)) {
+		$kubeNodes .= createKubeNode($kube);
+	}
 }
 
 // Retour du xml
@@ -98,6 +125,7 @@ echo "	<result>".$resultCode."</result>\r\n";
 echo "	<pagination startIndex='".$start."' total='".$totalKubes."' />\r\n";
 echo "	<kubes>\r\n";
 echo $kubeNodes;
+echo $lastKubesNode;
 echo "	</kubes>\r\n";
 echo "</root>";
 

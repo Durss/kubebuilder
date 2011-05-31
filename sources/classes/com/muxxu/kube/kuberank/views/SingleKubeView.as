@@ -2,6 +2,7 @@ package com.muxxu.kube.kuberank.views {
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.BackWindow;
+	import com.muxxu.kube.kuberank.components.CubeButtonIcon;
 	import com.muxxu.kube.kuberank.components.CubeResult;
 	import com.muxxu.kube.kuberank.components.form.KubeDetailsForm;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
@@ -24,12 +25,18 @@ package com.muxxu.kube.kuberank.views {
 	 * @author Francois
 	 */
 	public class SingleKubeView extends AbstractView {
+		
+		[Embed(source="../../../../../../../assets/close.kub", mimeType="application/octet-stream")]
+		private var _closeKub:Class;
+		
 		private var _data:CubeData;
 		private var _cube:CubeResult;
 		private var _background:BackWindow;
 		private var _opened:Boolean;
 		private var _details:CssTextField;
 		private var _form:KubeDetailsForm;
+		private var _infoTxt:CssTextField;
+		private var _closeBt:CubeButtonIcon;
 		
 		
 		
@@ -62,7 +69,7 @@ package com.muxxu.kube.kuberank.views {
 			var model:ModelKR = event.model as ModelKR;
 			_data = model.openedCube;
 			if(_data != null) {
-			_form.populate(_data, model.votesDone, model.votesTotal);
+				_form.populate(_data, model.votesDone, model.votesTotal);
 				populate();
 				TweenLite.to(this, .25, {autoAlpha:1, onComplete:onAppearComplete});
 			}else{
@@ -85,9 +92,13 @@ package com.muxxu.kube.kuberank.views {
 			visible = false;
 			
 			_background = addChild(new BackWindow()) as BackWindow;
-			_cube = addChild(new CubeResult()) as CubeResult;
 			_details = addChild(new CssTextField("kubeDetails")) as CssTextField;
 			_form = addChild(new KubeDetailsForm()) as KubeDetailsForm;
+			_infoTxt = addChild(new CssTextField("voteInfo")) as CssTextField;
+			_closeBt = addChild(new CubeButtonIcon(new _closeKub())) as CubeButtonIcon;
+			_cube = addChild(new CubeResult()) as CubeResult;
+			
+			_infoTxt.text = Label.getLabel("voteInformations");
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
@@ -106,7 +117,7 @@ package com.muxxu.kube.kuberank.views {
 		 * Called when the user clicks somewhere
 		 */
 		private function clickHandler(event:MouseEvent):void {
-			if(_opened && !contains(event.target as DisplayObject)) {
+			if(_opened && !contains(event.target as DisplayObject) || event.target == _closeBt) {
 				FrontControlerKR.getInstance().closeKube();
 			}
 		}
@@ -130,6 +141,13 @@ package com.muxxu.kube.kuberank.views {
 			_form.x = _details.x;
 			_form.y = Math.round(_details.y + _details.height + 30);
 			
+			_infoTxt.x = _form.x;
+			_infoTxt.width = Math.round(_background.width - _infoTxt.x - 5);
+			_infoTxt.y = Math.round(_background.height - _infoTxt.height - 5);
+			
+			_closeBt.y = 6;
+			_closeBt.x = Math.round(_background.width - _closeBt.width - 6);
+			
 			x = Math.round((stage.stageWidth - _background.width) * .5);
 			y = Math.round((stage.stageHeight - _background.height) * .5);
 		}
@@ -138,10 +156,8 @@ package com.muxxu.kube.kuberank.views {
 		 * Populates the component
 		 */
 		private function populate():void {
-			var endPos:Point = new Point(150, _background.height * .5);
-			var startPos:Point = endPos.clone();
-			startPos.y = -300;
-			_cube.populate(_data, startPos, endPos, 150);
+			var endPos:Point = new Point(150, _background.height * .4);
+			_cube.populate(_data, endPos.clone(), endPos, 150);
 			_cube.doOpeningTransition(0, true);
 			
 			var details:String;
