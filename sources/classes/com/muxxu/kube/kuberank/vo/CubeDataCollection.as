@@ -61,7 +61,7 @@ package com.muxxu.kube.kuberank.vo {
 		 * @inheritDoc
 		 */
 		public function populate(xml:XML, ...optionnals:Array):void {
-			_version ++;
+			_version++;
 			var i:int, len:int, offset:int, nodes:XMLList;
 			nodes = xml.child("kube");
 			offset = optionnals[0];

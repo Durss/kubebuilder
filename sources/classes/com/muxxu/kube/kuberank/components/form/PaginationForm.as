@@ -45,8 +45,8 @@ package com.muxxu.kube.kuberank.components.form {
 		/**
 		 * Updates the buttons states.
 		 */
-		public function update(topMode:Boolean):void {
-			_showTopBt.enabled = !topMode;
+		public function update(topMode:Boolean, sortByDate:Boolean):void {
+			_showTopBt.enabled = !topMode && !sortByDate;
 			_showAllBt.enabled = topMode;
 		}
 

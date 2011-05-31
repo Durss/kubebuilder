@@ -58,7 +58,7 @@ package com.muxxu.kube.kuberank.controler {
 		/**
 		 * Sorts the results.
 		 * 
-		 * @param byDate	defines if the results should be sort by date. Else it's by votes
+		 * @param byDate		defines if the results should be sort by date. Else it's by votes
 		 */
 		public function sort(byDate:Boolean):void {
 			_model.sort(byDate);

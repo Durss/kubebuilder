@@ -44,6 +44,15 @@ package com.muxxu.kube.kuberank.components.form {
 		/* ****** *
 		 * PUBLIC *
 		 * ****** */
+		/**
+		 * Updates the buttons states.
+		 */
+		public function update(sortByDate:Boolean):void {
+			_group.removeEventListener(FormComponentGroupEvent.CHANGE, changeSelectionHandler);
+			_votesRB.selected = !sortByDate;
+			_dateRB.selected = sortByDate;
+			_group.addEventListener(FormComponentGroupEvent.CHANGE, changeSelectionHandler);
+		}
 
 
 		

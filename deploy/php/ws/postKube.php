@@ -1,9 +1,9 @@
 <?php
 header("Content-type: text/xml");
-$date = date("Y-m-d H:i:s");
-include '../connection.php';
-include '../secure.php';
-include '../getUserInfos.php';
+require_once('../constants.php');
+require_once('../connection.php');
+require_once('../secure.php');
+require_once('../getUserInfos.php');
 
 if (isset($_UID, $_UNAME))
 {
@@ -12,7 +12,7 @@ if (isset($_UID, $_UNAME))
 		$name = secure_string($_POST['name']);
 		if($kube = base64_decode($_POST['kube']))
 		{
-			$fileName = $_UID."_".$date;
+			$fileName = $_UID."_".time();
 			$file = "../../kubes/".$fileName.".kub";
 			$handle = fopen($file,"w");
 			if($handle !== false)

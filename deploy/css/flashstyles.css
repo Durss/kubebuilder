@@ -36,6 +36,11 @@
 .menuTitleSearchLabel { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; text-align:right; }
 .votedText { font-family:Verdana; font-size:15; font-weight:bold; font-style:italic; color:#ffffff; }
 .kubeDetails { font-family:Verdana; font-size:16; color:#ffffff; }
+.voteInfo { font-family:Verdana; font-size:10; color:#265367; }
+
+.top3Pseudo { font-family:Verdana; font-size:20; font-weight:bold; color:#3D7D98; flash-charcase:upper; text-align:center; }
+.lastKubesTitle { font-family:Verdana; font-size:20; font-weight:bold; color:#265367; flash-charcase:upper; text-align:center; }
+.lastKubesNext { font-family:Verdana; font-size:9; font-weight:bold; color:#265367; flash-charcase:upper; text-align:center; }
 
 .checkBox { font-family:Verdana; font-size:14; color:#265367; }
 .checkBox_selected { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; }

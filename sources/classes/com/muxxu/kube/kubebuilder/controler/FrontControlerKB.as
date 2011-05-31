@@ -122,6 +122,20 @@ package com.muxxu.kube.kubebuilder.controler {
 		public function exportFace():void {
 			_model.exportFace();
 		}
+		
+		/**
+		 * Downloads the .kub file
+		 */
+		public function downloadKub():void {
+			_model.downloadKub();
+		}
+		
+		/**
+		 * Uploads a .kub file
+		 */
+		public function uploadKub():void {
+			_model.uploadKub();
+		}
 
 
 		

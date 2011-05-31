@@ -1,4 +1,5 @@
 <?php
+require_once("secure.php");
 $errorCheckDetails = "";
 $errorCheckCode = 0;
 $userName = "";
@@ -24,13 +25,13 @@ if (isset($_GET['pubkey'], $_GET['uid']))
 			$errorCheckDetails = $flux->asXML();
 			$errorCheckCode = 1;
 		}else {
-			$userName = $flux->attributes()->name[0];
+			$userName = (string) $flux->attributes()->name;
 			$errorCheckCode = 0;
 			include 'connection.php';
 			$sql = 'SELECT `key` FROM `users` WHERE id='.$uid;
 			$res = mysql_fetch_assoc(mysql_query($sql));
 			if ($res === false) {
-				$sql = 'INSERT INTO `users` (`id`,`name`,`name_low`,`key`,`level`,`points`,`zones`) VALUES ('.$uid.', "'.$userName.'", "'.strtolower($userName).'", "'.$userKey.'", 1, '.$points.', '.$zones.')';
+				$sql = 'INSERT INTO `users` (`id`,`name`,`name_low`,`key`,`level`,`points`,`zones`) VALUES ('.$uid.', "'.$userName.'", "'.secure_string(strtolower($userName)).'", "'.$userKey.'", 1, '.$points.', '.$zones.')';
 				mysql_query($sql);
 			}else {
 				//Test here just for retro-compatibility for users already registered.

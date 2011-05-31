@@ -1,22 +1,29 @@
 package com.muxxu.kube.kubebuilder.views {
+	import gs.TweenLite;
+
 	import com.muxxu.kube.common.components.BackWindow;
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
+	import com.muxxu.kube.common.components.tooltip.ToolTip;
+	import com.muxxu.kube.common.components.tooltip.content.TTTextContent;
+	import com.muxxu.kube.common.vo.ToolTipMessage;
 	import com.muxxu.kube.kubebuilder.components.form.SubmitForm;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.graphics.CheckIconGraphic;
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.nurun.components.form.events.FormComponentEvent;
+	import com.nurun.components.vo.Margin;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.utils.pos.PosUtils;
+
 	import flash.display.BitmapData;
+	import flash.display.InteractiveObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.BlurFilter;
 	import flash.geom.Point;
-	import gs.TweenLite;
 
 
 	
@@ -31,6 +38,12 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _form:SubmitForm;
 		private var _formCtn:Sprite;
 		private var _disableLayer:Sprite;
+		private var _downloadBt:ButtonKube;
+		private var _uploadBt:ButtonKube;
+		private var _buttonsHolder:Sprite;
+		private var _tooltip:ToolTip;
+		private var _ttContent:TTTextContent;
+		private var _ttMessage:ToolTipMessage;
 		
 		
 		
@@ -77,7 +90,19 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Initializes the class.
 		 */
 		private function initialize():void {
-			_openFormBt = addChild(new ButtonKube(Label.getLabel("openForm"), true, new CheckIconGraphic())) as ButtonKube;
+			_buttonsHolder = addChild(new Sprite()) as Sprite;
+			_openFormBt = _buttonsHolder.addChild(new ButtonKube(Label.getLabel("openForm"), true, new CheckIconGraphic())) as ButtonKube;
+			_openFormBt.contentMargin = new Margin(10, 5, 10, 5);
+			
+			_downloadBt = _buttonsHolder.addChild(new ButtonKube(Label.getLabel("downloadKub"), false)) as ButtonKube;
+			_downloadBt.contentMargin = new Margin(10, 5, 10, 5);
+			
+			_uploadBt = _buttonsHolder.addChild(new ButtonKube(Label.getLabel("uploadKub"), false)) as ButtonKube;
+			_uploadBt.contentMargin = new Margin(10, 5, 10, 5);
+			
+			_tooltip = addChild(new ToolTip()) as ToolTip;
+			_ttContent = new TTTextContent();
+			_ttMessage = new ToolTipMessage(_ttContent, null);
 			
 			_disableLayer = new Sprite();
 			_formCtn = new Sprite();
@@ -90,6 +115,28 @@ package com.muxxu.kube.kubebuilder.views {
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(MouseEvent.CLICK, clickHandler);
 			_form.addEventListener(FormComponentEvent.SUBMIT, submitFormHandler);
+			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
+			addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+		}
+
+		private function mouseOverHandler(event:MouseEvent):void {
+			var text:String;
+			if(event.target == _downloadBt) {
+				text = Label.getLabel("tooltipSave");
+			}else if(event.target == _uploadBt) {
+				text = Label.getLabel("tooltipLoad");
+			}else if(event.target == _openFormBt) {
+				text = Label.getLabel("tooltipSubmit");
+			}
+			if(text != null) {
+				_ttContent.populate(text);
+				_ttMessage.target = event.target as InteractiveObject;
+				_tooltip.open(_ttMessage);
+			}
+		}
+
+		private function mouseOutHandler(event:MouseEvent):void {
+			_tooltip.close();
 		}
 		
 		/**
@@ -105,8 +152,10 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Resizes and replaces the elements.
 		 */
 		private function computePositions(event:Event = null):void {
-			_openFormBt.y = stage.stageHeight - _openFormBt.height - 10;
-			PosUtils.hCenterIn(_openFormBt, stage);
+			PosUtils.vAlign(PosUtils.V_ALIGN_BOTTOM, 0, _downloadBt, _openFormBt, _uploadBt);
+			PosUtils.hPlaceNext(10, _downloadBt, _openFormBt, _uploadBt);
+			PosUtils.hCenterIn(_buttonsHolder, stage);
+			_buttonsHolder.y = stage.stageHeight - _buttonsHolder.height - 10;
 			
 			PosUtils.centerIn(_backForm, stage);
 			PosUtils.centerIn(_form, stage);
@@ -142,6 +191,10 @@ package com.muxxu.kube.kubebuilder.views {
 				_form.setFocus();
 			}else if(event.target == _disableLayer) {
 				closeForm();
+			}else if(event.target == _downloadBt) {
+				FrontControlerKB.getInstance().downloadKub();
+			}else if(event.target == _uploadBt) {
+				FrontControlerKB.getInstance().uploadKub();
 			}
 		}
 		

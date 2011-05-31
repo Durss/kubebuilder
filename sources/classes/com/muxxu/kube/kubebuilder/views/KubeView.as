@@ -13,6 +13,7 @@ package com.muxxu.kube.kubebuilder.views {
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 
+	import flash.display.BitmapData;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
@@ -35,6 +36,7 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _endRY:Number;
 		private var _wingLeft:WingGraphic;
 		private var _wingRight:WingGraphic;
+		private var _lastTopFace:BitmapData;
 		
 		
 		
@@ -65,7 +67,8 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:ModelKB = event.model as ModelKB;
-			if(!_initialized) {
+			if(!_initialized || model.kubeData.faceTop != _lastTopFace) {
+				_lastTopFace = model.kubeData.faceTop;
 				_initialized = true;
 				_kube.leftFace = new CubeFace(model.kubeData.faceSides);
 				_kube.rightFace = new CubeFace(model.kubeData.faceSides);
@@ -93,6 +96,9 @@ package com.muxxu.kube.kubebuilder.views {
 		private function initialize():void {
 			_wingLeft = new WingGraphic();
 			_wingRight = new WingGraphic();
+			
+			_wingLeft.stop();
+			_wingRight.stop();
 			
 			_kube = addChild(new Cube()) as Cube;
 			_kube.width = _kube.height = _kube.depth = 200;
