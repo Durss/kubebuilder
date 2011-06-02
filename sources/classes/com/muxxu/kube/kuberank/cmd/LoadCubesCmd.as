@@ -25,7 +25,7 @@ package com.muxxu.kube.kuberank.cmd {
 		/**
 		 * Constructor
 		 */
-		public function  LoadCubesCmd(wsUrl:String, startIndex:int = 0, length:int = 50, userName:String = "", orderByDate:Boolean = false, lastToLoad:int = 0) {
+		public function  LoadCubesCmd(wsUrl:String, startIndex:int = 0, length:int = 50, userName:String = "", orderByDate:Boolean = false, lastToLoad:int = 0, kubeId:String = "") {
 			_length = length;
 			_startIndex = startIndex;
 			super(wsUrl);
@@ -34,11 +34,14 @@ package com.muxxu.kube.kuberank.cmd {
 			if(lastToLoad > 0) {
 				_urlVariables["lastToLoad"] = lastToLoad;
 			}
-			if(userName.length > 0) {
+			if(userName != null && userName.length > 0) {
 				_urlVariables["userName"] = userName;
 			}
 			if(orderByDate) {
 				_urlVariables["orderBy"] = "date";
+			}
+			if(kubeId.length > 0) {
+				_urlVariables["kubeId"] = kubeId;
 			}
 		}
 

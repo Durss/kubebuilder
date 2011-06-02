@@ -121,9 +121,11 @@ package com.muxxu.kube.kuberank.components.form {
 			if((event.currentTarget == _nameSubmit || event.currentTarget == _nameInput) && _nameSubmit.enabled && _nameInput.value != _lastNameSubmit) {
 				_lastNameSubmit = _nameInput.value as String;
 				FrontControlerKR.getInstance().searchKubesOfUser(_lastNameSubmit);
-			}else if((event.currentTarget == _kidSubmit || event.currentTarget == _kidInput) && _kidSubmit.enabled && _kidInput.value != _lastKIDSubmit) {
+			}else if((event.currentTarget == _kidSubmit || event.currentTarget == _kidInput) && _kidSubmit.enabled) {
 				_lastKIDSubmit = _kidInput.value as String;
+				FrontControlerKR.getInstance().loadKube(_lastKIDSubmit);
 			}
+			stage.focus = null;
 		}
 		
 		/**

@@ -12,7 +12,7 @@ $resultCode = 0;
 
 //If a user name is specified gets its ID to search its kubes.
 if (isset($_POST['userName']) && strlen($_POST['userName']) > 0) {
-	$sql = "SELECT id FROM users WHERE name_low='".secure_string(strtolower($_POST['userName']))."'";
+	$sql = "SELECT id FROM kubebuilder_users WHERE name_low='".secure_string(strtolower($_POST['userName']))."'";
 	$req = mysql_query($sql);
 	if ($req !== false && mysql_num_rows($req) > 0) {
 		$user = mysql_fetch_assoc($req);
@@ -24,18 +24,20 @@ if (isset($_POST['userName']) && strlen($_POST['userName']) > 0) {
 }
 
 //Build request
-if (isset($_POST['orderBy']) && $_POST['orderBy'] == 'date')
-	$order = "ORDER BY `kubes`.`date` DESC, `kubes`.`score` ASC";
-else
-	$order = "ORDER BY `kubes`.`score` DESC, `kubes`.`date` DESC";
-	
-if (isset($_POST['ownerId']) && $_POST['ownerId'] == intval($_POST['ownerId']))
-	$where = "WHERE uid=".intval($_POST['ownerId']);
-else
-	$where = "";
+if (isset($_POST['orderBy']) && $_POST['orderBy'] == 'date') {
+	$order = "ORDER BY `date` DESC, `score` ASC";
+}else {
+	$order = "ORDER BY `score` DESC, `date` DESC";
+}
 
-if (isset($_POST['start']) && isset($_POST['length']))
-{
+$where = "WHERE locked=0 ";
+if (isset($_POST['ownerId'])) {//Search by user ID
+	$where .= "AND uid=".intval($_POST['ownerId']);
+} else if (isset($_POST['kubeId'])) {//Search by kube ID
+	$where .= "AND id=".intval($_POST['kubeId']);
+}
+
+if (isset($_POST['start']) && isset($_POST['length'])) {
 	$start = floor(intval($_POST['start']));
 	$length = floor(intval($_POST['length']));
 
@@ -52,7 +54,7 @@ else
 }
 
 //Gets the number of results
-$sql = "SELECT COUNT(*) as `total` FROM kubes ".$where;
+$sql = "SELECT COUNT(*) as `total` FROM kubebuilder_kubes ".$where;
 $query = mysql_query($sql);
 $res = mysql_fetch_assoc($query);
 $totalKubes = intval($res["total"]);
@@ -63,7 +65,7 @@ $totalKubes = intval($res["total"]);
 function getKubeDetails($kube) {
 	global $uidCache, $_UID;
 	if(!isset($uidCache[$kube['uid']])) {
-		$req = "SELECT name FROM users WHERE id=".$kube['uid'];
+		$req = "SELECT name FROM kubebuilder_users WHERE id=".$kube['uid'];
 		$user = mysql_fetch_assoc(mysql_query($req));
 		$uidCache[$kube['uid']] = $user;
 	}else {
@@ -72,7 +74,7 @@ function getKubeDetails($kube) {
 	}
 	
 	if (isset($_UID)) {
-		$req = "SELECT COUNT(kid) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
+		$req = "SELECT COUNT(kid) as `total` FROM kubebuilder_evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
 		$uvote = mysql_fetch_assoc(mysql_query($req));
 		$voted = intval($uvote['total']) > 0? "true" : "false";
 	}else {
@@ -96,13 +98,13 @@ function createKubeNode($kube) {
 
 }
 
-$req = "SELECT * FROM kubes ".$where." ".$order." LIMIT ".$start.",".$length;
+$req = "SELECT * FROM kubebuilder_kubes ".$where." ".$order." LIMIT ".$start.",".$length;
 $kubes = mysql_query($req);
 $kubeNodes = "";
 $lastKubesNode = "";
 $uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
 if(mysql_num_rows($kubes) == 0 && $resultCode === 0) {
-	$resultCode = "NoResultsForThisUser";
+	$resultCode = isset($_POST['kubeId'])? "NoKubeAtThisIndex" : "NoResultsForThisUser";
 }
 while ($kube = mysql_fetch_assoc($kubes)) {
 	$kubeNodes .= createKubeNode($kube);
@@ -110,7 +112,7 @@ while ($kube = mysql_fetch_assoc($kubes)) {
 
 //If last added kubes asked, load them
 if(isset($_POST["lastToLoad"]) && intval($_POST["lastToLoad"]) > 0) {
-	$req = "SELECT * FROM kubes ORDER BY date DESC LIMIT 0,".intval($_POST["lastToLoad"]);
+	$req = "SELECT * FROM kubebuilder_kubes ORDER BY date DESC LIMIT 0,".intval($_POST["lastToLoad"]);
 	$kubes = mysql_query($req);
 	while ($kube = mysql_fetch_assoc($kubes)) {
 		$kubeNodes .= createKubeNode($kube);

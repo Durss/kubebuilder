@@ -64,8 +64,8 @@ package com.muxxu.kube.kuberank {
 			
 			FrontControlerKR.getInstance().initialize(_model);
 			
-			addChild(new Top3View());
 			addChild(new LastKubesView());
+			addChild(new Top3View());
 //			addChild(new ListView());
 			addChild(new SmoothListView());
 			addChild(new MenuView());

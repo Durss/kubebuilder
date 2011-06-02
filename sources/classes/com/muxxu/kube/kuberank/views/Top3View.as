@@ -160,7 +160,7 @@ package com.muxxu.kube.kuberank.views {
 			var positions:Array = [new Point(270, -45), new Point(100, 0), new Point(430, 60)];
 			var labelsPos:Array = [new Point(275, 70), new Point(90, 100), new Point(440, 140)];
 			var sizes:Array = [77, 66, 55];
-			len = 3;
+			len = Math.min(3, data.length);
 			for(i = 0; i < len; ++i) {
 				start = Point(positions[i]).clone();
 				start.y = -310;

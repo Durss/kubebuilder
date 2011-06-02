@@ -14,7 +14,7 @@ if (isset($_UID, $_UNAME))
 	{
 		$kid = intval($_POST['kid']);
 		//Check votes of the day
-		$sql = "SELECT COUNT(uid) as total FROM `evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
+		$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
 		$req = mysql_query($sql);
 		if ($req === false) {
 			$result	= "Sql";
@@ -28,7 +28,7 @@ if (isset($_UID, $_UNAME))
 			
 				//Check votes for this kube
 				if(ONE_VOTE_PER_KUBE) {
-					$sql = "SELECT COUNT(uid) as total FROM `evaluation` WHERE kid=".$kid." AND uid=".$kid;
+					$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE kid=".$kid." AND uid=".$kid;
 					$req = mysql_query($sql);
 				}
 				if (ONE_VOTE_PER_KUBE && $req === false) {
@@ -42,7 +42,7 @@ if (isset($_UID, $_UNAME))
 					
 						$note = ceil($_POINTS / 200 * 5 + $_ZONES / 25000 * 5);
 						//If max votes par day is not exceeded and if the user hasn't voted for this kube yet, then register everything
-						$sql = "INSERT INTO `evaluation` ( `kid` , `uid` , `note` ) VALUES (".$kid.", ".$_UID.", '".$note."')";
+						$sql = "INSERT INTO `kubebuilder_evaluation` ( `kid` , `uid` , `note` ) VALUES (".$kid.", ".$_UID.", '".$note."')";
 						$req = mysql_query($sql);
 						$result = $req === false? "Sql" : 0;
 						$votesDone += $req === false? 0 : 1;

@@ -7,13 +7,16 @@ package com.muxxu.kube.kubebuilder.views {
 
 	import com.muxxu.kube.common.components.cube.CubeFace;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
+	import com.muxxu.kube.kubebuilder.graphics.CloudGraphic;
 	import com.muxxu.kube.kubebuilder.graphics.WingGraphic;
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.nurun.components.volume.Cube;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
+	import com.nurun.utils.math.MathUtils;
 
 	import flash.display.BitmapData;
+	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
@@ -23,10 +26,12 @@ package com.muxxu.kube.kubebuilder.views {
 
 	
 	/**
+	 * Displays the main kube
 	 * 
 	 * @author Francois
 	 */
 	public class KubeView extends AbstractView {
+		
 		private var _kube:Cube;
 		private var _initialized:Boolean;
 		private var _rotationOffsets:Point;
@@ -37,6 +42,9 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _wingLeft:WingGraphic;
 		private var _wingRight:WingGraphic;
 		private var _lastTopFace:BitmapData;
+		private var _clouds:Vector.<CloudGraphic>;
+		private var _speed:Number;
+		private var _kubeHolder:Sprite;
 		
 		
 		
@@ -94,13 +102,14 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Initializes the class.
 		 */
 		private function initialize():void {
+			_kubeHolder = addChild(new Sprite()) as Sprite;
 			_wingLeft = new WingGraphic();
 			_wingRight = new WingGraphic();
 			
 			_wingLeft.stop();
 			_wingRight.stop();
 			
-			_kube = addChild(new Cube()) as Cube;
+			_kube = _kubeHolder.addChild(new Cube()) as Cube;
 			_kube.width = _kube.height = _kube.depth = 200;
 			
 			_wingRight.scaleX = -1;
@@ -135,8 +144,8 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Resizes and replaces the elements.
 		 */
 		private function computePositions(event:Event = null):void {
-			x = stage.stageWidth - _kube.width + 20;
-			y = stage.stageHeight * .5;
+			_kubeHolder.x = stage.stageWidth - _kube.width + 20;
+			_kubeHolder.y = stage.stageHeight * .5;
 		}
 		
 		/**
@@ -159,26 +168,52 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Called on ENTER_FRAME event.
 		 */
 		private function enterFrameHandler(event:Event):void {
-			if(_pressed) {
-				_endRX = _rotationOffsets.x - (_mouseOffset.y - mouseY);
-				_endRY = _rotationOffsets.y + (_mouseOffset.x - mouseX);
+			if(_clouds != null) {
+				var i:int, len:int, cloud:CloudGraphic;
+				len = _clouds.length;
+				for(i = 0; i < len; ++i) {
+					cloud = _clouds[i];
+					cloud.y += cloud.scaleX * _speed;
+					if(cloud.y > stage.stageHeight) {
+						cloud.x = MathUtils.randomNumberFromRange(-cloud.width * .5, stage.stageWidth - cloud.width * .5);
+						cloud.y = MathUtils.randomNumberFromRange(-stage.stageHeight, -cloud.height);
+					}
+				}
+				_speed *= 1.02;
+			}else{
+				if(_pressed) {
+					_endRX = _rotationOffsets.x - (_mouseOffset.y - mouseY);
+					_endRY = _rotationOffsets.y + (_mouseOffset.x - mouseX);
+				}
+				_kube.rotationX += (_endRX - _kube.rotationX) * .1;
+				_kube.rotationY += (_endRY - _kube.rotationY) * .1;
+				_kube.validate();
 			}
-			_kube.rotationX += (_endRX - _kube.rotationX) * .1;
-			_kube.rotationY += (_endRY - _kube.rotationY) * .1;
-			_kube.validate();
 		}
 		
 		/**
 		 * Does the transition when the kube is submitted.
 		 */
 		private function submitTransition():void {
-			removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
+			var i:int, len:int, cloud:CloudGraphic;
+			len = 10;
+			_clouds = new Vector.<CloudGraphic>(len, true);
+			for(i = 0; i < len; ++i) {
+				cloud = new CloudGraphic();
+				cloud.gotoAndStop(MathUtils.randomNumberFromRange(1, cloud.totalFrames));
+				cloud.scaleX = cloud.scaleY = MathUtils.randomNumberFromRange(.25, 1.5);
+				cloud.x = MathUtils.randomNumberFromRange(-cloud.width * .5, stage.stageWidth - cloud.width * .5);
+				cloud.y = MathUtils.randomNumberFromRange(-stage.stageHeight * 2, -cloud.height);
+				addChildAt(cloud, cloud.scaleX > 1? numChildren-1 : 0);
+				_clouds[i] = cloud;
+			}
+			_speed = 10;
 			
-			addChildAt(_wingLeft, 0);
-			addChildAt(_wingRight, 0);
+			_kubeHolder.addChildAt(_wingLeft, 0);
+			_kubeHolder.addChildAt(_wingRight, 0);
 			
 			TweenLite.to(_kube, .25, {shortRotation:{rotationX:45, rotationY:0, rotationZ:0}, onUpdate:_kube.validate});
-			TweenLite.to(this, .25, {x:stage.stageWidth * .5, y:stage.stageHeight * .6});
+			TweenLite.to(_kubeHolder, .25, {x:stage.stageWidth * .5, y:stage.stageHeight * .6});
 			
 			_wingLeft.rotation = 50;
 			_wingRight.rotation = -50;
@@ -188,11 +223,15 @@ package com.muxxu.kube.kubebuilder.views {
 			TweenMax.to(_wingLeft, .1, {rotation:-30, yoyo:33, delay:1});
 			TweenMax.to(_wingRight, .1, {rotation:30, yoyo:33, delay:1});
 			TweenLite.to(_kube, 3, {rotationX:-1000, delay:1, ease:Sine.easeIn, onUpdate:_kube.validate});
-			TweenMax.to(this, 3, {ease:Linear.easeNone, bezierThrough:[{x:x, y:y}, {x:stage.stageWidth * .4, y:stage.stageHeight * .6}, {x:stage.stageWidth * .8, y: -50}], scaleX:.1, scaleY:.1, delay:1, onComplete:onTransitionComplete});
-			TweenLite.to(this, 1, {rotation:45, delay:3});
+			TweenMax.to(_kubeHolder, 3, {ease:Linear.easeNone, bezierThrough:[{x:_kubeHolder.x, y:_kubeHolder.y}, {x:stage.stageWidth * .4, y:stage.stageHeight * .6}, {x:stage.stageWidth * .8, y: -50}], scaleX:.1, scaleY:.1, delay:1, onComplete:onTransitionComplete});
+			TweenLite.to(_kubeHolder, 1, {rotation:45, delay:3});
 		}
-
+		
+		/**
+		 * Called when submit transition completes.
+		 */
 		private function onTransitionComplete():void {
+			TweenLite.to(this, .5, {autoAlpha:0});
 			FrontControlerKB.getInstance().openResultPage();
 		}
 		

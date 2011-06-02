@@ -1,4 +1,6 @@
 package com.muxxu.kube.common.components.buttons {
+	import com.muxxu.kube.kuberank.components.CubeButtonIcon;
+	import com.nurun.components.invalidator.Validable;
 	import com.muxxu.kube.kubebuilder.graphics.ButtonWarnSkin;
 	import flash.display.MovieClip;
 	import com.nurun.components.button.TextAlign;
@@ -29,6 +31,7 @@ package com.muxxu.kube.common.components.buttons {
 		 */
 		public function ButtonKube(label:String, big:Boolean = false, icon:DisplayObject = null, warnType:Boolean = false) {
 			super(label, big? "buttonBig" : "button", warnType? new ButtonWarnSkin() : new ButtonSkin(), icon);
+			if(icon is Validable) Validable(icon).validate();
 			contentMargin = big? new Margin(5, 5, 5, 5) : new Margin(2, 1, 2, 1);
 			textBoundsMode = false;
 			iconAlign = IconAlign.LEFT;
@@ -44,6 +47,15 @@ package com.muxxu.kube.common.components.buttons {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+		/**
+		 * @inheritDoc
+		 */
+		override public function set enabled(value:Boolean):void {
+			super.enabled = value;
+			if(icon is CubeButtonIcon) {
+				icon.alpha = value? 1 : .4;
+			}
+		}
 
 
 
