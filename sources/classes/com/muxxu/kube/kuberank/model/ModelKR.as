@@ -1,4 +1,8 @@
 package com.muxxu.kube.kuberank.model {
+	import com.nurun.structure.environnement.label.Label;
+	import com.muxxu.kube.common.error.KubeExceptionLevel;
+	import com.muxxu.kube.common.error.KubeException;
+	import com.muxxu.kube.kuberank.cmd.ReportCmd;
 	import com.muxxu.kube.common.events.KubeModelEvent;
 	import com.muxxu.kube.kuberank.cmd.LoadCubesCmd;
 	import com.muxxu.kube.kuberank.cmd.VoteCmd;
@@ -111,7 +115,11 @@ package com.muxxu.kube.kuberank.model {
 		 * Reports a specific kube as bad.
 		 */
 		public function report(cube:CubeData):void {
-			
+			lock();
+			var cmd:ReportCmd = new ReportCmd(Config.getPath("postReport"), cube);
+			cmd.addEventListener(CommandEvent.COMPLETE, reportCubeCompleteHandler);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
 		}
 		
 		/**
@@ -125,6 +133,7 @@ package com.muxxu.kube.kuberank.model {
 			_top3Mode = false;
 			_startIndex = 0;
 			_length = _ITEMS_PER_PAGE * 2;
+			_userName = "";
 			_data.clear();
 			loadCubes();
 		}
@@ -170,9 +179,22 @@ package com.muxxu.kube.kuberank.model {
 			lock();
 			_userName = userName;
 			_top3Mode = false;
+			_sortByDate = true;
 			_startIndex = 0;
 			_length = _ITEMS_PER_PAGE * 2;
 			loadCubes();
+		}
+		
+		/**
+		 * Loads a specific kube
+		 */
+		public function loadKube(kubeId:String):void {
+			//Do not clear the previous command, that, the items are still loaded
+			//and there won't be "holes" in the slide.
+			var cmd:LoadCubesCmd = new LoadCubesCmd(Config.getPath("getKubes"), 0, 1, null, false, 0, kubeId);
+			cmd.addEventListener(CommandEvent.COMPLETE, loadSingleCubesCompleteHandler);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
 		}
 		
 		/**
@@ -228,6 +250,17 @@ package com.muxxu.kube.kuberank.model {
 		}
 		
 		/**
+		 * Called when a single kube's information loading completes
+		 */
+		private function loadSingleCubesCompleteHandler(event:CommandEvent):void {
+			_openedCube = new CubeData(0);
+			_openedCube.populate(XML(event.data).child("kubes")[0].child("kube")[0]);
+			trace('event.data: ' + (event.data));
+			update();
+			unlock();
+		}
+		
+		/**
 		 * Called when cube's vote completes.
 		 */
 		private function voteCubeCompleteHandler(event:CommandEvent):void {
@@ -236,6 +269,14 @@ package com.muxxu.kube.kuberank.model {
 			_votesTotal = parseInt(XML(event.data).child("result").@totalVotes);
 			update();
 			unlock();
+		}
+		
+		/**
+		 * Called when a kube report completes
+		 */
+		private function reportCubeCompleteHandler(event:CommandEvent):void {
+			unlock();
+			throw(new KubeException(Label.getLabel("reportSuccess"), KubeExceptionLevel.SUCCESS));
 		}
 		
 		/**

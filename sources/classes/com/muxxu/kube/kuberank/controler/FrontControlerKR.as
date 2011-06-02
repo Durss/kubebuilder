@@ -86,6 +86,13 @@ package com.muxxu.kube.kuberank.controler {
 		}
 		
 		/**
+		 * Loads a specific kube
+		 */
+		public function loadKube(kubeId:String):void {
+			_model.loadKube(kubeId);
+		}
+		
+		/**
 		 * Opens a cube
 		 */
 		public function openKube(data:CubeData):void {

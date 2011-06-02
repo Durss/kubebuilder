@@ -1,6 +1,6 @@
 <?php
 $key = isset($_GET['key'])? $_GET['key'] : 'none';
-$sqlUser = "SELECT * FROM `users` WHERE `key`='".mysql_real_escape_string($key)."'";
+$sqlUser = "SELECT * FROM `kubebuilder_users` WHERE `key`='".mysql_real_escape_string($key)."'";
 $queryUser = mysql_query($sqlUser);
 if($queryUser !== false) {
 	$resUser = mysql_fetch_assoc($queryUser);

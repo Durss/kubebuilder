@@ -17,8 +17,8 @@ if (isset($_GET['pubkey'], $_GET['uid']))
 	if($flux = simplexml_load_file($url))
 	{
 		$node = $flux->xpath("/user/games/g[@game='kube']");
-		$points = $node[0]->xpath("//g/i[@key='Score']");
-		$zones = $node[0]->xpath("//g/i[@key='Carte']");
+		$points = $node[0]->xpath("i[@key='Score']");
+		$zones = $node[0]->xpath("i[@key='Carte']");
 		$points = intval(preg_replace("[\D]", "", $points[0]->asXML()));
 		$zones = intval(preg_replace("[\D]", "", $zones[0]->asXML()));
 		if ($flux->getName() == "error") {
@@ -28,17 +28,17 @@ if (isset($_GET['pubkey'], $_GET['uid']))
 			$userName = (string) $flux->attributes()->name;
 			$errorCheckCode = 0;
 			include 'connection.php';
-			$sql = 'SELECT `key` FROM `users` WHERE id='.$uid;
+			$sql = 'SELECT `key` FROM `kubebuilder_users` WHERE id='.$uid;
 			$res = mysql_fetch_assoc(mysql_query($sql));
 			if ($res === false) {
-				$sql = 'INSERT INTO `users` (`id`,`name`,`name_low`,`key`,`level`,`points`,`zones`) VALUES ('.$uid.', "'.$userName.'", "'.secure_string(strtolower($userName)).'", "'.$userKey.'", 1, '.$points.', '.$zones.')';
+				$sql = 'INSERT INTO `kubebuilder_users` (`id`,`name`,`name_low`,`key`,`points`,`zones`) VALUES ('.$uid.', "'.$userName.'", "'.secure_string(strtolower($userName)).'", "'.$userKey.'", '.$points.', '.$zones.')';
 				mysql_query($sql);
 			}else {
 				//Test here just for retro-compatibility for users already registered.
 				if (strlen($res['key']) == 0) {
-					$sql = 'UPDATE `users` SET `key`="'.$userKey.'", `points`='.$points.', `zones`='.$zones.' WHERE id='.$uid;
+					$sql = 'UPDATE `kubebuilder_users` SET `key`="'.$userKey.'", `points`='.$points.', `zones`='.$zones.' WHERE id='.$uid;
 				}else {
-					$sql = 'UPDATE `users` SET `points`='.$points.', `zones`='.$zones.' WHERE id='.$uid;
+					$sql = 'UPDATE `kubebuilder_users` SET `points`='.$points.', `zones`='.$zones.' WHERE id='.$uid;
 					$userKey = $res['key'];
 				}
 				mysql_query($sql);

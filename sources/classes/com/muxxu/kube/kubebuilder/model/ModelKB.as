@@ -291,7 +291,23 @@ package com.muxxu.kube.kubebuilder.model {
 			var bmd:BitmapData = Bitmap(_imageLoader.content).bitmapData;
 			var m:Matrix = new Matrix();
 			m.scale(16 / bmd.width, 16 / bmd.height);
+			_currentFace.fillRect(_currentFace.rect, 0);
 			_currentFace.draw(bmd, m);
+			
+			//Remove alpha
+			var i:int, lenI:int, lenJ:int, j:int, color:uint;
+			lenI = _currentFace.width;
+			lenJ = _currentFace.height;
+			for(i = 0; i < lenI; ++i) {
+				for(j = 0; j < lenJ; ++j) {
+					color = _currentFace.getPixel32(i, j);
+					if((color >>> 24) > 0xff * .4) {
+						_currentFace.setPixel32(i, j, 0xff000000 + (color & 0x00ffffff));
+					}else{
+						_currentFace.setPixel32(i, j, 0x00ffffff & color);
+					}
+				}
+			}
 			_imageModified = true;
 			update();
 			_imageModified = false;

@@ -3,7 +3,7 @@
 	include 'php/connection.php';
 	include 'php/checkUser.php';
 	
-	$sql = "SELECT COUNT(uid) as total FROM `evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
+	$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
 	$req = mysql_query($sql);
 	$errorSql = $req !== false;
 	$results = mysql_fetch_assoc($req);
@@ -30,7 +30,7 @@
 	<head>
 		<title>KubeBuilder</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<link rel="shortcut icon" href="./favicon_new.ico" />
+		<link rel="shortcut icon" href="favicon.ico" />
 		<style type="text/css">
             html, body {
                 height: 100%;
@@ -58,7 +58,7 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=1.6', 'content', '860', '500', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=2', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
@@ -72,16 +72,16 @@
 		echo "\t\t\tso.addVariable('votesTotal', '".MAX_VOTES_PER_DAY."');\r\n";
 		echo "\t\t\tso.addVariable('votesDone', '".$votesDone."');\r\n";
 		if(isset($_GET["kid"])) {
-			$sql = "SELECT * FROM kubes WHERE id=".intval($_GET["kid"]);
+			$sql = "SELECT * FROM kubebuilder_kubes WHERE id=".intval($_GET["kid"]);
 			$req = mysql_query($sql);
 			if($req !== false) {
 				$kube = mysql_fetch_assoc($req);
 				if ($kube !== false) {
-					$req = "SELECT name FROM users WHERE id=".$kube['uid'];
+					$req = "SELECT name FROM kubebuilder_users WHERE id=".$kube['uid'];
 					$user = mysql_fetch_assoc(mysql_query($req));
 					
 					if(isset($_UID)) {
-						$req = "SELECT COUNT(kid) as `total` FROM evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
+						$req = "SELECT COUNT(kid) as `total` FROM kubebuilder_evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
 						$uvote = mysql_fetch_assoc(mysql_query($req));
 						$voted = intval($uvote['total']) > 0? true : false;
 					}else {
@@ -94,6 +94,7 @@
 					fclose($handle);
 					$xml = "<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($user['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" voted=\"".$voted."\"><![CDATA[".$fileContent."]]></kube>";
 					echo "\t\t\tso.addVariable('directKube', '".urlencode($xml)."');\r\n";
+					echo "\t\t\tso.addVariable('banned', '".($user['name'] == 0)."');\r\n";
 				}
 			}
 		}
@@ -105,7 +106,7 @@
 <?php
 
 	} else if($errorSql) {
-		echo "Une erreur est survenue. Essayez de recharger la page, si le problème persiste merci de contactez Durss.";
+		echo "Une erreur est survenue. Essayez de recharger la page, si le problème persiste merci de contacter Durss.";
 	} else {
 ?>
 		<center>

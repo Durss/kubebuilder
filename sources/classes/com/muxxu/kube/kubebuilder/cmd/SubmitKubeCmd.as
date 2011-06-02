@@ -1,13 +1,17 @@
 package com.muxxu.kube.kubebuilder.cmd {
+	import com.muxxu.kube.common.error.KubeException;
+	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.vo.KUBData;
 	import com.nurun.core.commands.Command;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.utils.commands.LoadFileCmd;
+
+	import mx.utils.Base64Encoder;
+
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.net.URLLoader;
-	import mx.utils.Base64Encoder;
 
 
 
@@ -51,7 +55,7 @@ package com.muxxu.kube.kubebuilder.cmd {
 				dispatchEvent(new CommandEvent(CommandEvent.COMPLETE, result));
 			}else{
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR));
-				throw new Error(Label.getLabel("errorSubmitResult"+result));
+				throw new KubeException(Label.getLabel("errorSubmitResult"+result), KubeExceptionLevel.ERROR);
 			}
 		}
 		
@@ -60,7 +64,7 @@ package com.muxxu.kube.kubebuilder.cmd {
 		 */
 		override protected function loadErrorHandler(event:IOErrorEvent):void {
 			super.loadErrorHandler(event);
-			throw new Error(Label.getLabel("errorSubmitResult404"));
+			throw new KubeException(Label.getLabel("errorSubmitResult404"), KubeExceptionLevel.ERROR);
 		}
 		
 	}

@@ -7,6 +7,7 @@ package com.muxxu.kube.common.error {
 		
 		public static const WARNING:int = 0;
 		public static const ERROR:int = 1;
+		public static const SUCCESS:int = 2;
 		
 	}
 }
