@@ -136,6 +136,13 @@ package com.muxxu.kube.kubebuilder.controler {
 		public function uploadKub():void {
 			_model.uploadKub();
 		}
+		
+		/**
+		 * Called when the user wants to read the informations
+		 */
+		public function readInfos():void {
+			_model.readInfos();
+		}
 
 
 		

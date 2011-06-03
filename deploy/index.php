@@ -1,13 +1,21 @@
 <?php
+
 	include 'php/constants.php';
 	include 'php/connection.php';
 	include 'php/checkUser.php';
 	
-	$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
-	$req = mysql_query($sql);
-	$errorSql = $req !== false;
-	$results = mysql_fetch_assoc($req);
-	$votesDone = $results["total"];
+	if(isset($_GET["act"]) && $_GET["act"] == "admin" && $_LEVEL > 1) {
+		header("location:admin.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']);
+	}
+	
+	$errorSql = false;
+	if ($_UID != -1) {
+		$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
+		$req = mysql_query($sql);
+		$errorSql = $req !== false;
+		$results = mysql_fetch_assoc($req);
+		$votesDone = $results["total"];
+	}
 	
 	//Converts act var into multiple GET vars if necessary.
 	//If the following act var is past :
@@ -24,6 +32,10 @@
 		}
 	}
 	$swf = isset($_GET["act"]) && $_GET["act"] == "editor"? "kubeBuilder.swf" : "kubeRank.swf";
+	
+	//Put in english if the asked localistion doesn't exists
+	if(!file_exists("i18n/xml/config_".$_LANG.".xml")) $_LANG = "en";
+	//$_LANG = "en";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -96,8 +108,12 @@
     </head>
     <body>
 <?php
-	if(isset($_GET["act"]) && $_GET["act"] == "infos") {
-		include("infos.html");
+	if (isset($_GET["act"]) && $_GET["act"] == "infos") {
+		if ($_INFO_READ == false) {
+			$sqlRead = "UPDATE kubebuilder_users SET infoRead=1 WHERE id=".$_UID;
+			mysql_query($sqlRead);
+		}
+		include("i18n/infos_".$_LANG.".html");
 	}else {
 
 
@@ -105,16 +121,16 @@
 
 ?>
 		<div id="content">
-			<p>Pour voir cette page vous devez posséder la version 10.1+ du plugin Flash Player!<br /><a href="http://get.adobe.com/fr/flashplayer/">Installer la dernière version</a></p>
+			<p>To view this page you must get Flash Player 10.1+ ! <br /><a href="http://get.adobe.com/flashplayer">Install the last version</a></p>
 		</div>
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=2.1', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=2.7', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
-			so.addVariable("configXml", "xml/config.xml?v=2.1");
+			so.addVariable("configXml", "i18n/xml/config_<?php echo $_LANG; ?>.xml?v=2.6");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('uid', '".$_GET['uid']."');\r\n";
@@ -123,6 +139,7 @@
 		echo "\t\t\tso.addVariable('key', '".$userKey."');\r\n";
 		echo "\t\t\tso.addVariable('votesTotal', '".MAX_VOTES_PER_DAY."');\r\n";
 		echo "\t\t\tso.addVariable('votesDone', '".$votesDone."');\r\n";
+		echo "\t\t\tso.addVariable('infosRead', '".$_INFO_READ."');\r\n";
 		if(isset($_GET["kid"])) {
 			$sql = "SELECT * FROM kubebuilder_kubes WHERE id=".intval($_GET["kid"]);
 			$req = mysql_query($sql);
@@ -158,12 +175,34 @@
 <?php
 
 	} else if($errorSql) {
-		echo "Une erreur est survenue. Essayez de recharger la page, si le problème persiste merci de contacter Durss.";
+?>
+		<center>
+			<div class="guide">
+				<ul>
+					<li>
+						Une erreur est survenue.<br />
+						Essayez de recharger la page, si le problème persiste, contactez Durss.<br /><br />
+						An error occurred...<br />
+						Try to reload the page, if the problem continues, please contact Durss.
+					</li>
+				</ul>
+			</div>
+		</center>
+
+<?php
 	} else {
 ?>
 		<center>
-			Redirection vers l'application en cours.<br />
-			Si vous n'êtes pas automatiquement redirigez, <a href="http://muxxu.com/a/kube-builder" target="_self">cliquez ici</a>.
+			<div class="guide">
+				<ul>
+					<li>
+						Redirection vers l'application en cours.<br />
+						Si vous n'êtes pas automatiquement redirigez, <a href="http://muxxu.com/a/kube-builder" target="_self">cliquez ici</a>.<br /><br />
+						Redirecting...<br />
+						If you're not automatically redirected, <a href="http://muxxu.com/a/kube-builder" target="_self">click here</a>.
+					</li>
+				</ul>
+			</div>
 		</center>
 		<script type="text/javascript">
 			function redirect() {

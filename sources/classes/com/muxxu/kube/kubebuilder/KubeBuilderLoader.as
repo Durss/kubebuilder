@@ -57,7 +57,7 @@ package com.muxxu.kube.kubebuilder {
 			
 			_env = new EnvironnementManager();
 			_env.addVariables(stage.loaderInfo.parameters);
-			_env.initialise(stage.loaderInfo.parameters["configXml"] || "xml/config.xml");
+			_env.initialise(stage.loaderInfo.parameters["configXml"] || "i18n/xml/config_fr.xml");
 			
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}

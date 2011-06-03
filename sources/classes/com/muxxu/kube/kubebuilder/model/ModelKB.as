@@ -223,6 +223,13 @@ package com.muxxu.kube.kubebuilder.model {
 				navigateToURL(new URLRequest(Config.getPath("resultPage")), "_self");
 			}
 		}
+		
+		/**
+		 * Called when the user wants to read the informations
+		 */
+		public function readInfos():void {
+			navigateToURL(new URLRequest(Config.getPath("infosUrl")), "_self");
+		}
 
 
 		

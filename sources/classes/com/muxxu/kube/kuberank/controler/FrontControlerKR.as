@@ -121,6 +121,13 @@ package com.muxxu.kube.kuberank.controler {
 			_model.report(cube);
 		}
 
+		/**
+		 * Deletes a kube
+		 */
+		public function deleteKube(data:CubeData):void {
+			_model.deleteKube(data);
+		}
+
 
 		
 		

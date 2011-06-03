@@ -56,7 +56,7 @@ package com.muxxu.kube.common.components {
 		 * ******* */
 
 		private function enterFrameHandler(event:Event):void {
-			rotation += 15;
+			rotation -= 15;
 		}
 		
 	}

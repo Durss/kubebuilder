@@ -47,6 +47,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _details:CubeDetailsWindow;
 		private var _rolledItem:TileEngineItem;
 		private var _lastUserName:String;
+		private var _wasTop3Mode:Boolean;
 		
 		
 		
@@ -79,7 +80,10 @@ package com.muxxu.kube.kuberank.views {
 			TweenLite.killTweensOf(this);
 			var model:ModelKR = event.model as ModelKR;
 			if(!model.top3Mode) {
-				var resetChange:Boolean = (_lastSortType != model.sortByDate || _lastUserName != model.userName);
+				var cantShowSignal:Boolean = _lastSortType != model.sortByDate || _lastUserName != model.userName;
+				var resetChange:Boolean = cantShowSignal || _wasTop3Mode != model.top3Mode;
+				var prevLength:int = _lastLength;
+				if(resetChange) _lastLength = 0;
 				if(model.data.version != _lastVersion) {
 					//If already opened but new sort type, hide, populate then show back the view.
 					if(_opened && resetChange) {
@@ -99,7 +103,7 @@ package com.muxxu.kube.kuberank.views {
 					addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 					_scrollbar.height = stage.stageWidth;
 					_scrollbar.y = 400 + 13;
-				}else if(model.data.version != _lastVersion && !resetChange && model.data.length > _lastLength){
+				}else if(model.data.version != _lastVersion && !cantShowSignal && model.data.length > prevLength){
 					//If the view si already opened and if it's not a sort update
 					//then display the load signal.
 					_loadSignal.y = Math.round((400 - 100) * .5);
@@ -110,7 +114,7 @@ package com.muxxu.kube.kuberank.views {
 				_lastSortType = model.sortByDate;
 				_lastUserName = model.userName;
 				_lastVersion = model.data.version;
-				_lastLength = model.data.length;
+//				_lastLength = model.data.length;
 				graphics.beginFill(0xff0000, 0);
 				graphics.drawRect(0, 0, stage.stageWidth, _scrollbar.y);
 				graphics.endFill();
@@ -123,6 +127,7 @@ package com.muxxu.kube.kuberank.views {
 				stage.removeEventListener(MouseEvent.MOUSE_WHEEL, mouseWheelHandler);
 				removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 			}
+			_wasTop3Mode = model.top3Mode;
 		}
 
 
@@ -183,6 +188,7 @@ package com.muxxu.kube.kuberank.views {
 					_engines[i].offsetX = 0;
 				}
 			}
+			
 			dataLen = data.length;
 			len = Math.ceil(dataLen/18) * 18;
 			if(_lastLength != data.length) {
@@ -196,6 +202,8 @@ package com.muxxu.kube.kuberank.views {
 					}
 				}
 			}
+			
+			_lastLength = data.length;
 		}
 		
 		/**
@@ -245,7 +253,7 @@ package com.muxxu.kube.kuberank.views {
 			FrontControlerKR.getInstance().setCurrentDisplayIndex(index * 3);
 			
 			if(_rolledItem != null) {
-				_details.width = Math.round(_rolledItem.width * 1.2 + 170);
+				_details.width = Math.round(_rolledItem.width * 3.5);
 				_details.height = Math.round(_rolledItem.height);
 				_details.x = Math.round(_rolledItem.x - _rolledItem.width * .15);
 				_details.y = Math.round(_rolledItem.y - _rolledItem.height * .07);

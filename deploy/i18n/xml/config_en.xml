@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<styleSheets>
+		<styleSheet><![CDATA[css/flashstyles.css?v=3]]></styleSheet>
+	</styleSheets>
+	
+	<fonts>
+		<font><![CDATA[swf/fonts/Verdana.swf?v=1]]></font>
+	</fonts>
+	
+	<labels>
+		<label code="closeError"><![CDATA[Close]]></label>
+		<label code="tools"><![CDATA[Tools]]></label>
+		<label code="patron"><![CDATA[Patron]]></label>
+		<label code="copy"><![CDATA[Copy]]></label>
+		<label code="past"><![CDATA[Past]]></label>
+		<label code="raz"><![CDATA[Reset]]></label>
+		<label code="image"><![CDATA[Image]]></label>
+		<label code="exportImage"><![CDATA[Export face]]></label>
+		<label code="downloadKub"><![CDATA[Save the kube]]></label>
+		<label code="uploadKub"><![CDATA[Charger un kube]]></label>
+		<label code="openForm"><![CDATA[Submit]]></label>
+		<label code="formTitle"><![CDATA[Give a name to your kube and let him fly to the kube's world!]]></label>
+		<label code="formSubmit"><![CDATA[Send]]></label>
+		<label code="readInfo"><![CDATA[Before creating a kube, please read the <b>"Infos"</b> part to understand what this application stands for.]]></label>
+		<label code="readInfoButton"><![CDATA[Read]]></label>
+		
+		<label code="tooltipLoad"><![CDATA[Loads a kube saved to your computer]]></label>
+		<label code="tooltipSave"><![CDATA[Register the kube to your computer]]></label>
+		<label code="tooltipSubmit"><![CDATA[Send your kube to the server]]></label>
+		
+		<label code="errorImageLoading"><![CDATA[File loading failed. Please ensure the file is a valid image file.]]></label>
+		<label code="errorSubmitResultFormat"><![CDATA[Kube sending failed. Invalid returned data format.]]></label>
+		<label code="errorSubmitResult404"><![CDATA[Unable to connect to the server.]]></label>
+		<label code="errorSubmitResultName"><![CDATA[Kube sending failed. No name defined.]]></label>
+		<label code="errorSubmitResultFile"><![CDATA[Kube sending failed. File transmition problem.]]></label>
+		<label code="errorSubmitResultPost"><![CDATA[Kube sending failed. No data transfered.]]></label>
+		<label code="errorSubmitResultCreate"><![CDATA[Kube sending failed. File creation problem.]]></label>
+		<label code="errorSubmitResultSql"><![CDATA[Kube sending failed. SQL error.]]></label>
+		<label code="errorSubmitResultWrite"><![CDATA[Kube sending failed. Unable to write the file.]]></label>
+		<label code="errorSubmitResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
+		<label code="errorSubmitResultMaxCreationPerDayReached"><![CDATA[You can't submit anymore kubes for today.<br /><br />If you don't want to loos the kube you just created,<br />save it to your computer by clicking <i>"Save the kube"</i>.<br /><br />You'll be able to load it back to the application by clicking<br /><i>"Load a kube"</i> and submit it again tomorrow.]]></label>
+		<label code="errorSubmitResultBanned"><![CDATA[Because of an abuse you can't create kubes anymore.]]></label>
+		
+		<label code="errorLoadResultUserNotFound"><![CDATA[No user found matching the specified nickname.]]></label>
+		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[This user hasn't submitted any kubes yet.]]></label>
+		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[No kube matching this ID.]]></label>
+		<label code="errorLoadResultFormat"><![CDATA[Kubes loading failed. Invalid returned data format.]]></label>
+		<label code="errorLoadResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
+		<label code="errorVoteResultPost"><![CDATA[Vote failed. Request parameters missing.]]></label>
+		<label code="errorVoteResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
+		<label code="errorVoteResultSql"><![CDATA[Vote failed. SQL error.]]></label>
+		<label code="errorVoteResultVotesLeft"><![CDATA[You can't vote anymore for today.]]></label>
+		<label code="errorVoteResultAlreadyVoted"><![CDATA[ou already voted for this kube!]]></label>
+		<label code="errorVoteResultFormat"><![CDATA[Vote failed. Invalid returned data format.]]></label>
+		<label code="errorVoteResultBanned"><![CDATA[Because of an abuse you can't vote anymore.]]></label>
+		<label code="errorVoteResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
+		<label code="deleteSuccess"><![CDATA[Votre kube a été supprimé.]]></label>
+		<label code="errorDeleteResultPost"><![CDATA[Kube deletion failed. Request parameters missing.]]></label>
+		<label code="errorDeleteResultAuth"><![CDATA[L'authentification a échouée. Try to reload the page.]]></label>
+		<label code="errorDeleteResultSql"><![CDATA[Kube deletion failed. SQL error.]]></label>
+		<label code="errorDeleteResultFormat"><![CDATA[Kube deletion failed. Invalid returned data format.]]></label>
+		<label code="errorDeleteResult404"><![CDATA[Unable to connect to the server.]]></label>
+		<label code="errorDeleteResultNotFound"><![CDATA[Kube not found.]]></label>
+		
+		<label code="reportSuccess"><![CDATA[<p align="center">Report sent.<br />Thank you.</p>]]></label>
+		<label code="errorReportResultPost"><![CDATA[Report failed. Request parameters missing.]]></label>
+		<label code="errorReportResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
+		<label code="errorReportResultSql"><![CDATA[Report failed. SQL error.]]></label>
+		<label code="errorReportResultFormat"><![CDATA[Report failed. Invalid returned data format.]]></label>
+		<label code="errorReportResultBanned"><![CDATA[Because of an abuse you can't report kubes anymore.]]></label>
+		<label code="errorReportResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
+		<label code="showTop"><![CDATA[TOP 3]]></label>
+		<label code="orderByDate"><![CDATA[All by date]]></label>
+		<label code="orderByVotes"><![CDATA[All by votes]]></label>
+		<label code="searchMine"><![CDATA[<p align="center">My<br />kubes</p>]]></label>
+		<label code="searchTitle"><![CDATA[Search :]]></label>
+		<label code="searchByName"><![CDATA[Kubes of :]]></label>
+		<label code="searchByKID"><![CDATA[Kubes N°° :]]></label>
+		<label code="searchByNameInput"><![CDATA[nickname...]]></label>
+		<label code="searchByKIDInput"><![CDATA[kube ID...]]></label>
+		<label code="searchLabel"><![CDATA[Search]]></label>
+		
+		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />On : {DATE}]]></label>
+		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />Today at : {DATE}]]></label>
+		<label code="kubeDetailsLong"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created by <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> on {DATE}]]></label>
+		<label code="kubeDetailsLongToday"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created By <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Today at {DATE}]]></label>
+		<label code="clickToCreate"><![CDATA[<font size="22"><b>Create my own kube</b></font>]]></label>
+		<label code="vote"><![CDATA[Vote for this kube]]></label>
+		<label code="voted"><![CDATA[You've already voted for this kube]]></label>
+		<label code="confirmVote"><![CDATA[Vote registered!]]></label>
+		<label code="warn"><![CDATA[Report this kube]]></label>
+		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Please use this button only if the kube represents some racist, obscene or insulting image, or if you are the owner of the image!<br />Any abuse will be punished by the withdrawal of your right to vote.</span>]]></label>
+		<label code="voteTooltip"><![CDATA[<b>Warning :</b> You've got <b>{VOTES}/{TOTAL}</b> votes left for today!]]></label>
+		<label code="voteInformations"><![CDATA[<b>Information :</b> The vote of each player is weighted according to its statistics on the game Kube.]]></label>
+		<label code="alreadyVotedTitle"><![CDATA[You've already voted for this kube!]]></label>
+		<label code="lastKubesTitle"><![CDATA[Last creations]]></label>
+		<label code="lastKubesNext"><![CDATA[»]]></label>
+		<label code="copySharePath"><![CDATA[Copy]]></label>
+		<label code="shareTitle"><![CDATA[Share this kube to your friends :]]></label>
+		<label code="deleteKube"><![CDATA[DELETE MY KUBE]]></label>
+		<label code="viewUserKubes"><![CDATA[VIEW THE KUBES OF THIS PLAYER]]></label>
+	</labels>
+	
+	<vars>
+		<!-- Those vars are overridden by html. Here just for standalone testing -->
+		<var code="key"><![CDATA[0c66b1438ef5bd89ed4baf59455d9e6b]]></var>
+		<var code="uname"><![CDATA[durss]]></var>
+		<var code="uid"><![CDATA[89]]></var>
+		<var code="banned"><![CDATA[false]]></var>
+		
+		<var code="newItemsToShow"><![CDATA[8]]></var>
+		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
+		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
+	</vars>
+	
+	<paths>
+		<path code="css"><![CDATA[css/styles.css]]></path>
+		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
+		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php?key={v_key}]]></path>
+		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php?key={v_key}]]></path>
+		<path code="postVote"><![CDATA[{v_server}/php/ws/postVote.php?key={v_key}]]></path>
+		<path code="postReport"><![CDATA[{v_server}/php/ws/reportKube.php?key={v_key}]]></path>
+		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+		<path code="sharePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_kid={KID}]]></path>
+		<path code="infosUrl"><![CDATA[?act=infos&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+	</paths>
+	
+	<dependencies />
+</root>

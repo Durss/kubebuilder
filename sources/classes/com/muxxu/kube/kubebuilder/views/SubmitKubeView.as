@@ -76,6 +76,7 @@ package com.muxxu.kube.kubebuilder.views {
 			var model:ModelKB = event.model as ModelKB;
 			if(model.kubeSubmitted) {
 				TweenLite.to(this, .25, {autoAlpha:0});
+				_form.enable();
 			}
 			computePositions();
 		}
@@ -114,9 +115,9 @@ package com.muxxu.kube.kubebuilder.views {
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(MouseEvent.CLICK, clickHandler);
-			_form.addEventListener(FormComponentEvent.SUBMIT, submitFormHandler);
 			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
 			addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+			_form.addEventListener(FormComponentEvent.SUBMIT, submitFormHandler);
 		}
 
 		private function mouseOverHandler(event:MouseEvent):void {
@@ -202,6 +203,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Called when the form is submitted.
 		 */
 		private function submitFormHandler(event:FormComponentEvent):void {
+			_form.disable();
 			FrontControlerKB.getInstance().submit(_form.name, onPostComplete);
 		}
 		

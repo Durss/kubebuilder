@@ -1,4 +1,5 @@
 package com.muxxu.kube.kubebuilder {
+	import com.muxxu.kube.kubebuilder.views.InfoView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
@@ -6,6 +7,7 @@ package com.muxxu.kube.kubebuilder {
 	import com.muxxu.kube.kubebuilder.views.KubeView;
 	import com.muxxu.kube.kubebuilder.views.PanelView;
 	import com.muxxu.kube.kubebuilder.views.SubmitKubeView;
+	import com.nurun.structure.environnement.configuration.Config;
 
 	import flash.events.Event;
 
@@ -66,6 +68,9 @@ package com.muxxu.kube.kubebuilder {
 			addChild(new PanelView());
 			addChild(new EditorView());
 			addChild(new SubmitKubeView());
+			if(!Config.getBooleanVariable("infosRead")) {
+				addChild(new InfoView());
+			}
 		}
 		
 		/**

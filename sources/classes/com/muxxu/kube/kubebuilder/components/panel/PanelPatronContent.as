@@ -1,15 +1,20 @@
 package com.muxxu.kube.kubebuilder.components.panel {
-	import flash.geom.Rectangle;
-	import com.muxxu.kube.common.vo.KUBData;
-	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
-	import com.muxxu.kube.kubebuilder.vo.FaceIds;
-	import flash.display.Bitmap;
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import flash.filters.GlowFilter;
+	import flash.ui.Keyboard;
 	import gs.TweenLite;
 	import gs.TweenMax;
 	import gs.easing.Linear;
+
+	import com.muxxu.kube.common.vo.KUBData;
+	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
+	import com.muxxu.kube.kubebuilder.vo.FaceIds;
+
+	import flash.display.Bitmap;
+	import flash.display.Sprite;
+	import flash.events.Event;
+	import flash.events.KeyboardEvent;
+	import flash.events.MouseEvent;
+	import flash.filters.GlowFilter;
+	import flash.geom.Rectangle;
 
 
 	
@@ -109,6 +114,14 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			addEventListener(MouseEvent.CLICK, clickHandler);
 			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
 			addEventListener(MouseEvent.MOUSE_OUT, mouseOutHandler);
+			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+		}
+		/**
+		 * Called when the stage is available.
+		 */
+		private function addedToStageHandler(event:Event):void {
+			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
 		}
 
 		/**
@@ -220,6 +233,25 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			} else if(event.target == _back) {
 				FrontControlerKB.getInstance().setCurrentFace(FaceIds.BACK);
 			} else if(event.target == _bottom) {
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.BOTTOM);
+			}
+		}
+		
+		
+		
+		
+		
+		//__________________________________________________________ KEYBOARD EVENTS
+		
+		/**
+		 * Called when a key is released
+		 */
+		private function keyUpHandler(event:KeyboardEvent):void {
+			if(event.keyCode == Keyboard.NUMBER_1 || event.keyCode == Keyboard.NUMPAD_1) {
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.TOP);
+			}else if(event.keyCode == Keyboard.NUMBER_2 || event.keyCode == Keyboard.NUMPAD_2) {
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.FRONT);
+			}else if(event.keyCode == Keyboard.NUMBER_3 || event.keyCode == Keyboard.NUMPAD_3) {
 				FrontControlerKB.getInstance().setCurrentFace(FaceIds.BOTTOM);
 			}
 		}

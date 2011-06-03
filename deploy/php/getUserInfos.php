@@ -4,12 +4,13 @@ $sqlUser = "SELECT * FROM `kubebuilder_users` WHERE `key`='".mysql_real_escape_s
 $queryUser = mysql_query($sqlUser);
 if($queryUser !== false) {
 	$resUser = mysql_fetch_assoc($queryUser);
-	if($resUser !== false) {
+	if ($resUser !== false) {
 		$_UID = intval($resUser["id"]);
 		$_UNAME = $resUser["name"];
 		$_POINTS = $resUser["points"];
 		$_ZONES = $resUser["zones"];
 		$_RIGHTS = $resUser["level"];
+		$_INFO_READ = $resUser["infoRead"];
 	}
 }
 
