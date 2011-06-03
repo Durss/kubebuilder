@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<styleSheets>
-		<styleSheet><![CDATA[css/flashstyles.css?v=1]]></styleSheet>
+		<styleSheet><![CDATA[css/flashstyles.css?v=2]]></styleSheet>
 	</styleSheets>
 	
 	<fonts>
@@ -41,7 +41,7 @@
 		<label code="errorSubmitResultBanned"><![CDATA[Suite à un abus le droit de création vous a été retiré.]]></label>
 		
 		<label code="errorLoadResultUserNotFound"><![CDATA[Aucun utilisateur portant le pseudo spécifié n'a été trouvé.]]></label>
-		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[Cet utilisateur n'a soumit aucun kube pour l'instant.]]></label>
+		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[Cet utilisateur n'a soumis aucun kube pour l'instant.]]></label>
 		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[Aucun kube ne porte cet ID.]]></label>
 		<label code="errorLoadResultFormat"><![CDATA[Le chargement de la liste des kubes a échoué. Le format des données retournées est invalide.]]></label>
 		<label code="errorLoadResult404"><![CDATA[La connexion au serveur a échoué.]]></label>
@@ -91,6 +91,8 @@
 		<label code="alreadyVotedTitle"><![CDATA[Vous avez déjà voté pour ce kube]]></label>
 		<label code="lastKubesTitle"><![CDATA[Dernières créations]]></label>
 		<label code="lastKubesNext"><![CDATA[»]]></label>
+		<label code="copySharePath"><![CDATA[Copier]]></label>
+		<label code="shareTitle"><![CDATA[Partagez votre kube :]]></label>
 	</labels>
 	
 	<vars>
@@ -114,6 +116,7 @@
 		<path code="postReport"><![CDATA[{v_server}/php/ws/reportKube.php?key={v_key}]]></path>
 		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
 		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+		<path code="sharePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_kid={KID}]]></path>
 	</paths>
 	
 	<dependencies />

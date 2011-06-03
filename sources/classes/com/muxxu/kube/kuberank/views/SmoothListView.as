@@ -86,7 +86,7 @@ package com.muxxu.kube.kuberank.views {
 						TweenLite.to(this, .35, {x:-15, autoAlpha:0, ease:Sine.easeIn, onComplete:populate, onCompleteParams:[model.data, resetChange]});
 						TweenLite.to(this, .35, {x:0, autoAlpha:1, delay:.5, ease:Sine.easeOut, onComplete:onShowComplete});
 					}else{
-						populate(model.data);
+						populate(model.data, resetChange);
 					}
 				}
 				//if view is closed, show it.

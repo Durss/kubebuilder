@@ -10,7 +10,7 @@ if (isset($_UID, $_UNAME))
 	if($_RIGHTS > 0) {
 		if (isset($_POST['name'], $_POST['kube']))
 		{
-			$sql = "SELECT COUNT(id) as total FROM `kubebuilder_kubes` WHERE DATE(date) = DATE(NOW())";
+			$sql = "SELECT COUNT(id) as total FROM `kubebuilder_kubes` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
 			$req = mysql_query($sql);
 			if ($req === false) {
 				$result	= "Sql";

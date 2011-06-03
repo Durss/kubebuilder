@@ -35,6 +35,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _lock:Boolean;
 		private var _votesDone:Number;
 		private var _votesTotal:Number;
+		private var _lastSearchName:String;
 		
 		
 		
@@ -125,7 +126,7 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Sorts the results.
 		 * 
-		 * @param byDate	defines if the results should be sort by date. Else it's by votes
+		 * @param byDate	defines if the results should be sorted by date. Else it's by votes
 		 */
 		public function sort(byDate:Boolean):void {
 			lock();
@@ -134,6 +135,7 @@ package com.muxxu.kube.kuberank.model {
 			_startIndex = 0;
 			_length = _ITEMS_PER_PAGE * 2;
 			_userName = "";
+			_lastSearchName = "";
 			_data.clear();
 			loadCubes();
 		}
@@ -150,17 +152,6 @@ package com.muxxu.kube.kuberank.model {
 		}
 		
 		/**
-		 * Shows the full list of kubes
-		 */
-		public function showFullList():void {
-			lock();
-			_startIndex = 0;
-			_length = _ITEMS_PER_PAGE * 2;//load two pages
-			_top3Mode = false;
-			loadCubes();
-		}
-		
-		/**
 		 * Shows the top 3
 		 */
 		public function showTop3():void {
@@ -168,6 +159,9 @@ package com.muxxu.kube.kuberank.model {
 			_top3Mode = true;
 			_startIndex = 0;
 			_length = 3;
+			_sortByDate = false;
+			_userName = "";
+			_lastSearchName = "";
 			_data.clear();
 			loadCubes();
 		}
@@ -176,7 +170,9 @@ package com.muxxu.kube.kuberank.model {
 		 * Loads the kubes of a specific user.
 		 */
 		public function searchKubesOfUser(userName:String):void {
+			if(userName == _lastSearchName) return;
 			lock();
+			_lastSearchName = userName;
 			_userName = userName;
 			_top3Mode = false;
 			_sortByDate = true;
@@ -255,7 +251,6 @@ package com.muxxu.kube.kuberank.model {
 		private function loadSingleCubesCompleteHandler(event:CommandEvent):void {
 			_openedCube = new CubeData(0);
 			_openedCube.populate(XML(event.data).child("kubes")[0].child("kube")[0]);
-			trace('event.data: ' + (event.data));
 			update();
 			unlock();
 		}

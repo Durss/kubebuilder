@@ -165,7 +165,7 @@ package com.muxxu.kube.kuberank.views {
 			var date:Date = new Date(_data.date * 1000);
 			if(new Date().getDay() == date.getDay() && new Date().getTime() - date.getTime() < 24 * 60 * 60 * 1000) {
 				details = Label.getLabel("kubeDetailsLongToday");
-				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_h_:_I_"));
+				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_h_:_i_"));
 			}else{
 				details = Label.getLabel("kubeDetailsLong");
 				details = details.replace(/\{DATE\}/gi, DateUtils.format(date, "_w_/_m_/_Y_"));

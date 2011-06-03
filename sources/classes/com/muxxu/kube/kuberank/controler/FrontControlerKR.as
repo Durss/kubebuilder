@@ -65,13 +65,6 @@ package com.muxxu.kube.kuberank.controler {
 		}
 		
 		/**
-		 * Shows the full list of kubes
-		 */
-		public function showFullList():void {
-			_model.showFullList();
-		}
-		
-		/**
 		 * Shows the top 3
 		 */
 		public function showTop3():void {
