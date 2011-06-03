@@ -23,8 +23,6 @@ package com.muxxu.kube.kuberank.components.form {
 		private var _kidInput:InputKube;
 		private var _nameSubmit:ButtonKube;
 		private var _kidSubmit:ButtonKube;
-		private var _lastNameSubmit:String;
-		private var _lastKIDSubmit:String;
 		
 		
 		
@@ -118,12 +116,10 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Called when a component is clicked.
 		 */
 		private function submitHandler(event:Event):void {
-			if((event.currentTarget == _nameSubmit || event.currentTarget == _nameInput) && _nameSubmit.enabled && _nameInput.value != _lastNameSubmit) {
-				_lastNameSubmit = _nameInput.value as String;
-				FrontControlerKR.getInstance().searchKubesOfUser(_lastNameSubmit);
+			if((event.currentTarget == _nameSubmit || event.currentTarget == _nameInput) && _nameSubmit.enabled) {
+				FrontControlerKR.getInstance().searchKubesOfUser(_nameInput.value as String);
 			}else if((event.currentTarget == _kidSubmit || event.currentTarget == _kidInput) && _kidSubmit.enabled) {
-				_lastKIDSubmit = _kidInput.value as String;
-				FrontControlerKR.getInstance().loadKube(_lastKIDSubmit);
+				FrontControlerKR.getInstance().loadKube(_kidInput.value as String);
 			}
 			stage.focus = null;
 		}

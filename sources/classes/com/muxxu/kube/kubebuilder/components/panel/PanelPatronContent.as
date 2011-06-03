@@ -1,4 +1,5 @@
 package com.muxxu.kube.kubebuilder.components.panel {
+	import flash.geom.Rectangle;
 	import com.muxxu.kube.common.vo.KUBData;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.vo.FaceIds;
@@ -153,6 +154,21 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			_bottomBmp.y = _bottomBmp.height + 1;
 			
 			_sidesCtn.y = 18;
+
+			var bmps:Vector.<Sprite> = new Vector.<Sprite>();
+			bmps.push(_left);
+			bmps.push(_right);
+			bmps.push(_bottom);
+			bmps.push(_front);
+			bmps.push(_back);
+			var i:int, len:int, bounds:Rectangle;
+			len = bmps.length;
+			graphics.clear();
+			graphics.lineStyle(1, 0, 1);
+			for(i = 0; i < len; ++i) {
+				bounds = bmps[i].getBounds(this);
+				graphics.drawRect(bounds.x - 1, bounds.y - 1, bounds.width + 1, bounds.height + 1);
+			}
 		}
 		
 		

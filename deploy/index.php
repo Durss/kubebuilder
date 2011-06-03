@@ -34,7 +34,7 @@
 		<style type="text/css">
             html, body {
                 height: 100%;
-                overflow: hidden;
+                <?php if(!isset($_GET["act"]) || $_GET["act"] != "infos") echo "overflow: hidden;"; ?>
                 margin:0;
                 padding:0;
             }
@@ -42,13 +42,65 @@
                 background: #4CA5CD;
                 font: 86% Arial, "Helvetica Neue", sans-serif;
                 margin: 0;
+				color: #0B376E;
             }
+			a {
+				color: #FFFFFF;
+			}
+			.guide h2 {
+				font-size: 17pt;
+				font-variant: small-caps;
+				margin-top: 15px;
+			}
+			.guide h3 {
+				font-size: 14pt;
+				margin: 20px 0;
+			}
+			.guide h2 {
+				font-size: 17pt;
+				font-variant: small-caps;
+				margin-top: 15px;
+			}
+			.guide h3 {
+				font-size: 14pt;
+				margin: 20px 0;
+			}
+			.guide .helpimg {
+				float: left;
+				position: relative;
+			}
+			.guide span.more {
+				font-size: 17pt;
+			}
+			.guide img {
+				vertical-align: -17%;
+			}
+			.guide ul {
+				margin-left: 15px;
+				margin-right: 15px;
+				list-style: none outside none;
+			}
+			.guide ul li {
+				background-color: #9693BF;
+				border: 1px solid #454A6B;
+				margin: 0;
+				padding: 10px;
+			}
+			.guide em {
+				font-variant: small-caps;
+				font-weight: bold;
+			}
 		</style>
 		
 		<script type="text/javascript" src="js/swfobject.js"></script>
     </head>
     <body>
 <?php
+	if(isset($_GET["act"]) && $_GET["act"] == "infos") {
+		include("infos.html");
+	}else {
+
+
 	if ($errorCheckCode == 0) {
 
 ?>
@@ -58,11 +110,11 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=2', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=2.1', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
-			so.addVariable("configXml", "xml/config.xml?v=1.2");
+			so.addVariable("configXml", "xml/config.xml?v=2.1");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('uid', '".$_GET['uid']."');\r\n";
@@ -121,6 +173,7 @@
         </script>
 		
 <?php
+	}
 	}
 ?>
     </body>

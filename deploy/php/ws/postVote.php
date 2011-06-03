@@ -47,7 +47,7 @@ if (isset($_UID, $_UNAME))
 						$result = $req === false? "Sql" : 0;
 						$votesDone += $req === false? 0 : 1;
 						if($result == 0) {
-							$sql = "UPDATE `kubes` SET `score`=`score`+".$note." WHERE `id`=".$kid;
+							$sql = "UPDATE `kubebuilder_kubes` SET `score`=`score`+".$note." WHERE `id`=".$kid;
 							$req = mysql_query($sql);
 							$result = $req === false? "Sql" : 0;
 						}
