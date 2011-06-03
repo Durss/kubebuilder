@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.model {
+	import com.muxxu.kube.kuberank.cmd.DeleteKubeCmd;
 	import com.nurun.structure.environnement.label.Label;
 	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.error.KubeException;
@@ -32,7 +33,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _userName:String;
 		private var _top3Mode:Boolean;
 		private var _openedCube:CubeData;
-		private var _lock:Boolean;
+		private var _locked:Boolean;
 		private var _votesDone:Number;
 		private var _votesTotal:Number;
 		private var _lastSearchName:String;
@@ -92,12 +93,12 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Loads the cubes list
 		 */
-		public function loadCubes():void {
+		public function loadCubes(...args):void {
 			//Do not clear the previous command, that, the items are still loaded
 			//and there won't be "holes" in the slide.
 			var cmd:LoadCubesCmd = new LoadCubesCmd(Config.getPath("getKubes"), _startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0);
 			cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
-			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.addEventListener(CommandEvent.ERROR, loadCubesErrorHandler);
 			cmd.execute();
 		}
 		
@@ -119,6 +120,26 @@ package com.muxxu.kube.kuberank.model {
 			lock();
 			var cmd:ReportCmd = new ReportCmd(Config.getPath("postReport"), cube);
 			cmd.addEventListener(CommandEvent.COMPLETE, reportCubeCompleteHandler);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+
+		/**
+		 * Deletes a kube
+		 */
+		public function deleteKube(data:CubeData):void {
+			lock();
+			//Reroots to the TOP 3
+			_openedCube = null;
+			_top3Mode = true;
+			_startIndex = 0;
+			_length = 3;
+			_sortByDate = false;
+			_userName = "";
+			_lastSearchName = "";
+			_data.clear();
+			var cmd:DeleteKubeCmd = new DeleteKubeCmd(Config.getPath("deleteKube"), data);
+			cmd.addEventListener(CommandEvent.COMPLETE, deleteCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
 		}
@@ -145,7 +166,7 @@ package com.muxxu.kube.kuberank.model {
 		 * The index represents the kubes at the right of the screen.
 		 */
 		public function setCurrentDisplayIndex(index:int):void {
-			if(!_top3Mode && index + 9 > _startIndex + _length && index < _totalResults) {
+			if(!_top3Mode && index + 9 > _startIndex + _length && index < _totalResults && !_locked) {
 				_startIndex += _length;
 				loadCubes();
 			}
@@ -172,12 +193,14 @@ package com.muxxu.kube.kuberank.model {
 		public function searchKubesOfUser(userName:String):void {
 			if(userName == _lastSearchName) return;
 			lock();
+			_openedCube = null;
 			_lastSearchName = userName;
 			_userName = userName;
 			_top3Mode = false;
 			_sortByDate = true;
 			_startIndex = 0;
 			_length = _ITEMS_PER_PAGE * 2;
+			_data.clear();
 			loadCubes();
 		}
 		
@@ -241,7 +264,16 @@ package com.muxxu.kube.kuberank.model {
 			_totalResults = parseInt(XML(event.data).child("pagination").@total);
 			var startIndex:Number = parseInt(XML(event.data).child("pagination").@startIndex);
 			_data.populate(XML(event.data).child("kubes")[0], startIndex);
+			if(_data.length == 0) _userName = "";
 			update();
+			unlock();
+		}
+		
+		/**
+		 * Called if kubes loading fails
+		 */
+		private function loadCubesErrorHandler(event:CommandEvent):void {
+			_userName = "";
 			unlock();
 		}
 		
@@ -273,6 +305,14 @@ package com.muxxu.kube.kuberank.model {
 			unlock();
 			throw(new KubeException(Label.getLabel("reportSuccess"), KubeExceptionLevel.SUCCESS));
 		}
+
+		/**
+		 * Called when a kube report completes
+		 */
+		private function deleteCubeCompleteHandler(event:CommandEvent):void {
+			loadCubes();
+			throw(new KubeException(Label.getLabel("deleteSuccess"), KubeExceptionLevel.SUCCESS));
+		}
 		
 		/**
 		 * Fires an update to the views.
@@ -285,7 +325,7 @@ package com.muxxu.kube.kuberank.model {
 		 * Tells the view that the model is locked
 		 */
 		private function lock(...args):void {
-			_lock = true;
+			_locked = true;
 			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.LOCK, this));
 		}
 		
@@ -293,7 +333,7 @@ package com.muxxu.kube.kuberank.model {
 		 * Tells the view that the model is unlocked
 		 */
 		private function unlock(...args):void {
-			_lock = true;
+			_locked = false;
 			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.UNLOCK, this));
 		}
 		

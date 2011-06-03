@@ -12,7 +12,6 @@ package com.muxxu.kube.kubebuilder.components.form {
 	import gs.TweenLite;
 
 
-	
 	[Event(name="onSubmitForm", type="com.nurun.components.form.events.FormComponentEvent")]
 	
 	/**
@@ -60,6 +59,20 @@ package com.muxxu.kube.kubebuilder.components.form {
 		public function setFocus():void {
 			stage.focus = _nameInput;
 		}
+		
+		/**
+		 * Enables the form
+		 */
+		public function enable():void {
+			_submitBt.enabled = true;
+		}
+
+		/**
+		 * Disables the form
+		 */
+		public function disable():void {
+			_submitBt.enabled = false;
+		}
 
 
 		
@@ -76,6 +89,7 @@ package com.muxxu.kube.kubebuilder.components.form {
 			_title = addChild(new CssTextField("formTitle")) as CssTextField;
 			
 			_title.text = Label.getLabel("formTitle");
+			_nameInput.textfield.maxChars = 25;
 			
 			computePositions();
 			
@@ -104,7 +118,8 @@ package com.muxxu.kube.kubebuilder.components.form {
 			if(StringUtils.trim(_nameInput.text).length == 0) {
 				TweenLite.from(_nameInput, .5, {colorMatrixFilter:{colorize:0xff0000, remove:true}});
 				stage.focus = _nameInput;
-			}else{
+			}else if(_submitBt.enabled){
+//				stage.focus = null;
 				dispatchEvent(new FormComponentEvent(FormComponentEvent.SUBMIT));
 			}
 		}

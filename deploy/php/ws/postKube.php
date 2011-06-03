@@ -74,7 +74,6 @@ else
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 echo "<root>\r\n";
 echo "	<result>".$result."</result>\r\n";
-echo "	<sq>".$sqlUser."</sq>\r\n";
 echo "</root>";
 
 ?>

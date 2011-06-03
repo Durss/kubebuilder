@@ -2,6 +2,7 @@ package com.muxxu.kube.kuberank.views {
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.BackWindow;
+	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.muxxu.kube.kuberank.components.CubeButtonIcon;
 	import com.muxxu.kube.kuberank.components.CubeResult;
 	import com.muxxu.kube.kuberank.components.form.KubeDetailsForm;
@@ -9,6 +10,7 @@ package com.muxxu.kube.kuberank.views {
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.nurun.components.text.CssTextField;
+	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
@@ -37,6 +39,8 @@ package com.muxxu.kube.kuberank.views {
 		private var _form:KubeDetailsForm;
 		private var _infoTxt:CssTextField;
 		private var _closeBt:CubeButtonIcon;
+		private var _deleteBt:ButtonKube;
+		private var _viewKubesBt:ButtonKube;
 		
 		
 		
@@ -72,6 +76,8 @@ package com.muxxu.kube.kuberank.views {
 				_form.populate(_data, model.votesDone, model.votesTotal);
 				populate();
 				TweenLite.to(this, .25, {autoAlpha:1, onComplete:onAppearComplete});
+				_deleteBt.visible = _data.uid == Config.getNumVariable("uid");
+				_viewKubesBt.visible = !_deleteBt.visible;
 			}else{
 				_opened = false;
 				TweenLite.to(this, .25, {autoAlpha:0});
@@ -97,6 +103,8 @@ package com.muxxu.kube.kuberank.views {
 			_infoTxt = addChild(new CssTextField("voteInfo")) as CssTextField;
 			_closeBt = addChild(new CubeButtonIcon(new _closeKub())) as CubeButtonIcon;
 			_cube = addChild(new CubeResult()) as CubeResult;
+			_deleteBt = addChild(new ButtonKube(Label.getLabel("deleteKube"), false, null, true)) as ButtonKube;
+			_viewKubesBt = addChild(new ButtonKube(Label.getLabel("viewUserKubes"), false)) as ButtonKube;
 			
 			_infoTxt.text = Label.getLabel("voteInformations");
 			
@@ -119,6 +127,10 @@ package com.muxxu.kube.kuberank.views {
 		private function clickHandler(event:MouseEvent):void {
 			if(_opened && !contains(event.target as DisplayObject) || event.target == _closeBt) {
 				FrontControlerKR.getInstance().closeKube();
+			}else if(event.target == _deleteBt) {
+				FrontControlerKR.getInstance().deleteKube(_data);
+			}else if(event.target == _viewKubesBt) {
+				FrontControlerKR.getInstance().searchKubesOfUser(_data.userName);
 			}
 		}
 		
@@ -139,14 +151,20 @@ package com.muxxu.kube.kuberank.views {
 			_details.y = 15;
 			
 			_form.x = _details.x;
-			_form.y = Math.round(_details.y + _details.height + 30);
+			_form.y = Math.round(_details.y + _details.height + 25);
 			
 			_infoTxt.x = _form.x;
 			_infoTxt.width = Math.round(_background.width - _infoTxt.x - 5);
-			_infoTxt.y = Math.round(_background.height - _infoTxt.height - 5);
+			_infoTxt.y = Math.round(_background.height - _infoTxt.height - 10);
 			
 			_closeBt.y = 6;
 			_closeBt.x = Math.round(_background.width - _closeBt.width - 6);
+			
+			_deleteBt.x = Math.round(150 - _deleteBt.width * .5);
+			_deleteBt.y = Math.round(_background.height - _deleteBt.height - 10);
+			
+			_viewKubesBt.x = Math.round(150 - _viewKubesBt.width * .5);
+			_viewKubesBt.y = Math.round(_background.height - _viewKubesBt.height - 10);
 			
 			x = Math.round((stage.stageWidth - _background.width) * .5);
 			y = Math.round((stage.stageHeight - _background.height) * .5);

@@ -228,7 +228,7 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		private function enterFrameHandler(event:Event = null):void {
 			_details.height = Math.round(_rolledItem.height * 1.6);
-			_details.width = Math.round(_rolledItem.width * 1.6 + 170);
+			_details.width = Math.round(_rolledItem.width * 3.5);
 			_details.x = Math.max(-x, Math.round(_rolledItem.x - _rolledItem.width * .8));
 			_details.y = Math.max(-y, Math.round(_rolledItem.y - _rolledItem.height * .8));
 			

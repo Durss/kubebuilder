@@ -195,9 +195,9 @@ package com.muxxu.kube.kubebuilder.components.panel {
 					FrontControlerKB.getInstance().past();
 				}
 			}else{
-				if(event.keyCode == Keyboard.P || event.keyCode == Keyboard.ESCAPE) {
+				if(event.keyCode == Keyboard.P || event.keyCode == Keyboard.I) {
 					_pipetteBt.selected  = true;
-				}else if(event.keyCode == Keyboard.V || event.keyCode == Keyboard.C) {
+				}else if(event.keyCode == Keyboard.V || event.keyCode == Keyboard.C || event.keyCode == Keyboard.ESCAPE) {
 					_pencilBt.selected  = true;
 				}else if(event.keyCode == Keyboard.B) {
 					_paintBucketBt.selected  = true;

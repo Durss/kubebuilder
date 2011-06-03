@@ -33,6 +33,7 @@ if (isset($_UID, $_UNAME))
 						if ($req === false) {
 							$result	= "Sql";
 						}else {
+							$results = mysql_fetch_assoc($req);
 							if ($results["total"] >= REPORTS_TO_HIDE_A_KUBE || $_RIGHTS > 1) {
 								$sql = "UPDATE `kubebuilder_kubes` SET `locked`=1 WHERE `id`=".$kid;
 								$req = mysql_query($sql);
@@ -59,8 +60,6 @@ else
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 echo "<root>\r\n";
 echo "	<result>".$result."</result>\r\n";
-echo "	<t>".$results["total"]."</t>\r\n";
-echo "	<s>".$sql."</s>\r\n";
 echo "</root>";
 
 mysql_close();

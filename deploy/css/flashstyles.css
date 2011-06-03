@@ -17,21 +17,31 @@
 .button_down { font-family:Verdana; font-size:12; font-weight:bold; color:#234B5C; }
 .button_disabled { font-family:Verdana; font-size:12; font-weight:bold; color:#234B5C; flash-alpha:.4; }
 
+.buttonWarn { font-family:Verdana; font-size:12; font-weight:bold; color:#8E2424; flash-alpha:1; }
+.buttonWarn_over { font-family:Verdana; font-size:12; font-weight:bold; color:#A22B2B; }
+.buttonWarn_down { font-family:Verdana; font-size:12; font-weight:bold; color:#792020; }
+.buttonWarn_disabled { font-family:Verdana; font-size:12; font-weight:bold; color:#8E2424; flash-alpha:.4; }
+
 .buttonBig { font-family:Verdana; font-size:25; font-weight:bold; color:#265367; flash-alpha:1; }
 .buttonBig_over { font-family:Verdana; font-size:25; font-weight:bold; color:#36748D; }
 .buttonBig_down { font-family:Verdana; font-size:25; font-weight:bold; color:#234B5C; }
 .buttonBig_disabled { font-family:Verdana; font-size:25; font-weight:bold; color:#234B5C; flash-alpha:.4; }
+
+.buttonBigWarn { font-family:Verdana; font-size:25; font-weight:bold; color:#8E2424; flash-alpha:1; }
+.buttonBigWarn_over { font-family:Verdana; font-size:25; font-weight:bold; color:#A22B2B; }
+.buttonBigWarn_down { font-family:Verdana; font-size:25; font-weight:bold; color:#792020; }
+.buttonBigWarn_disabled { font-family:Verdana; font-size:25; font-weight:bold; color:#8E2424; flash-alpha:.4; }
 
 
 
 /* KUBE BUILDER STYLES */
 .formTitle { font-family:Verdana; font-size:12; font-weight:bold; color:#265367; }
 .panelButton { font-family:Verdana; font-size:14; font-weight:bold; color:#ffffff; flash-charcase:upper; letter-spacing:5; }
+.readInfoLabel { font-family:Verdana; font-size:14; color:#ffffff; }
 
 
 
 /* KUBE RANK STYLES */
-.warnKube { color:#8E2424; }
 .menuTitle { font-family:Verdana; font-size:25; font-weight:bold; color:#265367; }
 .menuTitleSearchLabel { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; text-align:right; }
 .votedText { font-family:Verdana; font-size:15; font-weight:bold; font-style:italic; color:#ffffff; }

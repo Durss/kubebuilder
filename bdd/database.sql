@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `kubebuilder_evaluation` (
 
 CREATE TABLE IF NOT EXISTS `kubebuilder_kubes` (
   `id` int(10) unsigned NOT NULL auto_increment,
-  `name` varchar(50) collate utf8_unicode_ci NOT NULL,
+  `name` varchar(25) collate utf8_unicode_ci NOT NULL,
   `uid` int(10) unsigned NOT NULL,
   `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `file` varchar(32) collate utf8_unicode_ci NOT NULL,

@@ -1,4 +1,5 @@
 package com.muxxu.kube.common.vo {
+	import com.nurun.utils.math.MathUtils;
 	import com.ion.PNGDecoder;
 	import com.adobe.images.PNGEncoder;
 	import flash.utils.ByteArray;
@@ -16,6 +17,7 @@ package com.muxxu.kube.common.vo {
 		private var _faceTop:BitmapData;
 		private var _faceBottom:BitmapData;
 		private var _faceSides:BitmapData;
+		private var _defaultColor:uint;
 		
 		
 		
@@ -51,7 +53,7 @@ package com.muxxu.kube.common.vo {
 		 * Resets a face to a default color.
 		 */
 		public function reset(bmd:BitmapData):void {
-			bmd.fillRect(bmd.rect, 0xffaaaaaa);
+			bmd.fillRect(bmd.rect, _defaultColor);
 		}
 		
 		/**
@@ -103,10 +105,11 @@ package com.muxxu.kube.common.vo {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_faceTop = new BitmapData(16, 16, true, 0);
+			_defaultColor = 0xff000000 + MathUtils.randomNumberFromRange(0x555555, 0xffffff);
+			_faceTop = new BitmapData(16, 16, true, _defaultColor);
 			_faceTop.draw(new DefaultTopFaceGraphic());
-			_faceBottom = new BitmapData(16, 16, true, 0xffaaaaaa);
-			_faceSides = new BitmapData(16, 16, true, 0xffaaaaaa);
+			_faceBottom = new BitmapData(16, 16, true, _defaultColor);
+			_faceSides = new BitmapData(16, 16, true, _defaultColor);
 		}
 	}
 }

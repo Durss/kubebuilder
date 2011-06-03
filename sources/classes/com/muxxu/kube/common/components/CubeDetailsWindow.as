@@ -135,7 +135,7 @@ package com.muxxu.kube.common.components {
 		 * Resize and replace the elements.
 		 */
 		private function computePositions():void {
-			_infos.width = 150;
+			_infos.width = Math.round(_width - _height - 20);
 			_background.width = _width;
 			_background.height = _height;
 			_infos.x = _displayLeft? 15 : Math.round(_width - _infos.width - 15);

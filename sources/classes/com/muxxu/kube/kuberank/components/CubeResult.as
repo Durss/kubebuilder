@@ -355,6 +355,7 @@ package com.muxxu.kube.kuberank.components {
 			
 			var pp:PerspectiveProjection = new PerspectiveProjection();
 			pp.projectionCenter = new Point(0, 0);
+			pp.fieldOfView = 40;
 			_cube.transform.perspectiveProjection = pp;
 		}
 		

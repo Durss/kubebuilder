@@ -65,8 +65,8 @@ $totalKubes = intval($res["total"]);
 function getKubeDetails($kube) {
 	global $uidCache, $_UID;
 	if(!isset($uidCache[$kube['uid']])) {
-		$req = "SELECT name FROM kubebuilder_users WHERE id=".$kube['uid'];
-		$user = mysql_fetch_assoc(mysql_query($req));
+		$sqlUser = "SELECT name FROM kubebuilder_users WHERE id=".$kube['uid'];
+		$user = mysql_fetch_assoc(mysql_query($sqlUser));
 		$uidCache[$kube['uid']] = $user;
 	}else {
 		//If user's informations have already been loaded, just load them back from cache.
@@ -74,8 +74,8 @@ function getKubeDetails($kube) {
 	}
 	
 	if (isset($_UID)) {
-		$req = "SELECT COUNT(kid) as `total` FROM kubebuilder_evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
-		$uvote = mysql_fetch_assoc(mysql_query($req));
+		$sqlEval = "SELECT COUNT(kid) as `total` FROM kubebuilder_evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
+		$uvote = mysql_fetch_assoc(mysql_query($sqlEval));
 		$voted = intval($uvote['total']) > 0? "true" : "false";
 	}else {
 		$voted = "true";
@@ -98,13 +98,13 @@ function createKubeNode($kube) {
 
 }
 
-$req = "SELECT * FROM kubebuilder_kubes ".$where." ".$order." LIMIT ".$start.",".$length;
-$kubes = mysql_query($req);
+$sqlList = "SELECT * FROM kubebuilder_kubes ".$where." ".$order." LIMIT ".$start.",".$length;
+$kubes = mysql_query($sqlList);
 $kubeNodes = "";
 $lastKubesNode = "";
 $uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
 if(mysql_num_rows($kubes) == 0 && $resultCode === 0) {
-	$resultCode = isset($_POST['kubeId'])? "NoKubeAtThisIndex" : "NoResultsForThisUser";
+	$resultCode = isset($_POST['kubeId'])? "NoKubeAtThisIndex" : isset($_POST['ownerId'])? "NoResultsForThisUser" : 0;
 }
 while ($kube = mysql_fetch_assoc($kubes)) {
 	$kubeNodes .= createKubeNode($kube);
@@ -112,8 +112,8 @@ while ($kube = mysql_fetch_assoc($kubes)) {
 
 //If last added kubes asked, load them
 if(isset($_POST["lastToLoad"]) && intval($_POST["lastToLoad"]) > 0) {
-	$req = "SELECT * FROM kubebuilder_kubes ORDER BY date DESC LIMIT 0,".intval($_POST["lastToLoad"]);
-	$kubes = mysql_query($req);
+	$sqlLast = "SELECT * FROM kubebuilder_kubes WHERE locked=0 ORDER BY date DESC LIMIT 0,".intval($_POST["lastToLoad"]);
+	$kubes = mysql_query($sqlLast);
 	while ($kube = mysql_fetch_assoc($kubes)) {
 		$kubeNodes .= createKubeNode($kube);
 	}
