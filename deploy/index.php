@@ -5,7 +5,7 @@
 	include 'php/checkUser.php';
 	
 	if(isset($_GET["act"]) && $_GET["act"] == "admin" && $_LEVEL > 1) {
-		header("location:admin.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']);
+		header("Location: admin.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']);
 	}
 	
 	$errorSql = false;
@@ -121,7 +121,7 @@
 
 ?>
 		<div id="content">
-			<p>To view this page you must get Flash Player 10.1+ ! <br /><a href="http://get.adobe.com/flashplayer">Install the last version</a></p>
+			<p>In order to view this page you must get Flash Player 10.1+ ! <br /><a href="http://get.adobe.com/flashplayer">Install the last version</a></p>
 		</div>
 		
 		<script type="text/javascript">

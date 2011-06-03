@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 //Reverses the magic_quotes effect if enabled. (.htaccess configuration to disable it seems not to work properly :( )
 if (get_magic_quotes_gpc()) {
