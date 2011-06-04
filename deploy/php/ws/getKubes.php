@@ -104,7 +104,11 @@ $kubeNodes = "";
 $lastKubesNode = "";
 $uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
 if(mysql_num_rows($kubes) == 0 && $resultCode === 0) {
-	$resultCode = isset($_POST['kubeId'])? "NoKubeAtThisIndex" : isset($_POST['ownerId'])? "NoResultsForThisUser" : 0;
+	if (isset($_POST['kubeId'])) {
+		$resultCode = "NoKubeAtThisIndex";
+	}else if (isset($_POST['ownerId'])) {
+		$resultCode = "NoResultsForThisUser";
+	}
 }
 while ($kube = mysql_fetch_assoc($kubes)) {
 	$kubeNodes .= createKubeNode($kube);

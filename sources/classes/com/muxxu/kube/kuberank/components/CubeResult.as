@@ -155,12 +155,12 @@ package com.muxxu.kube.kuberank.components {
 			_endPos = endPos;
 			_startPos = startPos;
 			
-			_cube.leftFace = new CubeFace(_data.kub.faceSides);
+			_cube.leftFace = new CubeFace(_data.kub.faceSides, true);
 			_cube.rightFace = new CubeFace(_data.kub.faceSides);
-			_cube.frontFace = new CubeFace(_data.kub.faceSides);
+			_cube.frontFace = new CubeFace(_data.kub.faceSides, true);
 			_cube.backFace = new CubeFace(_data.kub.faceSides);
 			_cube.topFace = new CubeFace(_data.kub.faceTop); 
-			_cube.bottomFace = new CubeFace(_data.kub.faceBottom);
+			_cube.bottomFace = new CubeFace(_data.kub.faceBottom, true);
 			
 			_cube.width = _cube.height = _cube.depth = _size;
 			_wingLeft.scaleX = _wingLeft.scaleY = _wingRight.scaleX = _wingRight.scaleY = .3 + (_size/70 - 1)*.6;

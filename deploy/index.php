@@ -4,10 +4,6 @@
 	include 'php/connection.php';
 	include 'php/checkUser.php';
 	
-	if(isset($_GET["act"]) && $_GET["act"] == "admin" && $_LEVEL > 1) {
-		header("Location: admin.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']);
-	}
-	
 	$errorSql = false;
 	if ($_UID != -1) {
 		$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
@@ -27,10 +23,21 @@
 		$params = explode("_", $_GET["act"]);
 		$_GET["act"] = $params[0];
 		for ($i = 1; $i < count($params); $i++) {
-			list($var, $value) = explode("=", $params[$i]);
+			if(strpos($params[$i], "=") > -1) {
+				list($var, $value) = explode("=", $params[$i]);
+			}else {
+				$var = $params[$i];
+				$value = 0;
+			}
 			$_GET[$var] = $value;
 		}
 	}
+	
+	if (isset($_GET["act"]) && $_GET["act"] == "admin" && $_LEVEL > 1) {
+		$light = isset($_GET["light"])? "&light" : "";
+		header("Location: admin.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey'].$light);
+	}
+	
 	$swf = isset($_GET["act"]) && $_GET["act"] == "editor"? "kubeBuilder.swf" : "kubeRank.swf";
 	
 	//Put in english if the asked localistion doesn't exists
@@ -126,7 +133,7 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=2.7', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=2.8', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
@@ -140,6 +147,9 @@
 		echo "\t\t\tso.addVariable('votesTotal', '".MAX_VOTES_PER_DAY."');\r\n";
 		echo "\t\t\tso.addVariable('votesDone', '".$votesDone."');\r\n";
 		echo "\t\t\tso.addVariable('infosRead', '".$_INFO_READ."');\r\n";
+		if (isset($_GET["user"])) {
+			echo "\t\t\tso.addVariable('userToShow', '".$_GET["user"]."');\r\n";
+		}
 		if(isset($_GET["kid"])) {
 			$sql = "SELECT * FROM kubebuilder_kubes WHERE id=".intval($_GET["kid"]);
 			$req = mysql_query($sql);

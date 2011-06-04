@@ -62,62 +62,33 @@
 		<link rel="shortcut icon" href="favicon.ico" />
 		<style type="text/css">
             html, body {
-                margin:0;
-                padding:0;
+                margin:0px;
+                padding:0px;
             }
             body {
                 background: #4CA5CD;
                 font: 86% Arial, "Helvetica Neue", sans-serif;
-                margin: 0;
+                margin: 0px;
+                padding: 0px;
 				color: #0B376E;
             }
-			img {
-				border-bottom-style:none;
-				border-bottom-width:0px;
-				text-decoration:none;
-				border:none;
-			}
 			a {
 				color: #FFFFFF;
 			}
-			.guide h2 {
-				font-size: 17pt;
-				font-variant: small-caps;
-				margin-top: 15px;
-			}
-			.guide h3 {
-				font-size: 14pt;
-				margin: 20px 0;
-			}
-			.guide h2 {
-				font-size: 17pt;
-				font-variant: small-caps;
-				margin-top: 15px;
-			}
-			.guide h3 {
-				font-size: 14pt;
-				margin: 20px 0;
-			}
-			.guide .helpimg {
-				float: left;
-				position: relative;
-			}
-			.guide span.more {
-				font-size: 17pt;
-			}
+			
 			.guide img {
 				vertical-align: -17%;
 			}
 			.guide ul {
-				margin-left: 15px;
-				margin-right: 15px;
+				margin: 0px;
+				margin-left:-40px;
 				list-style: none outside none;
 			}
 			.guide ul li {
 				background-color: #9693BF;
 				border: 1px solid #454A6B;
 				margin: 0;
-				padding: 10px;
+				padding: 5px;
 			}
 			.guide em {
 				font-variant: small-caps;
@@ -142,7 +113,7 @@
 		echo "			ERROR !!! ".$error."<br />\r\n";
 	}
 ?>
-			<table border='0'>
+			<table border='0' width='100%'>
 <?php
 
 
@@ -150,8 +121,11 @@
 	$request = mysql_query($sql);
 	$index = 0;
 	$total = mysql_num_rows($request);
+	$light = isset($_GET["light"]);
+	$cols = $light? 4 : 2;
+	$lightParam = isset($_GET["light"])? "&light" : "";
 	while ($kube = mysql_fetch_assoc($request)) {
-		if ($index % 2 == 0) {
+		if ($index % $cols == 0) {
 			if($index > 0) echo "			</tr>\r\n";
 			echo "			<tr>\r\n";
 		}
@@ -168,13 +142,13 @@
 		
 		echo "			<td>\r\n";
 		echo "				<ul><li>\r\n";
-		echo "					<table border='0'>\r\n";
+		echo "					<table border='0' width='100%'>\r\n";
 		echo "						<tr>\r\n";
 		echo "							<td>\r\n";
 		echo "								<div id='kube".$index."'><a href='http://get.adobe.com/flashplayer'>Install flash</a></div>\r\n";
 		echo "								<script type='text/javascript'>\r\n";
 		echo "									// <![CDATA[\r\n";
-		echo "									var so".$index." = new SWFObject('swf/KubeViewer.swf?v=1', 'fl_kube".$index."', '160', '160', '10.1', '#9693BF');\r\n";
+		echo "									var so".$index." = new SWFObject('swf/KubeViewer.swf?v=1.1', 'fl_kube".$index."', '".($light? '40' : '150')."', '".($light? '42' : '160')."', '10.1', '#9693BF');\r\n";
 		echo "									so".$index.".addParam('menu', 'false');\r\n";
 		$fileName = "kubes/".$kube["file"].".kub";
 		$handle = fopen($fileName, "r");
@@ -182,17 +156,22 @@
 		fclose($handle);
 		$xml = "<kube id=\"".$kube["id"]."\" uid=\"".$kube["uid"]."\" name=\"".htmlspecialchars(utf8_encode($kube["name"]))."\" pseudo=\"".htmlspecialchars(utf8_encode($user["name"]))."\" date=\"".strtotime ($kube["date"])."\" votes=\"".$kube["score"]."\" voted=\"".$voted."\"><![CDATA[".$fileContent."]]></kube>";
 		echo "									so".$index.".addVariable('kube', '".urlencode($xml)."');\r\n";
-		if($index < $total-1) {
-		echo "									so".$index.".addVariable('nextKube', '".($index+1)."');\r\n";
+		
+		if($light) {
+			echo "									so".$index.".addVariable('light', 'true');\r\n";
 		}
+		if($index < $total-1) {
+			echo "									so".$index.".addVariable('nextKube', '".($index+1)."');\r\n";
+		}
+		
 		echo "									so".$index.".write('kube".$index."');\r\n";
 		echo "									/*]]>*/\r\n";
 		echo "								</script>\r\n";
 		echo "							</td>\r\n";
 		echo "							<td>\r\n";
 		echo "								<b>".utf8_encode($kube["name"])."</b><br />Par <a href='http://muxxu.com/u/".$user["name"]."' target='_parent'>".utf8_encode($user["name"])."<br /><br />\r\n";
-		echo "								<a href='?delete=".$kube["id"]."&uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']."' target='_self'><img src='img/delete.png' /><b>Supprimer</b></a><br />\r\n";
-		echo "								<a href='?unreport=".$kube["id"]."&uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']."' target='_self'><img src='img/submit.png'/><b>Annuler report</b></a>\r\n";
+		echo "								<a href='?delete=".$kube["id"]."&uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey'].$lightParam."' target='_self'><img src='img/delete.png' /><b>Supprimer</b></a><br />\r\n";
+		echo "								<a href='?unreport=".$kube["id"]."&uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey'].$lightParam."' target='_self'><img src='img/submit.png'/><b>Annuler report</b></a>\r\n";
 		echo "							</td>\r\n";
 		echo "						</tr>\r\n";
 		echo "					</table>\r\n";

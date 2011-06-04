@@ -1,4 +1,5 @@
 package com.muxxu.kube.common.vo {
+	import com.muxxu.kube.common.utils.makeKubePreview;
 	import com.nurun.utils.math.MathUtils;
 	import com.ion.PNGDecoder;
 	import com.adobe.images.PNGEncoder;
@@ -81,7 +82,7 @@ package com.muxxu.kube.common.vo {
 			data[5] = PNGEncoder.encode(_faceBottom);
 			data[6] = 0;
 			data[7] = 0;
-			data[8] = PNGEncoder.encode(_faceSides);//TODO
+			data[8] = PNGEncoder.encode(makeKubePreview(this));
 			ba.writeObject(data);
 			return ba;
 		}

@@ -78,12 +78,12 @@ package com.muxxu.kube.kubebuilder.views {
 			if(!_initialized || model.kubeData.faceTop != _lastTopFace) {
 				_lastTopFace = model.kubeData.faceTop;
 				_initialized = true;
-				_kube.leftFace = new CubeFace(model.kubeData.faceSides);
+				_kube.leftFace = new CubeFace(model.kubeData.faceSides, true);
 				_kube.rightFace = new CubeFace(model.kubeData.faceSides);
-				_kube.frontFace = new CubeFace(model.kubeData.faceSides);
+				_kube.frontFace = new CubeFace(model.kubeData.faceSides, true);
 				_kube.backFace = new CubeFace(model.kubeData.faceSides);
 				_kube.topFace = new CubeFace(model.kubeData.faceTop); 
-				_kube.bottomFace = new CubeFace(model.kubeData.faceBottom);
+				_kube.bottomFace = new CubeFace(model.kubeData.faceBottom, true);
 			}
 			
 			if(model.kubeSubmitted) {

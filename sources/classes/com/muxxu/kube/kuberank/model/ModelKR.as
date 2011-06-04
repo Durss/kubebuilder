@@ -37,6 +37,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _votesDone:Number;
 		private var _votesTotal:Number;
 		private var _lastSearchName:String;
+		private var _rerootToTop3:Boolean;
 		
 		
 		
@@ -84,10 +85,15 @@ package com.muxxu.kube.kuberank.model {
 		 * Starts thee application
 		 */
 		public function start():void {
-			_startIndex = 0;
-			_length = 3;
-			_top3Mode = true;
-			loadCubes();
+			if(Config.getVariable("userToShow") != null) {
+				_rerootToTop3 = true;
+				searchKubesOfUser(Config.getVariable("userToShow"));
+			}else{
+				_startIndex = 0;
+				_length = 3;
+				_top3Mode = true;
+				loadCubes();
+			}
 		}
 		
 		/**
@@ -264,9 +270,16 @@ package com.muxxu.kube.kuberank.model {
 			_totalResults = parseInt(XML(event.data).child("pagination").@total);
 			var startIndex:Number = parseInt(XML(event.data).child("pagination").@startIndex);
 			_data.populate(XML(event.data).child("kubes")[0], startIndex);
-			if(_data.length == 0) _userName = "";
-			update();
-			unlock();
+			if(_data.length == 0) {
+				_userName = "";
+				if(_rerootToTop3) {
+					_rerootToTop3 = false;
+					showTop3();
+				}
+			}else{
+				update();
+				unlock();
+			}
 		}
 		
 		/**
@@ -274,6 +287,10 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		private function loadCubesErrorHandler(event:CommandEvent):void {
 			_userName = "";
+			if(_rerootToTop3) {
+				_rerootToTop3 = false;
+				showTop3();
+			}
 			unlock();
 		}
 		

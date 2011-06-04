@@ -1,6 +1,6 @@
 package com.muxxu.kube.common.components.cube {
-	import flash.display.BitmapData;
 	import flash.display.Bitmap;
+	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	
 	/**
@@ -14,6 +14,7 @@ package com.muxxu.kube.common.components.cube {
 		private var _width:Number;
 		private var _bmp:Bitmap;
 		private var _bmd:BitmapData;
+		private var _flip:Boolean;
 		
 		
 		
@@ -24,7 +25,8 @@ package com.muxxu.kube.common.components.cube {
 		/**
 		 * Creates an instance of <code>CubeFace</code>.
 		 */
-		public function CubeFace(bmd:BitmapData) {
+		public function CubeFace(bmd:BitmapData, flip:Boolean = false) {
+			_flip = flip;
 			_bmd = bmd;
 			initialize();
 		}
@@ -76,7 +78,8 @@ package com.muxxu.kube.common.components.cube {
 		private function computePositions():void {
 			_bmp.width = _width;
 			_bmp.height = _height;
-			_bmp.x = -_width * .5;
+			_bmp.scaleX = _flip? -_bmp.scaleX : _bmp.scaleX;
+			_bmp.x = _flip? _width * .5 : -_width * .5;
 			_bmp.y = -_height * .5;
 		}
 		
