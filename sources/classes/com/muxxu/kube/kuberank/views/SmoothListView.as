@@ -84,6 +84,7 @@ package com.muxxu.kube.kuberank.views {
 				var resetChange:Boolean = cantShowSignal || _wasTop3Mode != model.top3Mode;
 				var prevLength:int = _lastLength;
 				if(resetChange) _lastLength = 0;
+				removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
 				if(model.data.version != _lastVersion) {
 					//If already opened but new sort type, hide, populate then show back the view.
 					if(_opened && resetChange) {
@@ -92,6 +93,8 @@ package com.muxxu.kube.kuberank.views {
 					}else{
 						populate(model.data, resetChange);
 					}
+				}else{
+					addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 				}
 				//if view is closed, show it.
 				if(!_opened) {
@@ -100,7 +103,6 @@ package com.muxxu.kube.kuberank.views {
 					stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 					stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
 					stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseWheelHandler);
-					addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 					_scrollbar.height = stage.stageWidth;
 					_scrollbar.y = 400 + 13;
 				}else if(model.data.version != _lastVersion && !cantShowSignal && model.data.length > prevLength){
@@ -204,6 +206,7 @@ package com.muxxu.kube.kuberank.views {
 			}
 			
 			_lastLength = data.length;
+			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
 		
 		/**

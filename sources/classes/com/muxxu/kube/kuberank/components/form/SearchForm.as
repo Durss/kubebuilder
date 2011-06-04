@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.components.form {
+	import com.muxxu.kube.kuberank.vo.CubeData;
+	import com.nurun.structure.environnement.configuration.Config;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.nurun.components.form.events.FormComponentEvent;
 	import flash.events.Event;
@@ -16,6 +18,7 @@ package com.muxxu.kube.kuberank.components.form {
 	 * @author Francois
 	 */
 	public class SearchForm extends Sprite {
+		
 		private var _title:CssTextField;
 		private var _byNameTitle:CssTextField;
 		private var _byKIDTitle:CssTextField;
@@ -42,6 +45,17 @@ package com.muxxu.kube.kuberank.components.form {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+		/**
+		 * Updates the component's state
+		 */
+		public function update(username:String, cube:CubeData):void {
+			if(username != Config.getVariable("uname") && username.length > 0) {
+				_nameInput.text = username;
+			}
+			if(cube != null) {
+//				_kidInput.text = cube.id.toString();
+			}
+		}
 
 
 

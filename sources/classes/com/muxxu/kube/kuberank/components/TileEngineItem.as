@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.components {
+	import com.muxxu.kube.common.utils.makeKubePreview;
+	import flash.display.Bitmap;
 	import com.muxxu.kube.kubebuilder.graphics.CubeShadowGraphic;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.nurun.components.tile.ITileEngineItem;
@@ -19,7 +21,7 @@ package com.muxxu.kube.kuberank.components {
 		private var _visibleHeight:Number;
 		private var _width:Number;
 		private var _shadow:CubeShadowGraphic;
-		private var _cube:BitmapCube;
+		private var _cube:Bitmap;
 		
 		
 		
@@ -108,7 +110,7 @@ package com.muxxu.kube.kuberank.components {
 		 */
 		private function initialize():void {
 			_shadow = addChild(new CubeShadowGraphic()) as CubeShadowGraphic;
-			_cube = addChild(new BitmapCube()) as BitmapCube;
+			_cube = addChild(new Bitmap()) as Bitmap;
 			mouseChildren = false;
 		}
 		
@@ -116,7 +118,8 @@ package com.muxxu.kube.kuberank.components {
 		 * Called when value object is updated.
 		 */
 		private function changeDataHandler(event:Event = null):void {
-			_cube.populate(_data, _width);
+			if(_cube.bitmapData != null) _cube.bitmapData.dispose();
+			_cube.bitmapData = makeKubePreview(_data.kub, false, 2.5);
 			_shadow.scaleX = _shadow.scaleY = _width/80;
 			_shadow.y = _width * .95;
 			_shadow.x = Math.round((_cube.width - _shadow.width) * .5);

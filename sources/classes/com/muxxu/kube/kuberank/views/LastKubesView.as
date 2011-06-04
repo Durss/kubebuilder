@@ -2,19 +2,22 @@ package com.muxxu.kube.kuberank.views {
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
+	import com.muxxu.kube.common.utils.makeKubePreview;
 	import com.muxxu.kube.kubebuilder.graphics.GradientMenuSplitter;
-	import com.muxxu.kube.kuberank.components.BitmapCube;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
+	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 
+	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.utils.Dictionary;
 
 	/**
 	 * 
@@ -25,11 +28,12 @@ package com.muxxu.kube.kuberank.views {
 		
 		[Embed(source="../../assets/next.kub", mimeType="application/octet-stream")]
 		private var _nextKubeClass:Class;
-		private var _spool:Vector.<BitmapCube>;
+		private var _spool:Vector.<Sprite>;
 		private var _holder:Sprite;
 		private var _label:CssTextField;
 		private var _splitter:GradientMenuSplitter;
 		private var _nextBt:ButtonKube;
+		private var _bitmapToData:Dictionary;
 		
 		
 		
@@ -83,7 +87,7 @@ package com.muxxu.kube.kuberank.views {
 			_splitter = addChild(new GradientMenuSplitter()) as GradientMenuSplitter;
 			_label = addChild(new CssTextField("lastKubesTitle")) as CssTextField;
 			_nextBt = addChild(new ButtonKube(Label.getLabel("lastKubesNext"), true)) as ButtonKube;
-			_spool = new Vector.<BitmapCube>();
+			_spool = new Vector.<Sprite>();
 			_holder = addChild(new Sprite()) as Sprite;
 			_holder.buttonMode = true;
 			
@@ -128,8 +132,8 @@ package com.muxxu.kube.kuberank.views {
 		private function clickHandler(event:MouseEvent):void {
 			if(event.target == _nextBt) {
 				FrontControlerKR.getInstance().sort(true);
-			}else if(event.target is BitmapCube) {
-				FrontControlerKR.getInstance().openKube(BitmapCube(event.target).data);
+			}else if(_bitmapToData[event.target] != null) {
+				FrontControlerKR.getInstance().openKube(_bitmapToData[event.target] as CubeData);
 			}
 		}
 		
@@ -137,13 +141,15 @@ package com.muxxu.kube.kuberank.views {
 		 * Populates the component.
 		 */
 		private function populate(data:CubeDataCollection):void {
-			var i:int, len:int, offset:int, item:BitmapCube;
+			var i:int, len:int, offset:int, item:Sprite, bmd:BitmapData;
 			len = data.length;
+			
+			_bitmapToData = new Dictionary();
 			
 			offset = 3;
 			//create missing objects
 			for(i = offset + _spool.length; i < len; ++i) {
-				_spool[i - offset] = new BitmapCube();
+				_spool[i - offset] = new Sprite();
 			}
 			
 			//Remove all the items
@@ -153,8 +159,12 @@ package com.muxxu.kube.kuberank.views {
 			for(i = offset; i < len; ++i) {
 				item = _spool[i - offset];
 				_holder.addChild(item);
-				item.populate(data.getItemAt(i), 32, true);
+				bmd = makeKubePreview(data.getItemAt(i).kub, false, 1);
+				item.graphics.clear();
+				item.graphics.beginBitmapFill(bmd);
+				item.graphics.drawRect(0, 0, bmd.width, bmd.height);
 				item.y = 45 * (i - offset);
+				_bitmapToData[item] = data.getItemAt(i);
 			}
 			_holder.addChild(_nextBt);
 			_nextBt.y = 45 * (i - offset) + 10;

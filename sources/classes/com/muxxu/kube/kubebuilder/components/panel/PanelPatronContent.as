@@ -142,19 +142,21 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			_bottom.x	= _top.x;
 			_bottom.y	= _right.y + _right.height + 1;
 			
+			_frontBmp.scaleX = -_frontBmp.scaleX;
 			_frontBmp.rotation = 90;
 			_leftBmp.rotation = 180;
+			_leftBmp.scaleX = -_leftBmp.scaleX;
 			_topBmp.rotation = 90;
 			_backBmp.rotation = -90;
 			_bottomBmp.rotation = -90;
 			
 			_frontBmp.x = _frontBmp.width + 1;
-			_frontBmp.y = 1;
+			_frontBmp.y = _frontBmp.height + 1;
 			
 			_topBmp.x = _topBmp.width + 1;
 			_topBmp.y = 1;
 			
-			_leftBmp.x = _leftBmp.width + 1;
+			_leftBmp.x = 1;
 			_leftBmp.y = _leftBmp.height + 1;
 			
 			_rightBmp.x = 1;

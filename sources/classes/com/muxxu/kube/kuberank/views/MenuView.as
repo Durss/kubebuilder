@@ -48,6 +48,7 @@ package com.muxxu.kube.kuberank.views {
 		override public function update(event:IModelEvent):void {
 			var model:ModelKR = event.model as ModelKR;
 			_displayTypeForm.update(model.top3Mode, model.sortByDate, model.userName);
+			_searchForm.update(model.userName, model.openedCube);
 		}
 
 

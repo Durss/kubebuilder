@@ -44,7 +44,7 @@
 		
 		<label code="errorLoadResultUserNotFound"><![CDATA[No user found matching the specified nickname.]]></label>
 		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[This user hasn't submitted any kubes yet.]]></label>
-		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[No kube matching this ID.]]></label>
+		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[The specified kube doesn't exists.]]></label>
 		<label code="errorLoadResultFormat"><![CDATA[Kubes loading failed. Invalid returned data format.]]></label>
 		<label code="errorLoadResult404"><![CDATA[Unable to connect to the server.]]></label>
 		
