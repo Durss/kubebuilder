@@ -128,6 +128,13 @@ package com.muxxu.kube.kuberank.controler {
 			_model.deleteKube(data);
 		}
 
+		/**
+		 * Shows the user's profile
+		 */
+		public function showProfile():void {
+			_model.showProfile();
+		}
+
 
 		
 		

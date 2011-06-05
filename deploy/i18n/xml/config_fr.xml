@@ -76,7 +76,7 @@
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="orderByDate"><![CDATA[Tous par date]]></label>
 		<label code="orderByVotes"><![CDATA[Tous par votes]]></label>
-		<label code="searchMine"><![CDATA[<p align="center">Mes<br />kubes</p>]]></label>
+		<label code="searchMine"><![CDATA[<p align="center">Ma<br />Page</p>]]></label>
 		<label code="searchTitle"><![CDATA[Rechercher :]]></label>
 		<label code="searchByName"><![CDATA[Les kubes de :]]></label>
 		<label code="searchByKID"><![CDATA[Le kube N° :]]></label>

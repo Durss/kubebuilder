@@ -133,7 +133,7 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=2.8', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=3', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
@@ -151,7 +151,7 @@
 			echo "\t\t\tso.addVariable('userToShow', '".$_GET["user"]."');\r\n";
 		}
 		if(isset($_GET["kid"])) {
-			$sql = "SELECT * FROM kubebuilder_kubes WHERE id=".intval($_GET["kid"]);
+			$sql = "SELECT * FROM kubebuilder_kubes WHERE locked=0 AND id=".intval($_GET["kid"]);
 			$req = mysql_query($sql);
 			if($req !== false) {
 				$kube = mysql_fetch_assoc($req);

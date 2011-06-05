@@ -75,3 +75,12 @@ CREATE TABLE IF NOT EXISTS `kubebuilder_users` (
   `infoRead` tinyint(1) NOT NULL DEFAULT '0',
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='users list.';
+
+
+CREATE TABLE IF NOT EXISTS `kubebuilder`.`kubebuilder_lists` (
+`id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
+`uid` MEDIUMINT UNSIGNED NOT NULL ,
+`name` VARCHAR( 25 ) NOT NULL ,
+`kubes` TEXT NOT NULL ,
+PRIMARY KEY ( `id` )
+) ENGINE = MYISAM ;

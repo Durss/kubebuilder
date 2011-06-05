@@ -91,7 +91,6 @@ package com.muxxu.kube.kuberank.views {
 			_displayTypeForm.y = 5;
 			var offset:Number = _displayTypeForm.x + _displayTypeForm.width;
 			_searchForm.x = Math.round((stage.stageWidth - offset - _searchForm.width) * .5 + offset);
-			
 		}
 		
 	}

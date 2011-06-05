@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank {
+	import com.muxxu.kube.kuberank.views.ListsView;
 	import com.muxxu.kube.kuberank.views.LastKubesView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
@@ -69,6 +70,7 @@ package com.muxxu.kube.kuberank {
 //			addChild(new ListView());
 			addChild(new SmoothListView());
 			addChild(new MenuView());
+			addChild(new ListsView());
 			addChild(new DisableLayerView());
 			addChild(new SingleKubeView());
 			addChild(new LockStateView(_exceptionView));
