@@ -22,29 +22,29 @@
 		<label code="openForm"><![CDATA[Submit]]></label>
 		<label code="formTitle"><![CDATA[Give a name to your kube and let him fly to the kube's world!]]></label>
 		<label code="formSubmit"><![CDATA[Send]]></label>
-		<label code="readInfo"><![CDATA[Before creating a kube, please read the <b>"Infos"</b> part to understand what this application stands for.]]></label>
-		<label code="readInfoButton"><![CDATA[Read]]></label>
+		<label code="readInfo"><![CDATA[Before creating a kube, please read the <b>"Infos"</b> part to understand what this application is for.]]></label>
+		<label code="readInfoButton"><![CDATA[Read infos]]></label>
 		
 		<label code="tooltipLoad"><![CDATA[Loads a kube saved to your computer]]></label>
-		<label code="tooltipSave"><![CDATA[Register the kube to your computer]]></label>
-		<label code="tooltipSubmit"><![CDATA[Send your kube to the server]]></label>
+		<label code="tooltipSave"><![CDATA[Save the kube onto your computer]]></label>
+		<label code="tooltipSubmit"><![CDATA[Submit your kube to the server]]></label>
 		
 		<label code="errorImageLoading"><![CDATA[File loading failed. Please ensure the file is a valid image file.]]></label>
-		<label code="errorSubmitResultFormat"><![CDATA[Kube sending failed. Invalid returned data format.]]></label>
+		<label code="errorSubmitResultFormat"><![CDATA[Kube transmission failed. Invalid return data format.]]></label>
 		<label code="errorSubmitResult404"><![CDATA[Unable to connect to the server.]]></label>
-		<label code="errorSubmitResultName"><![CDATA[Kube sending failed. No name defined.]]></label>
-		<label code="errorSubmitResultFile"><![CDATA[Kube sending failed. File transmition problem.]]></label>
-		<label code="errorSubmitResultPost"><![CDATA[Kube sending failed. No data transfered.]]></label>
-		<label code="errorSubmitResultCreate"><![CDATA[Kube sending failed. File creation problem.]]></label>
-		<label code="errorSubmitResultSql"><![CDATA[Kube sending failed. SQL error.]]></label>
-		<label code="errorSubmitResultWrite"><![CDATA[Kube sending failed. Unable to write the file.]]></label>
+		<label code="errorSubmitResultName"><![CDATA[Kube transmission failed. No name defined.]]></label>
+		<label code="errorSubmitResultFile"><![CDATA[Kube transmission failed. File transmission problem.]]></label>
+		<label code="errorSubmitResultPost"><![CDATA[Kube transmission failed. No data transfered.]]></label>
+		<label code="errorSubmitResultCreate"><![CDATA[Kube transmission failed. File creation problem.]]></label>
+		<label code="errorSubmitResultSql"><![CDATA[Kube transmission failed. SQL error.]]></label>
+		<label code="errorSubmitResultWrite"><![CDATA[Kube transmission failed. Unable to write the file.]]></label>
 		<label code="errorSubmitResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
-		<label code="errorSubmitResultMaxCreationPerDayReached"><![CDATA[You can't submit anymore kubes for today.<br /><br />If you don't want to loos the kube you just created,<br />save it to your computer by clicking <i>"Save the kube"</i>.<br /><br />You'll be able to load it back to the application by clicking<br /><i>"Load a kube"</i> and submit it again tomorrow.]]></label>
-		<label code="errorSubmitResultBanned"><![CDATA[Because of an abuse you can't create kubes anymore.]]></label>
+		<label code="errorSubmitResultMaxCreationPerDayReached"><![CDATA[You can't submit anymore kubes for today.<br /><br />If you don't want to lose the kube you just created,<br />save it to your computer by clicking <i>"Save the kube"</i>.<br /><br />You'll be able to load it back to the application by clicking<br /><i>"Load a kube"</i> and submit it again tomorrow.]]></label>
+		<label code="errorSubmitResultBanned"><![CDATA[You no longer have the right to create kubes due to abuse of the creation/vote/report system.]]></label>
 		
 		<label code="errorLoadResultUserNotFound"><![CDATA[No user found matching the specified nickname.]]></label>
 		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[This user hasn't submitted any kubes yet.]]></label>
-		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[The specified kube doesn't exists.]]></label>
+		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[The specified kube does not exists.]]></label>
 		<label code="errorLoadResultFormat"><![CDATA[Kubes loading failed. Invalid returned data format.]]></label>
 		<label code="errorLoadResult404"><![CDATA[Unable to connect to the server.]]></label>
 		
@@ -52,14 +52,14 @@
 		<label code="errorVoteResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
 		<label code="errorVoteResultSql"><![CDATA[Vote failed. SQL error.]]></label>
 		<label code="errorVoteResultVotesLeft"><![CDATA[You can't vote anymore for today.]]></label>
-		<label code="errorVoteResultAlreadyVoted"><![CDATA[ou already voted for this kube!]]></label>
+		<label code="errorVoteResultAlreadyVoted"><![CDATA[You already voted for this kube!]]></label>
 		<label code="errorVoteResultFormat"><![CDATA[Vote failed. Invalid returned data format.]]></label>
 		<label code="errorVoteResultBanned"><![CDATA[Because of an abuse you can't vote anymore.]]></label>
 		<label code="errorVoteResult404"><![CDATA[Unable to connect to the server.]]></label>
 		
-		<label code="deleteSuccess"><![CDATA[Votre kube a été supprimé.]]></label>
+		<label code="deleteSuccess"><![CDATA[Your kube has been deleted successfully.]]></label>
 		<label code="errorDeleteResultPost"><![CDATA[Kube deletion failed. Request parameters missing.]]></label>
-		<label code="errorDeleteResultAuth"><![CDATA[L'authentification a échouée. Try to reload the page.]]></label>
+		<label code="errorDeleteResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
 		<label code="errorDeleteResultSql"><![CDATA[Kube deletion failed. SQL error.]]></label>
 		<label code="errorDeleteResultFormat"><![CDATA[Kube deletion failed. Invalid returned data format.]]></label>
 		<label code="errorDeleteResult404"><![CDATA[Unable to connect to the server.]]></label>
@@ -78,8 +78,8 @@
 		<label code="orderByVotes"><![CDATA[All by votes]]></label>
 		<label code="searchMine"><![CDATA[<p align="center">My<br />kubes</p>]]></label>
 		<label code="searchTitle"><![CDATA[Search :]]></label>
-		<label code="searchByName"><![CDATA[Kubes of :]]></label>
-		<label code="searchByKID"><![CDATA[Kubes N°° :]]></label>
+		<label code="searchByName"><![CDATA[Kubes made by :]]></label>
+		<label code="searchByKID"><![CDATA[Kubes N° :]]></label>
 		<label code="searchByNameInput"><![CDATA[nickname...]]></label>
 		<label code="searchByKIDInput"><![CDATA[kube ID...]]></label>
 		<label code="searchLabel"><![CDATA[Search]]></label>
@@ -93,14 +93,14 @@
 		<label code="voted"><![CDATA[You've already voted for this kube]]></label>
 		<label code="confirmVote"><![CDATA[Vote registered!]]></label>
 		<label code="warn"><![CDATA[Report this kube]]></label>
-		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Please use this button only if the kube represents some racist, obscene or insulting image, or if you are the owner of the image!<br />Any abuse will be punished by the withdrawal of your right to vote.</span>]]></label>
+		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Please use this button only if the kube represents some racist, obscene or insulting image, or if you are the owner of the image!<br />Any abuse will be punished by the withdrawal of your rights to vote, report and create.</span>]]></label>
 		<label code="voteTooltip"><![CDATA[<b>Warning :</b> You've got <b>{VOTES}/{TOTAL}</b> votes left for today!]]></label>
-		<label code="voteInformations"><![CDATA[<b>Information :</b> The vote of each player is weighted according to its statistics on the game Kube.]]></label>
+		<label code="voteInformations"><![CDATA[<b>Information :</b> The vote of each player is weighted according to that players' statistics in Kube..]]></label>
 		<label code="alreadyVotedTitle"><![CDATA[You've already voted for this kube!]]></label>
 		<label code="lastKubesTitle"><![CDATA[Last creations]]></label>
 		<label code="lastKubesNext"><![CDATA[»]]></label>
 		<label code="copySharePath"><![CDATA[Copy]]></label>
-		<label code="shareTitle"><![CDATA[Share this kube to your friends :]]></label>
+		<label code="shareTitle"><![CDATA[Share this kube with your friends :]]></label>
 		<label code="deleteKube"><![CDATA[DELETE MY KUBE]]></label>
 		<label code="viewUserKubes"><![CDATA[VIEW THE KUBES OF THIS PLAYER]]></label>
 	</labels>
@@ -113,7 +113,7 @@
 		<var code="banned"><![CDATA[false]]></var>
 		
 		<var code="newItemsToShow"><![CDATA[8]]></var>
-		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
+		<var code="server"><![CDATA[http://fevermap.org/kubebuilder]]></var>
 		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
 	</vars>
 	

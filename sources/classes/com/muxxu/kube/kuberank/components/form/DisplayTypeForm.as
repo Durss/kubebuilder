@@ -108,7 +108,7 @@ package com.muxxu.kube.kuberank.components.form {
 			}else if(event.target == _dateBt) {
 				FrontControlerKR.getInstance().sort(true);
 			}else if(event.target == _myKubesBt) {
-				FrontControlerKR.getInstance().searchKubesOfUser(Config.getVariable("uname"));
+				FrontControlerKR.getInstance().showProfile();
 			}
 		}
 		

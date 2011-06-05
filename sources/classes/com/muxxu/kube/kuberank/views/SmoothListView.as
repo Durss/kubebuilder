@@ -79,7 +79,7 @@ package com.muxxu.kube.kuberank.views {
 		override public function update(event:IModelEvent):void {
 			TweenLite.killTweensOf(this);
 			var model:ModelKR = event.model as ModelKR;
-			if(!model.top3Mode) {
+			if(!model.top3Mode && !model.profileMode) {
 				var cantShowSignal:Boolean = _lastSortType != model.sortByDate || _lastUserName != model.userName;
 				var resetChange:Boolean = cantShowSignal || _wasTop3Mode != model.top3Mode;
 				var prevLength:int = _lastLength;

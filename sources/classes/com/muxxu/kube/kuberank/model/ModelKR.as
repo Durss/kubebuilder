@@ -38,6 +38,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _votesTotal:Number;
 		private var _lastSearchName:String;
 		private var _rerootToTop3:Boolean;
+		private var _profileMode:Boolean;
 		
 		
 		
@@ -76,6 +77,8 @@ package com.muxxu.kube.kuberank.model {
 
 		public function get userName():String { return _userName; }
 
+		public function get profileMode():Boolean { return _profileMode; }
+
 
 
 		/* ****** *
@@ -94,6 +97,8 @@ package com.muxxu.kube.kuberank.model {
 				_top3Mode = true;
 				loadCubes();
 			}
+//			_profileMode = true;
+//			_top3Mode = false;
 		}
 		
 		/**
@@ -102,7 +107,7 @@ package com.muxxu.kube.kuberank.model {
 		public function loadCubes(...args):void {
 			//Do not clear the previous command, that, the items are still loaded
 			//and there won't be "holes" in the slide.
-			var cmd:LoadCubesCmd = new LoadCubesCmd(Config.getPath("getKubes"), _startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0);
+			var cmd:LoadCubesCmd = new LoadCubesCmd(_startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0);
 			cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, loadCubesErrorHandler);
 			cmd.execute();
@@ -113,7 +118,7 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function vote(cube:CubeData):void {
 			lock();
-			var cmd:VoteCmd = new VoteCmd(Config.getPath("postVote"), cube);
+			var cmd:VoteCmd = new VoteCmd(cube);
 			cmd.addEventListener(CommandEvent.COMPLETE, voteCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
@@ -124,7 +129,7 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function report(cube:CubeData):void {
 			lock();
-			var cmd:ReportCmd = new ReportCmd(Config.getPath("postReport"), cube);
+			var cmd:ReportCmd = new ReportCmd(cube);
 			cmd.addEventListener(CommandEvent.COMPLETE, reportCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
@@ -144,7 +149,7 @@ package com.muxxu.kube.kuberank.model {
 			_userName = "";
 			_lastSearchName = "";
 			_data.clear();
-			var cmd:DeleteKubeCmd = new DeleteKubeCmd(Config.getPath("deleteKube"), data);
+			var cmd:DeleteKubeCmd = new DeleteKubeCmd(data);
 			cmd.addEventListener(CommandEvent.COMPLETE, deleteCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
@@ -216,7 +221,7 @@ package com.muxxu.kube.kuberank.model {
 		public function loadKube(kubeId:String):void {
 			//Do not clear the previous command, that, the items are still loaded
 			//and there won't be "holes" in the slide.
-			var cmd:LoadCubesCmd = new LoadCubesCmd(Config.getPath("getKubes"), 0, 1, null, false, 0, kubeId);
+			var cmd:LoadCubesCmd = new LoadCubesCmd(0, 1, null, false, 0, kubeId);
 			cmd.addEventListener(CommandEvent.COMPLETE, loadSingleCubesCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
@@ -239,6 +244,20 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function closeKube():void {
 			_openedCube = null;
+			update();
+		}
+		
+		/**
+		 * Shows the user's profile
+		 */
+		public function showProfile():void {
+//			lock();
+			_openedCube = null;
+			_userName = "";
+			_lastSearchName = "";
+			_top3Mode = false;
+			_sortByDate = false;
+			_profileMode = true;
 			update();
 		}
 

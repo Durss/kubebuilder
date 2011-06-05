@@ -15,6 +15,7 @@ package com.muxxu.kube.common.components.cube {
 		private var _bmp:Bitmap;
 		private var _bmd:BitmapData;
 		private var _flip:Boolean;
+		private var _isBottom:Boolean;
 		
 		
 		
@@ -25,7 +26,8 @@ package com.muxxu.kube.common.components.cube {
 		/**
 		 * Creates an instance of <code>CubeFace</code>.
 		 */
-		public function CubeFace(bmd:BitmapData, flip:Boolean = false) {
+		public function CubeFace(bmd:BitmapData, flip:Boolean = false, isBottom:Boolean = false) {
+			_isBottom = isBottom;
 			_flip = flip;
 			_bmd = bmd;
 			initialize();
@@ -81,6 +83,10 @@ package com.muxxu.kube.common.components.cube {
 			_bmp.scaleX = _flip? -_bmp.scaleX : _bmp.scaleX;
 			_bmp.x = _flip? _width * .5 : -_width * .5;
 			_bmp.y = -_height * .5;
+			if(_isBottom) {
+				_bmp.rotation = -90;
+				_bmp.y += _width;
+			}
 		}
 		
 	}

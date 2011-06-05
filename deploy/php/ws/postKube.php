@@ -1,5 +1,5 @@
 <?php
-header("Content-type: text/xml");
+header("Content-type: text/xml; charset=UTF-8");
 require_once('../constants.php');
 require_once('../connection.php');
 require_once('../secure.php');
@@ -30,7 +30,7 @@ if (isset($_UID, $_UNAME))
 							if (fputs($handle, $kube) === false) {
 								$result = "Write";
 							}else{
-								$req = "INSERT INTO `kubebuilder_kubes` ( `name` , `uid` , `file` ) VALUES ('".secure_string($_POST['name'])."', ".$_UID.", '".$fileName."')";
+								$req = "INSERT INTO `kubebuilder_kubes` ( `name` , `uid` , `file` ) VALUES ('".$name."', ".$_UID.", '".$fileName."')";
 								$kubes = mysql_query($req);
 								$result = $kubes === false? "Sql" : 0;
 								mysql_close();
@@ -49,11 +49,11 @@ if (isset($_UID, $_UNAME))
 				}
 			}
 		}
-		elseif (isset($name))
+		elseif (isset($_POST['name']))
 		{
 			$result = "File";
 		}
-		elseif (isset($kube))
+		elseif (isset($_POST['kube']))
 		{
 			$result = "Name";
 		}

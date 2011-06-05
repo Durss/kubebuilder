@@ -1,9 +1,10 @@
 package com.muxxu.kube.kuberank.cmd {
-	import com.muxxu.kube.kuberank.vo.CubeData;
-	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.error.KubeException;
+	import com.muxxu.kube.common.error.KubeExceptionLevel;
+	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.nurun.core.commands.Command;
 	import com.nurun.core.commands.events.CommandEvent;
+	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.utils.commands.LoadFileCmd;
 
@@ -26,9 +27,9 @@ package com.muxxu.kube.kuberank.cmd {
 		/**
 		 * Constructor
 		 */
-		public function DeleteKubeCmd(wsUrl:String, cubeData:CubeData) {
+		public function DeleteKubeCmd(cubeData:CubeData) {
 			_cubeData = cubeData;
-			super(wsUrl);
+			super(Config.getPath("deleteKube"));
 			_urlVariables["kid"] = cubeData.id.toString();
 		}
 

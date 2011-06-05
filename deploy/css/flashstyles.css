@@ -59,3 +59,6 @@
 .radioButton_selected { font-family:Verdana; font-size:14; font-weight:bold; color:#265367; }
 
 .sharePath { font-family:Verdana; font-size:14; color:#265367; }
+
+.listsTitle { font-family:Verdana; font-weight:bold; font-size:25; color:#ffffff; }
+.listsEntry { font-family:Verdana; font-weight:bold; font-size:25; color:#265367; }

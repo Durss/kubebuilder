@@ -1,5 +1,5 @@
 <?php
-header("Content-type: text/xml");
+header("Content-type: text/xml; charset=UTF-8");
 
 // Connection Mysql et récupération de la liste des kubes
 include '../constants.php';

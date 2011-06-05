@@ -1,5 +1,5 @@
 <?php
-header("Content-type: text/xml");
+header("Content-type: text/xml; charset=UTF-8");
 include '../constants.php';
 include '../connection.php';
 include '../secure.php';

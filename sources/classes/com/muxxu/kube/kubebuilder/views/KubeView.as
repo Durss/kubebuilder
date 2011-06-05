@@ -83,7 +83,7 @@ package com.muxxu.kube.kubebuilder.views {
 				_kube.frontFace = new CubeFace(model.kubeData.faceSides, true);
 				_kube.backFace = new CubeFace(model.kubeData.faceSides);
 				_kube.topFace = new CubeFace(model.kubeData.faceTop); 
-				_kube.bottomFace = new CubeFace(model.kubeData.faceBottom, true);
+				_kube.bottomFace = new CubeFace(model.kubeData.faceBottom, false, true);
 			}
 			
 			if(model.kubeSubmitted) {

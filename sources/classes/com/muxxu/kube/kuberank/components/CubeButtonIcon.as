@@ -1,6 +1,6 @@
 package com.muxxu.kube.kuberank.components {
 	import gs.TweenLite;
-	import gs.easing.Bounce;
+	import gs.easing.Sine;
 
 	import com.muxxu.kube.common.components.cube.CubeFace;
 	import com.muxxu.kube.common.vo.KUBData;
@@ -122,14 +122,14 @@ package com.muxxu.kube.kuberank.components {
 		 * Called when vote button is rolled over.
 		 */
 		private function rollOverKubeHandler(event:MouseEvent):void {
-			TweenLite.to(_cube, .75, {rotationX:90, ease:Bounce.easeOut, onUpdate:_cube.validate});
+			TweenLite.to(_cube, .25, {rotationX:90, ease:Sine.easeInOut, onUpdate:_cube.validate});
 		}
 
 		/**
 		 * Called when vote button is rolled out.
 		 */
 		private function rollOutKubeHandler(event:MouseEvent):void {
-			TweenLite.to(_cube, .75, {rotationX:0, ease:Bounce.easeOut, onUpdate:_cube.validate});
+			TweenLite.to(_cube, .25, {rotationX:0, ease:Sine.easeInOut, onUpdate:_cube.validate});
 		}	
 		
 	}
