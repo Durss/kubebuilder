@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<styleSheets>
+		<styleSheet><![CDATA[css/flashstyles.css?v=3]]></styleSheet>
+	</styleSheets>
+	
+	<fonts>
+		<font><![CDATA[swf/fonts/Verdana.swf?v=1]]></font>
+	</fonts>
+	
+	<labels>
+		<file><![CDATA[i18n/xml/labels_{v_lang}.xml]]></file>
+	</labels>
+	
+	<vars>
+		<!-- Those vars are overridden by html. Here just for standalone testing -->
+		<var code="key"><![CDATA[0c66b1438ef5bd89ed4baf59455d9e6b]]></var>
+		<var code="uname"><![CDATA[durss]]></var>
+		<var code="uid"><![CDATA[89]]></var>
+		<var code="banned"><![CDATA[false]]></var>
+		
+		<var code="newItemsToShow"><![CDATA[8]]></var>
+		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
+		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
+	</vars>
+	
+	<paths>
+		<path code="css"><![CDATA[css/styles.css]]></path>
+		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
+		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php?key={v_key}]]></path>
+		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php?key={v_key}]]></path>
+		<path code="postVote"><![CDATA[{v_server}/php/ws/postVote.php?key={v_key}]]></path>
+		<path code="postReport"><![CDATA[{v_server}/php/ws/reportKube.php?key={v_key}]]></path>
+		<path code="deleteKube"><![CDATA[{v_server}/php/ws/deleteKube.php?key={v_key}]]></path>
+		<path code="createList"><![CDATA[{v_server}/php/ws/createList.php?key={v_key}]]></path>
+		<path code="updateList"><![CDATA[{v_server}/php/ws/updateList.php?key={v_key}]]></path>
+		<path code="getListContent"><![CDATA[{v_server}/php/ws/getListContent.php?key={v_key}]]></path>
+		<path code="getLists"><![CDATA[{v_server}/php/ws/getLists.php?key={v_key}]]></path>
+		<path code="deleteList"><![CDATA[{v_server}/php/ws/deleteList.php?key={v_key}]]></path>
+		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+		<path code="shareKubePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_kid={KID}]]></path>
+		<path code="shareListPath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_list={LID}]]></path>
+		<path code="shareProfilePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_user={USER}]]></path>
+		<path code="infosUrl"><![CDATA[?act=infos&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
+	</paths>
+	
+	<dependencies />
+</root>

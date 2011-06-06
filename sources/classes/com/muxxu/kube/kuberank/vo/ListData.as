@@ -13,6 +13,7 @@ package com.muxxu.kube.kuberank.vo {
 		
 		private var _id:int;
 		private var _name:String;
+		private var _kubes:Array;
 		
 		
 		
@@ -35,6 +36,8 @@ package com.muxxu.kube.kuberank.vo {
 
 		public function get name():String { return _name; }
 
+		public function get kubes():Array { return _kubes; }
+
 
 
 		/* ****** *
@@ -46,6 +49,15 @@ package com.muxxu.kube.kuberank.vo {
 		public function populate(xml:XML, ...optionnals:Array):void {
 			_id = parseInt(xml.@id);
 			_name = xml[0];
+			_kubes = String(xml.@kubes).split(",");
+			_kubes.pop();//Remove last empty entry. Due to simple concatenation server-side : kubes = kubes + "ID,";
+		}
+		
+		/**
+		 * Gets a string representation of the value object.
+		 */
+		public function toString():String {
+			return "[ListData :: name="+name+"]";
 		}
 
 

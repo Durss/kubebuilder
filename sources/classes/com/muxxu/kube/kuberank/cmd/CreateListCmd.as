@@ -12,41 +12,21 @@ package com.muxxu.kube.kuberank.cmd {
 	import flash.net.URLLoader;
 
 	/**
-	 * The  LoadCubesCmd is a concrete implementation of the ICommand interface.
+	 * The  VoteCmd is a concrete implementation of the ICommand interface.
 	 * Its responsability is to load a list of submitted cubes.
 	 *
 	 * @author Francois
 	 * @date 24 avr. 2011;
 	 */
-	public class LoadCubesCmd extends LoadFileCmd implements Command {
+	public class CreateListCmd extends LoadFileCmd implements Command {
 		
-		private var _startIndex:int;
-		private var _length:int;
 
 		/**
 		 * Constructor
 		 */
-		public function  LoadCubesCmd(startIndex:int = 0, length:int = 50, userName:String = "", orderByDate:Boolean = false, lastToLoad:int = 0, kubeId:String = "", kubeList:int = -1) {
-			_length = length;
-			_startIndex = startIndex;
-			super(Config.getPath("getKubes"));
-			_urlVariables["start"] = _startIndex;
-			_urlVariables["length"] = _length;
-			if(lastToLoad > 0) {
-				_urlVariables["lastToLoad"] = lastToLoad;
-			}
-			if(userName != null && userName.length > 0) {
-				_urlVariables["userName"] = userName;
-			}
-			if(orderByDate) {
-				_urlVariables["orderBy"] = "date";
-			}
-			if(kubeId.length > 0) {
-				_urlVariables["kubeId"] = kubeId;
-			}
-			if(kubeList > -1) {
-				_urlVariables["kubesList"] = kubeList.toString();
-			}
+		public function CreateListCmd(name:String) {
+			super(Config.getPath("createList"));
+			_urlVariables["name"] = name;
 		}
 
 		/**
@@ -59,15 +39,14 @@ package com.muxxu.kube.kuberank.cmd {
 				data = new XML(URLLoader(event.target).data);
 			}catch(error:Error) {
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR));
-				throw new KubeException(Label.getLabel("errorLoadResultFormat"), KubeExceptionLevel.ERROR);
+				throw new KubeException(Label.getLabel("errorCreateListResultFormat"), KubeExceptionLevel.ERROR);
 			}
-			
 			var result:String = data.child("result")[0];
 			if(result == "0") {
 				dispatchEvent(new CommandEvent(CommandEvent.COMPLETE, data));
 			}else{
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR));
-				throw new KubeException(Label.getLabel("errorLoadResult"+result), KubeExceptionLevel.ERROR);
+				throw new KubeException(Label.getLabel("errorCreateListResult"+result), KubeExceptionLevel.ERROR);
 			}
 		}
 		
@@ -76,7 +55,8 @@ package com.muxxu.kube.kuberank.cmd {
 		 */
 		override protected function loadErrorHandler(event:IOErrorEvent):void {
 			super.loadErrorHandler(event);
-			throw new KubeException(Label.getLabel("errorLoadResult404"), KubeExceptionLevel.ERROR);
+			throw new KubeException(Label.getLabel("errorCreateListResult404"), KubeExceptionLevel.ERROR);
 		}
+
 	}
 }

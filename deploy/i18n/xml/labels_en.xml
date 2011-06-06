@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<styleSheets>
-		<styleSheet><![CDATA[css/flashstyles.css?v=3]]></styleSheet>
-	</styleSheets>
-	
-	<fonts>
-		<font><![CDATA[swf/fonts/Verdana.swf?v=1]]></font>
-	</fonts>
-	
 	<labels>
 		<label code="closeError"><![CDATA[Close]]></label>
 		<label code="tools"><![CDATA[Tools]]></label>
@@ -42,6 +34,7 @@
 		<label code="errorSubmitResultMaxCreationPerDayReached"><![CDATA[You can't submit anymore kubes for today.<br /><br />If you don't want to lose the kube you just created,<br />save it to your computer by clicking <i>"Save the kube"</i>.<br /><br />You'll be able to load it back to the application by clicking<br /><i>"Load a kube"</i> and submit it again tomorrow.]]></label>
 		<label code="errorSubmitResultBanned"><![CDATA[You no longer have the right to create kubes due to abuse of the creation/vote/report system.]]></label>
 		
+		<label code="errorLoadResultListNotExisting"><![CDATA[The specified list ID doesn't exist.]]></label>
 		<label code="errorLoadResultUserNotFound"><![CDATA[No user found matching the specified nickname.]]></label>
 		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[This user hasn't submitted any kubes yet.]]></label>
 		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[The specified kube does not exists.]]></label>
@@ -72,6 +65,22 @@
 		<label code="errorReportResultFormat"><![CDATA[Report failed. Invalid returned data format.]]></label>
 		<label code="errorReportResultBanned"><![CDATA[Because of an abuse you can't report kubes anymore.]]></label>
 		<label code="errorReportResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
+		<label code="errorCreateListResultPost"><![CDATA[List creation failed. Request parameters missing.]]></label>
+		<label code="errorCreateListResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
+		<label code="errorCreateListResultSql"><![CDATA[List creation failed. SQL error.]]></label>
+		<label code="errorCreateListResultFormat"><![CDATA[List creation failed. Invalid returned data format.]]></label>
+		<label code="errorCreateListResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
+		<label code="errorGetListsResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
+		<label code="errorGetListsResultSql"><![CDATA[List recovery failed. SQL error.]]></label>
+		<label code="errorGetListsResultFormat"><![CDATA[List recovery failed. Invalid returned data format.]]></label>
+		<label code="errorGetListsResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
+		<label code="errorDeleteListResultAuth"><![CDATA[List deletion failed. Try to reload the page.]]></label>
+		<label code="errorDeleteListResultSql"><![CDATA[List deletion failed. SQL error.]]></label>
+		<label code="errorDeleteListResultFormat"><![CDATA[List deletion failed. Invalid returned data format.]]></label>
+		<label code="errorDeleteListResult404"><![CDATA[Unable to connect to the server.]]></label>
 		
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="orderByDate"><![CDATA[All by date]]></label>
@@ -104,31 +113,4 @@
 		<label code="deleteKube"><![CDATA[DELETE MY KUBE]]></label>
 		<label code="viewUserKubes"><![CDATA[VIEW THE KUBES OF THIS PLAYER]]></label>
 	</labels>
-	
-	<vars>
-		<!-- Those vars are overridden by html. Here just for standalone testing -->
-		<var code="key"><![CDATA[0c66b1438ef5bd89ed4baf59455d9e6b]]></var>
-		<var code="uname"><![CDATA[durss]]></var>
-		<var code="uid"><![CDATA[89]]></var>
-		<var code="banned"><![CDATA[false]]></var>
-		
-		<var code="newItemsToShow"><![CDATA[8]]></var>
-		<var code="server"><![CDATA[http://fevermap.org/kubebuilder]]></var>
-		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
-	</vars>
-	
-	<paths>
-		<path code="css"><![CDATA[css/styles.css]]></path>
-		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
-		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php?key={v_key}]]></path>
-		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php?key={v_key}]]></path>
-		<path code="postVote"><![CDATA[{v_server}/php/ws/postVote.php?key={v_key}]]></path>
-		<path code="postReport"><![CDATA[{v_server}/php/ws/reportKube.php?key={v_key}]]></path>
-		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
-		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
-		<path code="sharePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_kid={KID}]]></path>
-		<path code="infosUrl"><![CDATA[?act=infos&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
-	</paths>
-	
-	<dependencies />
 </root>

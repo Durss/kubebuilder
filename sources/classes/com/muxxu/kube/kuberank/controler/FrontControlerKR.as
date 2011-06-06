@@ -2,7 +2,6 @@ package com.muxxu.kube.kuberank.controler {
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.nurun.structure.mvc.model.IModel;
-
 	import flash.errors.IllegalOperationError;
 	
 	
@@ -133,6 +132,27 @@ package com.muxxu.kube.kuberank.controler {
 		 */
 		public function showProfile():void {
 			_model.showProfile();
+		}
+
+		/**
+		 * Creates a list
+		 */
+		public function createList(name:String):void {
+			_model.createList(name);
+		}
+		
+		/**
+		 * Deletes a list
+		 */
+		public function deleteList(id:int):void {
+			_model.deleteList(id);
+		}
+		
+		/**
+		 * Opens a list
+		 */
+		public function openList(id:int):void {
+			_model.openList(id);
 		}
 
 

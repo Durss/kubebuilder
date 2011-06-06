@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.components.form {
+	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
+	import com.nurun.components.button.TextAlign;
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
@@ -8,8 +10,12 @@ package com.muxxu.kube.kuberank.components.form {
 	import com.muxxu.kube.kuberank.vo.ListData;
 	import com.nurun.components.button.IconAlign;
 	import com.nurun.components.text.CssTextField;
+	import com.nurun.structure.environnement.configuration.Config;
+	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.utils.pos.PosUtils;
 
+	import flash.desktop.Clipboard;
+	import flash.desktop.ClipboardFormats;
 	import flash.display.DisplayObject;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -41,8 +47,7 @@ package com.muxxu.kube.kuberank.components.form {
 		/**
 		 * Creates an instance of <code>ListEntry</code>.
 		 */
-		public function ListEntry(data:ListData, myKubesEntry:Boolean = false) {
-			_data = data;
+		public function ListEntry(myKubesEntry:Boolean = false) {
 			_myKubesEntry = myKubesEntry;
 			initialize();
 		}
@@ -58,6 +63,18 @@ package com.muxxu.kube.kuberank.components.form {
 		/* ****** *
 		 * PUBLIC *
 		 * ****** */
+		/**
+		 * Populates the component
+		 */
+		public function populate(data:ListData):void {
+			_data = data;
+			if(_myKubesEntry) {
+				_label.text = _data.name;
+			}else{
+				_label.text = Label.getLabel("listEntry").replace(/\{NBR_KUBES\}/gi, data.kubes.length).replace(/\{NAME\}/gi, _data.name);
+			}
+			_deleteBt.enabled = !_myKubesEntry;
+		}
 
 
 		
@@ -74,11 +91,12 @@ package com.muxxu.kube.kuberank.components.form {
 			_label = addChild(new CssTextField("listsEntry")) as CssTextField;
 			_shareBtHolder = addChild(new Sprite()) as Sprite;
 			_shareBt = addChild(new ButtonKube("", false, new ShareIconGraphic())) as ButtonKube;
-			_copyUrl = _shareBtHolder.addChild(new ButtonKube("Copier URL [!!!]")) as ButtonKube;//TODO
-			_copyBbc = _shareBtHolder.addChild(new ButtonKube("Copier BBCode [!!!]")) as ButtonKube;//TODO
+			_copyUrl = _shareBtHolder.addChild(new ButtonKube(Label.getLabel("listEntryShareURL"))) as ButtonKube;
+			_copyBbc = _shareBtHolder.addChild(new ButtonKube(Label.getLabel("listEntryShareBBC"))) as ButtonKube;
 			_mask = addChild(new Shape()) as Shape;
 			
-			_label.text = _data.name;
+			
+			_copyUrl.textAlign = _copyBbc.textAlign = TextAlign.LEFT;
 			_label.y = 2;
 			
 			_copyBbc.height = _copyUrl.height = _copyBbc.y = 20;
@@ -116,14 +134,33 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Called when a component is clicked
 		 */
 		private function clickHandler(event:MouseEvent):void {
+			var url:String = _myKubesEntry? Config.getPath("shareProfilePath") : Config.getPath("shareListPath");
+			url = url.replace(/\{USER\}/gi, Config.getVariable("uname"));
+			url = url.replace(/\{LID\}/gi, _data.id);
+			
 			if(event.target == _deleteBt) {
+				FrontControlerKR.getInstance().deleteList(_data.id);
 				
 			}else if(event.target == _viewBt) {
+				if(_myKubesEntry) {
+					FrontControlerKR.getInstance().searchKubesOfUser(Config.getVariable("uname"));
+				}else{
+					FrontControlerKR.getInstance().openList(_data.id);
+				}
 				
 			}else if(event.target == _copyBbc) {
+				var link:String = _myKubesEntry? Label.getLabel("listEntryCopyBBCProfile") : Label.getLabel("listEntryCopyBBC");
+				link = link.replace(/\{URL\}/gi, url);
+				link = link.replace(/\{NAME\}/gi, Config.getVariable("uname"));
+				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, link);
 				
 			}else if(event.target == _copyUrl) {
-				
+				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, url);
+			}
+			
+			if(event.target == _copyBbc || event.target == _copyUrl) {
+				TweenLite.from(_shareBt, .5, {colorMatrixFilter:{brightness:2, remove:true}});
+				TweenLite.to(_mask, .2, {scaleX:0});
 			}
 		}
 		

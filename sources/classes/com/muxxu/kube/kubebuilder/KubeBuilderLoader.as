@@ -56,8 +56,9 @@ package com.muxxu.kube.kubebuilder {
 			stage.showDefaultContextMenu = false;
 			
 			_env = new EnvironnementManager();
+			_env.addVariables({lang:"fr"});//overridden by flash vars
 			_env.addVariables(stage.loaderInfo.parameters);
-			_env.initialise(stage.loaderInfo.parameters["configXml"] || "i18n/xml/config_fr.xml");
+			_env.initialise(stage.loaderInfo.parameters["configXml"] || "xml/config.xml");
 			
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
 		}
