@@ -60,6 +60,13 @@ package com.muxxu.kube.kuberank.vo {
 		public function getListDataAtIndex(index:int):ListData {
 			return _collection[index];
 		}
+		
+		/**
+		 * Gets a string representation of the value object.
+		 */
+		public function toString():String {
+			return "[ListDataCollection :: "+_collection+"]";
+		}
 
 
 		

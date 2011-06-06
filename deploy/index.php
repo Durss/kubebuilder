@@ -41,7 +41,7 @@
 	$swf = isset($_GET["act"]) && $_GET["act"] == "editor"? "kubeBuilder.swf" : "kubeRank.swf";
 	
 	//Put in english if the asked localistion doesn't exists
-	if(!file_exists("i18n/xml/config_".$_LANG.".xml")) $_LANG = "en";
+	if(!file_exists("i18n/xml/labels_".$_LANG.".xml")) $_LANG = "en";
 	//$_LANG = "en";
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -137,9 +137,10 @@
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
-			so.addVariable("configXml", "i18n/xml/config_<?php echo $_LANG; ?>.xml?v=2.6");
+			so.addVariable("configXml", "xml/config.xml?v=2.6");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
+		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";
 		echo "\t\t\tso.addVariable('uid', '".$_GET['uid']."');\r\n";
 		echo "\t\t\tso.addVariable('uname', '".$_GET['name']."');\r\n";
 		echo "\t\t\tso.addVariable('pubkey', '".$_GET['pubkey']."');\r\n";
@@ -149,6 +150,9 @@
 		echo "\t\t\tso.addVariable('infosRead', '".$_INFO_READ."');\r\n";
 		if (isset($_GET["user"])) {
 			echo "\t\t\tso.addVariable('userToShow', '".$_GET["user"]."');\r\n";
+		}
+		if (isset($_GET["list"])) {
+			echo "\t\t\tso.addVariable('listToShow', '".$_GET["list"]."');\r\n";
 		}
 		if(isset($_GET["kid"])) {
 			$sql = "SELECT * FROM kubebuilder_kubes WHERE locked=0 AND id=".intval($_GET["kid"]);

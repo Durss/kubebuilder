@@ -80,7 +80,7 @@ package com.muxxu.kube.kuberank.components.form {
 			_voteBt.enabled = !_data.voted;
 			_voteBt.alpha = _data.voted? .25 : 1;
 			_votedTxt.visible = _data.voted;
-			_shareKube.update(Config.getPath("sharePath").replace(/\{KID\}/gi, _data.id));
+			_shareKube.update(Config.getPath("shareKubePath").replace(/\{KID\}/gi, _data.id));
 			computePositions();
 		}
 

@@ -18,8 +18,8 @@ package com.muxxu.kube.common.components.form.input {
 		/**
 		 * Creates an instance of <code>KBInput</code>.
 		 */
-		public function InputKube(defaultLabel:String = "") {
-			super("input", new InputSkin(), defaultLabel, "inputDefault", new Margin(4, 2, 4, 2));
+		public function InputKube(defaultLabel:String = "", big:Boolean = false) {
+			super(big? "inputBig" : "input", new InputSkin(), defaultLabel, big? "inputBigDefault" : "inputDefault", new Margin(4, 2, 4, 2));
 		}
 
 		

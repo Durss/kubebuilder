@@ -12,6 +12,9 @@
 .input { font-family:Verdana; font-size:12; font-weight:bold; font-style:normal; color:#265367; }
 .inputDefault { font-family:Verdana; font-size:12; font-weight:normal; font-style:italic; color:#265367; }
 
+.inputBig { font-family:Verdana; font-size:30; font-weight:bold; font-style:normal; color:#265367; }
+.inputBigDefault { font-family:Verdana; font-size:30; font-weight:normal; font-style:italic; color:#265367; }
+
 .button { font-family:Verdana; font-size:12; font-weight:bold; color:#265367; flash-alpha:1; }
 .button_over { font-family:Verdana; font-size:12; font-weight:bold; color:#36748D; }
 .button_down { font-family:Verdana; font-size:12; font-weight:bold; color:#234B5C; }

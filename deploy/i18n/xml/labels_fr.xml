@@ -1,13 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <root>
-	<styleSheets>
-		<styleSheet><![CDATA[css/flashstyles.css?v=3]]></styleSheet>
-	</styleSheets>
-	
-	<fonts>
-		<font><![CDATA[swf/fonts/Verdana.swf?v=1]]></font>
-	</fonts>
-	
 	<labels>
 		<label code="closeError"><![CDATA[Fermer]]></label>
 		<label code="tools"><![CDATA[Outils]]></label>
@@ -42,6 +34,7 @@
 		<label code="errorSubmitResultMaxCreationPerDayReached"><![CDATA[Vous ne pouvez plus soumettre de kube pour aujourd'hui.<br /><br />Si vous ne souhaitez pas perdre le kube que vous venez de créer,<br />enregistrez-le sur votre disque dur au moyen du bouton <i>"Enregistrer le kube"</i>.<br /><br />Vous pourrez ensuite le charger dans l'application à l'aide du bouton<br /><i>"Charger un kube"</i> et le soumettre à nouveau dès demain.]]></label>
 		<label code="errorSubmitResultBanned"><![CDATA[Suite à un abus le droit de création vous a été retiré.]]></label>
 		
+		<label code="errorLoadResultListNotExisting"><![CDATA[La liste demandée n'existe pas.]]></label>
 		<label code="errorLoadResultUserNotFound"><![CDATA[Aucun utilisateur portant le pseudo spécifié n'a été trouvé.]]></label>
 		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[Cet utilisateur n'a soumis aucun kube pour l'instant.]]></label>
 		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[Le kube spécifié est introuvable.]]></label>
@@ -73,6 +66,22 @@
 		<label code="errorReportResultBanned"><![CDATA[Suite à un abus le droit de report vous a été retiré.]]></label>
 		<label code="errorReportResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
 		
+		<label code="errorCreateListResultPost"><![CDATA[La création de la liste a échouée. Paramètres de requêtes manquants.]]></label>
+		<label code="errorCreateListResultAuth"><![CDATA[L'authentification a échouée. Essayez de recharger la page.]]></label>
+		<label code="errorCreateListResultSql"><![CDATA[La création de la liste a échouée. Une erreur SQL est survenue.]]></label>
+		<label code="errorCreateListResultFormat"><![CDATA[La création de la liste a échouée. Le format des données retournées est invalide.]]></label>
+		<label code="errorCreateListResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
+		
+		<label code="errorGetListsResultAuth"><![CDATA[La récupération des listes a échouée. Essayez de recharger la page.]]></label>
+		<label code="errorGetListsResultSql"><![CDATA[La récupération des listes a échouée. Une erreur SQL est survenue.]]></label>
+		<label code="errorGetListsResultFormat"><![CDATA[La récupération des listes a échouée. Le format des données retournées est invalide.]]></label>
+		<label code="errorGetListsResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
+		
+		<label code="errorDeleteListResultAuth"><![CDATA[La suppression de la liste a échouée. Essayez de recharger la page.]]></label>
+		<label code="errorDeleteListResultSql"><![CDATA[La suppression de la liste a échouée. Une erreur SQL est survenue.]]></label>
+		<label code="errorDeleteListResultFormat"><![CDATA[La suppression de la liste a échouée. Le format des données retournées est invalide.]]></label>
+		<label code="errorDeleteListResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
+		
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="orderByDate"><![CDATA[Tous par date]]></label>
 		<label code="orderByVotes"><![CDATA[Tous par votes]]></label>
@@ -103,33 +112,15 @@
 		<label code="shareTitle"><![CDATA[Partagez ce kube à vos amis :]]></label>
 		<label code="deleteKube"><![CDATA[SUPPRIMER MON KUBE]]></label>
 		<label code="viewUserKubes"><![CDATA[VOIR LES KUBES DE CE JOUEUR]]></label>
-	</labels>
-	
-	<vars>
-		<!-- Those vars are overridden by html. Here just for standalone testing -->
-		<var code="key"><![CDATA[0c66b1438ef5bd89ed4baf59455d9e6b]]></var>
-		<var code="uname"><![CDATA[durss]]></var>
-		<var code="uid"><![CDATA[89]]></var>
-		<var code="banned"><![CDATA[false]]></var>
 		
-		<var code="newItemsToShow"><![CDATA[8]]></var>
-		<var code="server"><![CDATA[http://localhost/kubebuilder]]></var>
-		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
-	</vars>
-	
-	<paths>
-		<path code="css"><![CDATA[css/styles.css]]></path>
-		<path code="fonts"><![CDATA[fonts/fonts.swf]]></path>
-		<path code="postKube"><![CDATA[{v_server}/php/ws/postKube.php?key={v_key}]]></path>
-		<path code="getKubes"><![CDATA[{v_server}/php/ws/getKubes.php?key={v_key}]]></path>
-		<path code="postVote"><![CDATA[{v_server}/php/ws/postVote.php?key={v_key}]]></path>
-		<path code="postReport"><![CDATA[{v_server}/php/ws/reportKube.php?key={v_key}]]></path>
-		<path code="deleteKube"><![CDATA[{v_server}/php/ws/deleteKube.php?key={v_key}]]></path>
-		<path code="resultPage"><![CDATA[?act=rank&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
-		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
-		<path code="sharePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_kid={KID}]]></path>
-		<path code="infosUrl"><![CDATA[?act=infos&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
-	</paths>
-	
-	<dependencies />
+		<label code="listNewInput"><![CDATA[nom de ma nouvelle liste...]]></label>
+		<label code="listNewSubmit"><![CDATA[Créer]]></label>
+		<label code="listTitle"><![CDATA[Vos listes de kubes]]></label>
+		<label code="listEntry"><![CDATA[({NBR_KUBES}) {NAME}]]></label>
+		<label code="listEntryDefault"><![CDATA[Mes kubes]]></label>
+		<label code="listEntryCopyBBC"><![CDATA[Viens voir ma liste de kubes "[lien={URL}]{NAME}[/lien]" !]]></label>
+		<label code="listEntryCopyBBCProfile"><![CDATA[Viens voir [lien={URL}]mes kubes[/lien] !]]></label>
+		<label code="listEntryShareURL"><![CDATA[Copier le lien.]]></label>
+		<label code="listEntryShareBBC"><![CDATA[Copier texte formaté.]]></label>
+	</labels>
 </root>

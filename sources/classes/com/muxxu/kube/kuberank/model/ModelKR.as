@@ -1,16 +1,20 @@
 package com.muxxu.kube.kuberank.model {
-	import com.muxxu.kube.kuberank.cmd.DeleteKubeCmd;
-	import com.nurun.structure.environnement.label.Label;
-	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.error.KubeException;
-	import com.muxxu.kube.kuberank.cmd.ReportCmd;
+	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.events.KubeModelEvent;
+	import com.muxxu.kube.kuberank.cmd.CreateListCmd;
+	import com.muxxu.kube.kuberank.cmd.DeleteKubeCmd;
+	import com.muxxu.kube.kuberank.cmd.DeleteListCmd;
+	import com.muxxu.kube.kuberank.cmd.GetListsCmd;
 	import com.muxxu.kube.kuberank.cmd.LoadCubesCmd;
+	import com.muxxu.kube.kuberank.cmd.ReportCmd;
 	import com.muxxu.kube.kuberank.cmd.VoteCmd;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
+	import com.muxxu.kube.kuberank.vo.ListDataCollection;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.configuration.Config;
+	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.IModel;
 	import com.nurun.structure.mvc.views.ViewLocator;
 
@@ -39,6 +43,8 @@ package com.muxxu.kube.kuberank.model {
 		private var _lastSearchName:String;
 		private var _rerootToTop3:Boolean;
 		private var _profileMode:Boolean;
+		private var _lists:ListDataCollection;
+		private var _kubesList:int;
 		
 		
 		
@@ -79,6 +85,8 @@ package com.muxxu.kube.kuberank.model {
 
 		public function get profileMode():Boolean { return _profileMode; }
 
+		public function get lists():ListDataCollection { return _lists; }
+
 
 
 		/* ****** *
@@ -91,23 +99,22 @@ package com.muxxu.kube.kuberank.model {
 			if(Config.getVariable("userToShow") != null) {
 				_rerootToTop3 = true;
 				searchKubesOfUser(Config.getVariable("userToShow"));
+			}else if(Config.getVariable("listToShow") != null) {
+				_rerootToTop3 = true;
+				openList(Config.getNumVariable("listToShow"));
 			}else{
-				_startIndex = 0;
-				_length = 3;
-				_top3Mode = true;
-				loadCubes();
+				showTop3();
 			}
-//			_profileMode = true;
-//			_top3Mode = false;
 		}
 		
 		/**
 		 * Loads the cubes list
 		 */
 		public function loadCubes(...args):void {
+			_profileMode = false;
 			//Do not clear the previous command, that, the items are still loaded
 			//and there won't be "holes" in the slide.
-			var cmd:LoadCubesCmd = new LoadCubesCmd(_startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0);
+			var cmd:LoadCubesCmd = new LoadCubesCmd(_startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0, "", _kubesList);
 			cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, loadCubesErrorHandler);
 			cmd.execute();
@@ -148,11 +155,60 @@ package com.muxxu.kube.kuberank.model {
 			_sortByDate = false;
 			_userName = "";
 			_lastSearchName = "";
+			_kubesList = -1;
 			_data.clear();
 			var cmd:DeleteKubeCmd = new DeleteKubeCmd(data);
 			cmd.addEventListener(CommandEvent.COMPLETE, deleteCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
+		}
+		
+		/**
+		 * Creates a list
+		 */
+		public function createList(name:String):void {
+			lock();
+			var cmd:CreateListCmd = new CreateListCmd(name);
+			cmd.addEventListener(CommandEvent.COMPLETE, listRequestComplete);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+		
+		/**
+		 * Deletes a list
+		 */
+		public function deleteList(id:int):void {
+			lock();
+			var cmd:DeleteListCmd = new DeleteListCmd(id);
+			cmd.addEventListener(CommandEvent.COMPLETE, listRequestComplete);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+		
+		/**
+		 * Gets the user's lists
+		 */
+		public function getLists():void {
+			lock();
+			var cmd:GetListsCmd = new GetListsCmd();
+			cmd.addEventListener(CommandEvent.COMPLETE, listRequestComplete);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+		
+		/**
+		 * Opens a list
+		 */
+		public function openList(id:int):void {
+			lock();
+			_top3Mode = false;
+			_userName = "";
+			_lastSearchName = "";
+			_kubesList = id;
+			_startIndex = 0;
+			_length = 200;//hard limit not to explode server
+			_data.clear();
+			loadCubes();
 		}
 		
 		/**
@@ -168,6 +224,7 @@ package com.muxxu.kube.kuberank.model {
 			_length = _ITEMS_PER_PAGE * 2;
 			_userName = "";
 			_lastSearchName = "";
+			_kubesList = -1;
 			_data.clear();
 			loadCubes();
 		}
@@ -194,6 +251,7 @@ package com.muxxu.kube.kuberank.model {
 			_sortByDate = false;
 			_userName = "";
 			_lastSearchName = "";
+			_kubesList = -1;
 			_data.clear();
 			loadCubes();
 		}
@@ -211,6 +269,7 @@ package com.muxxu.kube.kuberank.model {
 			_sortByDate = true;
 			_startIndex = 0;
 			_length = _ITEMS_PER_PAGE * 2;
+			_kubesList = -1;
 			_data.clear();
 			loadCubes();
 		}
@@ -251,14 +310,15 @@ package com.muxxu.kube.kuberank.model {
 		 * Shows the user's profile
 		 */
 		public function showProfile():void {
-//			lock();
+			lock();
 			_openedCube = null;
 			_userName = "";
 			_lastSearchName = "";
 			_top3Mode = false;
 			_sortByDate = false;
 			_profileMode = true;
-			update();
+			_kubesList = -1;
+			getLists();
 		}
 
 
@@ -349,6 +409,22 @@ package com.muxxu.kube.kuberank.model {
 			loadCubes();
 			throw(new KubeException(Label.getLabel("deleteSuccess"), KubeExceptionLevel.SUCCESS));
 		}
+
+		/**
+		 * Called when a list is created
+		 */
+		private function listRequestComplete(event:CommandEvent):void {
+			_lists = new ListDataCollection();
+			_lists.populate(XML(event.data).child("lists")[0]);
+			update();
+			unlock();
+		}
+		
+		
+		
+		
+		
+		
 		
 		/**
 		 * Fires an update to the views.

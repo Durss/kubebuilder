@@ -1,7 +1,6 @@
 package com.muxxu.kube.kuberank.components.form {
-	import com.nurun.structure.environnement.configuration.Config;
-	import com.muxxu.kube.kuberank.components.CubeButtonIcon;
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
+	import com.muxxu.kube.kuberank.components.CubeButtonIcon;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.nurun.components.vo.Margin;
 	import com.nurun.structure.environnement.label.Label;
@@ -60,11 +59,11 @@ package com.muxxu.kube.kuberank.components.form {
 		/**
 		 * Updates the button's states
 		 */
-		public function update(top3Mode:Boolean, sortByDate:Boolean, searchName:String):void {
+		public function update(top3Mode:Boolean, sortByDate:Boolean, searchName:String, profileMode:Boolean):void {
 			_topBt.enabled = !top3Mode;
-			_voteBt.enabled = sortByDate || top3Mode || searchName.length > 0;
-			_dateBt.enabled = !sortByDate || top3Mode || searchName.length > 0;
-			_myKubesBt.enabled = searchName != null && searchName.toLowerCase() != Config.getVariable("uname").toLowerCase();
+			_voteBt.enabled = sortByDate || top3Mode || searchName.length > 0 || profileMode;
+			_dateBt.enabled = !sortByDate || top3Mode || searchName.length > 0 || profileMode;
+			_myKubesBt.enabled = !profileMode; //searchName != null && searchName.toLowerCase() != Config.getVariable("uname").toLowerCase();
 		}
 
 
