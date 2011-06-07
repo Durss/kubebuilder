@@ -82,6 +82,15 @@
 		<label code="errorDeleteListResultFormat"><![CDATA[List deletion failed. Invalid returned data format.]]></label>
 		<label code="errorDeleteListResult404"><![CDATA[Unable to connect to the server.]]></label>
 		
+		<label code="updateListAddSuccess"><![CDATA[Kube added to the list successfully.]]></label>
+		<label code="updateListDelSuccess"><![CDATA[Kube removed from the list successfully.]]></label>
+		<label code="errorUpdateListResultNotYourList"><![CDATA[You can not modify this list.]]></label>
+		<label code="errorUpdateListResultPost"><![CDATA[List update failed. Request parameters missing.]]></label>
+		<label code="errorUpdateListResultAuth"><![CDATA[List update failed.Try to reload the page.]]></label>
+		<label code="errorUpdateListResultSql"><![CDATA[List update failed. SQL error.]]></label>
+		<label code="errorUpdateListResultFormat"><![CDATA[List update failed. Invalid returned data format.]]></label>
+		<label code="errorUpdateListResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="orderByDate"><![CDATA[All by date]]></label>
 		<label code="orderByVotes"><![CDATA[All by votes]]></label>
@@ -95,6 +104,7 @@
 		
 		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />On : {DATE}]]></label>
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />Today at : {DATE}]]></label>
+		<label code="kubeDetailsList"><![CDATA[Add this kube to a list]]></label>
 		<label code="kubeDetailsLong"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created by <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> on {DATE}]]></label>
 		<label code="kubeDetailsLongToday"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created By <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Today at {DATE}]]></label>
 		<label code="clickToCreate"><![CDATA[<font size="22"><b>Create my own kube</b></font>]]></label>

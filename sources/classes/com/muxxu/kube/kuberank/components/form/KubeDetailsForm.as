@@ -1,11 +1,16 @@
 package com.muxxu.kube.kuberank.components.form {
+
+	import com.muxxu.kube.kuberank.vo.ListDataCollection;
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
+	import com.muxxu.kube.common.components.form.input.ComboboxKube;
 	import com.muxxu.kube.common.components.tooltip.ToolTip;
 	import com.muxxu.kube.common.components.tooltip.content.TTTextContent;
 	import com.muxxu.kube.common.vo.ToolTipMessage;
 	import com.muxxu.kube.kuberank.components.CubeButtonIcon;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
+	import com.muxxu.kube.kuberank.vo.ListData;
+	import com.nurun.components.form.events.ListEvent;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.environnement.label.Label;
@@ -40,6 +45,8 @@ package com.muxxu.kube.kuberank.components.form {
 		private var _votesTotal:int;
 		private var _votedTxt:CssTextField;
 		private var _shareKube:ShareForm;
+		private var _comboList:ComboboxKube;
+		private var _lists:ListDataCollection;
 		
 		
 		
@@ -68,19 +75,34 @@ package com.muxxu.kube.kuberank.components.form {
 		/**
 		 * Sets the current cube's data.
 		 */
-		public function populate(data:CubeData, votesDone:int, votesTotal:int):void {
-			if(data == _data) {
+		public function populate(cubeData:CubeData, listsData:ListDataCollection, votesDone:int, votesTotal:int):void {
+			if(cubeData == _data) {
 				_votedTxt.text = Label.getLabel("confirmVote");
 			}else{
 				_votedTxt.text = Label.getLabel("voted");
 			}
 			_votesDone = votesDone;
 			_votesTotal = votesTotal;
-			_data = data;
+			_data = cubeData;
+			_lists = listsData;
 			_voteBt.enabled = !_data.voted;
 			_voteBt.alpha = _data.voted? .25 : 1;
 			_votedTxt.visible = _data.voted;
 			_shareKube.update(Config.getPath("shareKubePath").replace(/\{KID\}/gi, _data.id));
+			
+			_comboList.removeEventListener(ListEvent.SELECT_ITEM, selectListItemHandler);
+			_comboList.removeAll();
+			var i:int, len:int, list:ListData;
+			len = _lists.length;
+			for(i = 0; i < len; ++i) {
+				list = _lists.getListDataAtIndex(i);
+				_comboList.addSkinnedItem(list.name, list);
+				if(String(" "+list.kubes.join(", ")+", ").indexOf(" "+_data.id+", ") > -1) {
+					_comboList.list.scrollableList.getItemAt(i).select();
+				}
+			}
+			_comboList.addEventListener(ListEvent.SELECT_ITEM, selectListItemHandler);
+			
 			computePositions();
 		}
 
@@ -101,6 +123,7 @@ package com.muxxu.kube.kuberank.components.form {
 			_ttMessage = new ToolTipMessage(new TTTextContent(), null);
 			_shareKube = addChild(new ShareForm(Label.getLabel("shareTitle"))) as ShareForm;
 //			_shareUser = addChild(new ShareForm(Label.getLabel("shareTitle"))) as ShareForm;
+			_comboList = addChild(new ComboboxKube(Label.getLabel("kubeDetailsList"), true)) as ComboboxKube;
 			
 			_tooltipMessages = new Dictionary();
 			_tooltipMessages[_voteBt] = Label.getLabel("voteTooltip");
@@ -108,6 +131,8 @@ package com.muxxu.kube.kuberank.components.form {
 			
 			_tooltip.mouseEnabled = false;
 			_tooltip.mouseChildren = false;
+			
+			_comboList.list.scrollableList.allowMultipleSelection = true;
 			
 			computePositions();
 			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
@@ -118,9 +143,11 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Resize and replace the elements.
 		 */
 		private function computePositions():void {
-			_voteBt.width = _alertBt.width = Math.max(_voteBt.width, _alertBt.width);
+			_comboList.width = _alertBt.width = _voteBt.width = 390;
 			_alertBt.y = Math.round(_voteBt.height + 5);
-			_shareKube.y = Math.round(_alertBt.y + _alertBt.height + 10);
+			_comboList.y = Math.round(_alertBt.y + _alertBt.height + 5);
+			_shareKube.y = Math.round(_comboList.y + _comboList.height + 5);
+			
 			PosUtils.centerIn(_votedTxt, _voteBt);
 		}
 		
@@ -148,6 +175,13 @@ package com.muxxu.kube.kuberank.components.form {
 			}else if(event.target == _alertBt) {
 				FrontControlerKR.getInstance().report(_data);
 			}
+		}
+		
+		/**
+		 * Called when a list item is selected
+		 */
+		private function selectListItemHandler(event:ListEvent):void {
+			FrontControlerKR.getInstance().updateList(event.data, true, _data);
 		}
 		
 	}

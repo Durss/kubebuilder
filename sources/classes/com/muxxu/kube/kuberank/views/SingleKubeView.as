@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.views {
+
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.BackWindow;
@@ -9,6 +10,7 @@ package com.muxxu.kube.kuberank.views {
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
+	import com.muxxu.kube.kuberank.vo.ListDataCollection;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.environnement.label.Label;
@@ -41,6 +43,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _closeBt:CubeButtonIcon;
 		private var _deleteBt:ButtonKube;
 		private var _viewKubesBt:ButtonKube;
+		private var _lists:ListDataCollection;
 		
 		
 		
@@ -72,8 +75,9 @@ package com.muxxu.kube.kuberank.views {
 		override public function update(event:IModelEvent):void {
 			var model:ModelKR = event.model as ModelKR;
 			_data = model.openedCube;
+			_lists = model.lists;
 			if(_data != null) {
-				_form.populate(_data, model.votesDone, model.votesTotal);
+				_form.populate(_data, model.lists, model.votesDone, model.votesTotal);
 				populate();
 				TweenLite.to(this, .25, {autoAlpha:1, onComplete:onAppearComplete});
 				_deleteBt.visible = _data.uid == Config.getNumVariable("uid");
@@ -99,8 +103,8 @@ package com.muxxu.kube.kuberank.views {
 			
 			_background = addChild(new BackWindow()) as BackWindow;
 			_details = addChild(new CssTextField("kubeDetails")) as CssTextField;
-			_form = addChild(new KubeDetailsForm()) as KubeDetailsForm;
 			_infoTxt = addChild(new CssTextField("voteInfo")) as CssTextField;
+			_form = addChild(new KubeDetailsForm()) as KubeDetailsForm;
 			_closeBt = addChild(new CubeButtonIcon(new _closeKub())) as CubeButtonIcon;
 			_cube = addChild(new CubeResult()) as CubeResult;
 			_deleteBt = addChild(new ButtonKube(Label.getLabel("deleteKube"), false, null, true)) as ButtonKube;
@@ -151,7 +155,7 @@ package com.muxxu.kube.kuberank.views {
 			_details.y = 15;
 			
 			_form.x = _details.x;
-			_form.y = Math.round(_details.y + _details.height + 25);
+			_form.y = Math.round(_details.y + _details.height + 5);
 			
 			_infoTxt.x = _form.x;
 			_infoTxt.width = Math.round(_background.width - _infoTxt.x - 5);

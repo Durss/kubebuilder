@@ -109,7 +109,7 @@ if($resultCode === 0) {
 		$handle = fopen($fileName, "r");
 		$fileContent = base64_encode(fread($handle, filesize($fileName)));
 		fclose($handle);
-		return "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($details['user']['name']))."\" date=\"".strtotime ($kube['date'])."\" votes=\"".$kube['score']."\" voted=\"".$details['voted']."\"><![CDATA[".$fileContent."]]></kube>\r\n";
+		return "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($details['user']['name']))."\" date=\"".strtotime ($kube['date'])."\" voted=\"".$details['voted']."\"><![CDATA[".$fileContent."]]></kube>\r\n";
 
 	}
 
