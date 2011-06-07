@@ -47,6 +47,7 @@ package com.muxxu.kube.kuberank.components.form {
 		private var _shareKube:ShareForm;
 		private var _comboList:ComboboxKube;
 		private var _lists:ListDataCollection;
+		private var _createListBt:ButtonKube;
 		
 		
 		
@@ -102,6 +103,8 @@ package com.muxxu.kube.kuberank.components.form {
 				}
 			}
 			_comboList.addEventListener(ListEvent.SELECT_ITEM, selectListItemHandler);
+			_comboList.visible = len > 0;
+			_createListBt.visible = len == 0;
 			
 			computePositions();
 		}
@@ -124,6 +127,7 @@ package com.muxxu.kube.kuberank.components.form {
 			_shareKube = addChild(new ShareForm(Label.getLabel("shareTitle"))) as ShareForm;
 //			_shareUser = addChild(new ShareForm(Label.getLabel("shareTitle"))) as ShareForm;
 			_comboList = addChild(new ComboboxKube(Label.getLabel("kubeDetailsList"), true)) as ComboboxKube;
+			_createListBt = addChild(new ButtonKube(Label.getLabel("kubeDetailsCreateList"), true)) as ButtonKube;
 			
 			_tooltipMessages = new Dictionary();
 			_tooltipMessages[_voteBt] = Label.getLabel("voteTooltip");
@@ -143,9 +147,10 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Resize and replace the elements.
 		 */
 		private function computePositions():void {
-			_comboList.width = _alertBt.width = _voteBt.width = 390;
+			_comboList.width = _alertBt.width = _voteBt.width = _createListBt.width = 390;
 			_alertBt.y = Math.round(_voteBt.height + 5);
 			_comboList.y = Math.round(_alertBt.y + _alertBt.height + 5);
+			_createListBt.y = _comboList.y;
 			_shareKube.y = Math.round(_comboList.y + _comboList.height + 5);
 			
 			PosUtils.centerIn(_votedTxt, _voteBt);
@@ -174,6 +179,8 @@ package com.muxxu.kube.kuberank.components.form {
 				FrontControlerKR.getInstance().vote(_data);
 			}else if(event.target == _alertBt) {
 				FrontControlerKR.getInstance().report(_data);
+			}else if(event.target == _createListBt) {
+				FrontControlerKR.getInstance().showProfile();
 			}
 		}
 		
@@ -181,7 +188,8 @@ package com.muxxu.kube.kuberank.components.form {
 		 * Called when a list item is selected
 		 */
 		private function selectListItemHandler(event:ListEvent):void {
-			FrontControlerKR.getInstance().updateList(event.data, true, _data);
+			_comboList.close();
+			FrontControlerKR.getInstance().updateList(event.data, event.isSelection, _data);
 		}
 		
 	}

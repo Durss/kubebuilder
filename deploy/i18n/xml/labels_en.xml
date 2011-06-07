@@ -91,6 +91,11 @@
 		<label code="errorUpdateListResultFormat"><![CDATA[List update failed. Invalid returned data format.]]></label>
 		<label code="errorUpdateListResult404"><![CDATA[Unable to connect to the server.]]></label>
 		
+		<label code="errorRenameListResultAuth"><![CDATA[List renaming failed. Try to reload the page.]]></label>
+		<label code="errorRenameListResultSql"><![CDATA[List renaming failed. SQL error.]]></label>
+		<label code="errorRenameListResultFormat"><![CDATA[List renaming failed. Invalid returned data format.]]></label>
+		<label code="errorRenameListResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="orderByDate"><![CDATA[All by date]]></label>
 		<label code="orderByVotes"><![CDATA[All by votes]]></label>
@@ -105,6 +110,7 @@
 		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />On : {DATE}]]></label>
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />Today at : {DATE}]]></label>
 		<label code="kubeDetailsList"><![CDATA[Add this kube to a list]]></label>
+		<label code="kubeDetailsCreateList"><![CDATA[Create a list]]></label>
 		<label code="kubeDetailsLong"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created by <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> on {DATE}]]></label>
 		<label code="kubeDetailsLongToday"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created By <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Today at {DATE}]]></label>
 		<label code="clickToCreate"><![CDATA[<font size="22"><b>Create my own kube</b></font>]]></label>
@@ -122,5 +128,17 @@
 		<label code="shareTitle"><![CDATA[Share this kube with your friends :]]></label>
 		<label code="deleteKube"><![CDATA[DELETE MY KUBE]]></label>
 		<label code="viewUserKubes"><![CDATA[VIEW THE KUBES OF THIS PLAYER]]></label>
+		
+		<label code="listNewInput"><![CDATA[name of my new list...]]></label>
+		<label code="listNewSubmit"><![CDATA[Create]]></label>
+		<label code="listTitle"><![CDATA[Your kube's list]]></label>
+		<label code="listEntry"><![CDATA[({NBR_KUBES}) {NAME}]]></label>
+		<label code="listEntryDefault"><![CDATA[My kubes]]></label>
+		<label code="listEntryCopyBBC"><![CDATA[Check out mu kube's list "[lien={URL}]{NAME}[/lien]" !]]></label>
+		<label code="listEntryCopyBBCProfile"><![CDATA[Check out [lien={URL}]my kubes[/lien] !]]></label>
+		<label code="listEntryShareURL"><![CDATA[Copy the link.]]></label>
+		<label code="listEntryShareBBC"><![CDATA[Copy formated link.]]></label>
+		
+		<label code="noResults"><![CDATA[No results.]]></label>
 	</labels>
 </root>

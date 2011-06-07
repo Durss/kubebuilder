@@ -41,13 +41,16 @@ if (isset($_POST['ownerId'])) {//Search by user ID
 }
 
 if (isset($_POST['kubesList'])) {
-	$sqlList = "SELECT kubes FROM kubebuilder_lists WHERE id=".intval($_POST['kubesList']);
+	$sqlList = "SELECT kubes, name FROM kubebuilder_lists WHERE id=".intval($_POST['kubesList']);
 	$requestList = mysql_query($sqlList);
-	if(mysql_num_rows($requestList) > 0) {
+	if (mysql_num_rows($requestList) > 0) {
 		$list = mysql_fetch_assoc($requestList);
+		$listName = $list["name"];
 		$kubes = substr($list["kubes"], 0, strlen($list["kubes"]) - 1);
 		if(strlen($kubes) > 0) {
 			$where .= "AND id IN (".secure_string($kubes).")";
+		}else {
+			$where .= "AND 0";//impossible request to be sure to get no kubes
 		}
 	}else {
 		$resultCode = "ListNotExisting";
@@ -143,6 +146,9 @@ if($resultCode === 0) {
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 echo "<root>\r\n";
 echo "	<result>".$resultCode."</result>\r\n";
+if(isset($listName)) {
+	echo "	<listName><![CDATA[".htmlspecialchars($listName)."]]></listName>";
+}
 if($resultCode === 0) {
 	echo "	<pagination startIndex='".$start."' total='".$totalKubes."' />\r\n";
 	echo "	<kubes>\r\n";

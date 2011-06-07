@@ -59,10 +59,10 @@ package com.muxxu.kube.kuberank.components.form {
 		/**
 		 * Updates the button's states
 		 */
-		public function update(top3Mode:Boolean, sortByDate:Boolean, searchName:String, profileMode:Boolean):void {
+		public function update(top3Mode:Boolean, sortByDate:Boolean, searchName:String, profileMode:Boolean, listId:int):void {
 			_topBt.enabled = !top3Mode;
-			_voteBt.enabled = sortByDate || top3Mode || searchName.length > 0 || profileMode;
-			_dateBt.enabled = !sortByDate || top3Mode || searchName.length > 0 || profileMode;
+			_voteBt.enabled = sortByDate || top3Mode || searchName.length > 0 || profileMode || listId > -1;
+			_dateBt.enabled = !sortByDate || top3Mode || searchName.length > 0 || profileMode || listId > -1;
 			_myKubesBt.enabled = !profileMode; //searchName != null && searchName.toLowerCase() != Config.getVariable("uname").toLowerCase();
 		}
 

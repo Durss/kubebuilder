@@ -16,9 +16,15 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>NUWORK_CLASS</name>
+			<name>NuWORK_CLASS</name>
 			<type>2</type>
 			<locationURI>NuWORK_CLASS</locationURI>
 		</link>
 	</linkedResources>
+	<variableList>
+		<variable>
+			<name>NuWORK_CLASS</name>
+			<value>file:/D:/Programmation/FLash/Nurun/Framework/sources/classes</value>
+		</variable>
+	</variableList>
 </projectDescription>

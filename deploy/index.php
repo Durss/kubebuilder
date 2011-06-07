@@ -133,11 +133,11 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=3', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=3.3', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
-			so.addVariable("configXml", "xml/config.xml?v=2.6");
+			so.addVariable("configXml", "xml/config.xml?v=2.7");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";

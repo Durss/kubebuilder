@@ -48,7 +48,7 @@ package com.muxxu.kube.kuberank.vo {
 		 */
 		public function populate(xml:XML, ...optionnals:Array):void {
 			_id = parseInt(xml.@id);
-			_name = xml[0];
+			_name = String(xml[0]).replace("<", "&lt;").replace(">", "&gt;");
 			_kubes = String(xml.@kubes).split(",");
 			_kubes.pop();//Remove last empty entry. Due to simple concatenation server-side : kubes = kubes + "ID,";
 		}
