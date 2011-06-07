@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.model {
+
+	import com.muxxu.kube.kuberank.cmd.UpdateListCmd;
 	import com.muxxu.kube.common.error.KubeException;
 	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.events.KubeModelEvent;
@@ -11,6 +13,7 @@ package com.muxxu.kube.kuberank.model {
 	import com.muxxu.kube.kuberank.cmd.VoteCmd;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
+	import com.muxxu.kube.kuberank.vo.ListData;
 	import com.muxxu.kube.kuberank.vo.ListDataCollection;
 	import com.nurun.core.commands.events.CommandEvent;
 	import com.nurun.structure.environnement.configuration.Config;
@@ -45,6 +48,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _profileMode:Boolean;
 		private var _lists:ListDataCollection;
 		private var _kubesList:int;
+		private var _rerootToStart:Boolean;
 		
 		
 		
@@ -96,14 +100,24 @@ package com.muxxu.kube.kuberank.model {
 		 * Starts thee application
 		 */
 		public function start():void {
-			if(Config.getVariable("userToShow") != null) {
-				_rerootToTop3 = true;
-				searchKubesOfUser(Config.getVariable("userToShow"));
-			}else if(Config.getVariable("listToShow") != null) {
-				_rerootToTop3 = true;
-				openList(Config.getNumVariable("listToShow"));
+			//Quite direty way to complete init..
+			//a SequentialCommand would have been much better but would've asked
+			//for more refactoring... and i'm too lazy for that at this time :(..
+			if(_rerootToStart) {
+				_rerootToStart = false;
+				if(Config.getVariable("userToShow") != null) {
+					_rerootToTop3 = true;
+					searchKubesOfUser(Config.getVariable("userToShow"));
+				}else if(Config.getVariable("listToShow") != null) {
+					_kubesList = -1;
+					_rerootToTop3 = true;
+					openList(Config.getNumVariable("listToShow"));
+				}else{
+					showTop3();
+				}
 			}else{
-				showTop3();
+				_rerootToStart = true;
+				getLists();
 			}
 		}
 		
@@ -209,6 +223,17 @@ package com.muxxu.kube.kuberank.model {
 			_length = 200;//hard limit not to explode server
 			_data.clear();
 			loadCubes();
+		}
+		
+		/**
+		 * Updates a list
+		 */
+		public function updateList(list:ListData, addAction:Boolean, kube:CubeData):void {
+			lock();
+			var cmd:UpdateListCmd = new UpdateListCmd(kube.id, list.id, addAction);
+			cmd.addEventListener(CommandEvent.COMPLETE, listUpdateHandler);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
 		}
 		
 		/**
@@ -403,7 +428,7 @@ package com.muxxu.kube.kuberank.model {
 		}
 
 		/**
-		 * Called when a kube report completes
+		 * Called when a kube deletion completes
 		 */
 		private function deleteCubeCompleteHandler(event:CommandEvent):void {
 			loadCubes();
@@ -416,8 +441,21 @@ package com.muxxu.kube.kuberank.model {
 		private function listRequestComplete(event:CommandEvent):void {
 			_lists = new ListDataCollection();
 			_lists.populate(XML(event.data).child("lists")[0]);
-			update();
+			if(_rerootToStart) {
+				start();
+			}else{
+				update();
+				unlock();
+			}
+		}
+
+		/**
+		 * Called when a list is updated (added or removed kube)
+		 */
+		private function listUpdateHandler(event:CommandEvent):void {
 			unlock();
+			var label:String = UpdateListCmd(event.currentTarget).addMode? Label.getLabel("updateListAddSuccess") : Label.getLabel("updateListDelSuccess");
+			throw(new KubeException(label, KubeExceptionLevel.SUCCESS));
 		}
 		
 		

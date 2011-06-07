@@ -82,6 +82,15 @@
 		<label code="errorDeleteListResultFormat"><![CDATA[La suppression de la liste a échouée. Le format des données retournées est invalide.]]></label>
 		<label code="errorDeleteListResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
 		
+		<label code="updateListAddSuccess"><![CDATA[Le Kube a bien été ajouté à la liste.]]></label>
+		<label code="updateListDelSuccess"><![CDATA[Le Kube a bien été supprimé de la liste.]]></label>
+		<label code="errorUpdateListResultNotYourList"><![CDATA[Vous ne pouvez pas modifier cette liste.]]></label>
+		<label code="errorUpdateListResultPost"><![CDATA[La mise à jour de liste a échouée. Paramètres de requêtes manquants.]]></label>
+		<label code="errorUpdateListResultAuth"><![CDATA[La mise à jour de la liste a échouée. Essayez de recharger la page.]]></label>
+		<label code="errorUpdateListResultSql"><![CDATA[La mise à jour de la liste a échouée. Une erreur SQL est survenue.]]></label>
+		<label code="errorUpdateListResultFormat"><![CDATA[La mise à jour de la liste a échouée. Le format des données retournées est invalide.]]></label>
+		<label code="errorUpdateListResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
+		
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="orderByDate"><![CDATA[Tous par date]]></label>
 		<label code="orderByVotes"><![CDATA[Tous par votes]]></label>
@@ -95,6 +104,7 @@
 		
 		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <b>{USER_NAME}</b><br />Le : {DATE}]]></label>
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <b>{USER_NAME}</b><br />Aujourd'hui à : {DATE}]]></label>
+		<label code="kubeDetailsList"><![CDATA[Ajouter à une liste]]></label>
 		<label code="kubeDetailsLong"><![CDATA[Nom du kube : <b>{KUBE_NAME}</b><br />Créé par <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> le {DATE}]]></label>
 		<label code="kubeDetailsLongToday"><![CDATA[Nom du kube : <b>{KUBE_NAME}</b><br />Créé par <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Aujourd'hui à {DATE}]]></label>
 		<label code="clickToCreate"><![CDATA[<font size="22"><b>Créer mon kube</b></font>]]></label>

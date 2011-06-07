@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.controler {
+	import com.muxxu.kube.kuberank.vo.ListData;
 	import com.muxxu.kube.kuberank.model.ModelKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.nurun.structure.mvc.model.IModel;
@@ -153,6 +154,13 @@ package com.muxxu.kube.kuberank.controler {
 		 */
 		public function openList(id:int):void {
 			_model.openList(id);
+		}
+		
+		/**
+		 * Updates a list
+		 */
+		public function updateList(list:ListData, addAction:Boolean, kube:CubeData):void {
+			_model.updateList(list, addAction, kube);
 		}
 
 
