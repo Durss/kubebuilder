@@ -22,11 +22,14 @@ package com.muxxu.kube.kuberank.views {
 	import flash.events.Event;
 
 	/**
+	 * Displays the lists template.
+	 * Provides a way to create and delete lists of kubes.
 	 * 
 	 * @author Francois
 	 * @date 5 juin 2011;
 	 */
 	public class ListsView extends AbstractView {
+		
 		private var _createList:ButtonKube;
 		private var _title:CssTextField;
 		private var _list:ScrollableDisplayObject;
@@ -129,7 +132,9 @@ package com.muxxu.kube.kuberank.views {
 		 * Called when add list form is submitted
 		 */
 		private function submitHandler(event:Event):void {
-			FrontControlerKR.getInstance().createList(_input.value as String);
+			if(String(_input.value).length > 0) {
+				FrontControlerKR.getInstance().createList(_input.value as String);
+			}
 		}
 		
 		/**

@@ -1,5 +1,6 @@
 package com.muxxu.kube.kuberank.model {
 
+	import com.muxxu.kube.kuberank.cmd.RenameListCmd;
 	import com.muxxu.kube.kuberank.cmd.UpdateListCmd;
 	import com.muxxu.kube.common.error.KubeException;
 	import com.muxxu.kube.common.error.KubeExceptionLevel;
@@ -43,12 +44,13 @@ package com.muxxu.kube.kuberank.model {
 		private var _locked:Boolean;
 		private var _votesDone:Number;
 		private var _votesTotal:Number;
-		private var _lastSearchName:String;
 		private var _rerootToTop3:Boolean;
 		private var _profileMode:Boolean;
 		private var _lists:ListDataCollection;
 		private var _kubesList:int;
 		private var _rerootToStart:Boolean;
+		private var _forceReload:Boolean;
+		private var _currentListName:String;
 		
 		
 		
@@ -91,6 +93,12 @@ package com.muxxu.kube.kuberank.model {
 
 		public function get lists():ListDataCollection { return _lists; }
 
+		public function get forceReload():Boolean { return _forceReload; }
+
+		public function get currentListId():int { return _kubesList; }
+
+		public function get currentListName():String { return _currentListName; }
+
 
 
 		/* ****** *
@@ -100,7 +108,7 @@ package com.muxxu.kube.kuberank.model {
 		 * Starts thee application
 		 */
 		public function start():void {
-			//Quite direty way to complete init..
+			//Quite dirty way to complete init..
 			//a SequentialCommand would have been much better but would've asked
 			//for more refactoring... and i'm too lazy for that at this time :(..
 			if(_rerootToStart) {
@@ -126,6 +134,7 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function loadCubes(...args):void {
 			_profileMode = false;
+			_currentListName = "";
 			//Do not clear the previous command, that, the items are still loaded
 			//and there won't be "holes" in the slide.
 			var cmd:LoadCubesCmd = new LoadCubesCmd(_startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0, "", _kubesList);
@@ -161,15 +170,13 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function deleteKube(data:CubeData):void {
 			lock();
-			//Reroots to the TOP 3
+			_forceReload = true;
 			_openedCube = null;
 			_top3Mode = true;
 			_startIndex = 0;
 			_length = 3;
 			_sortByDate = false;
 			_userName = "";
-			_lastSearchName = "";
-			_kubesList = -1;
 			_data.clear();
 			var cmd:DeleteKubeCmd = new DeleteKubeCmd(data);
 			cmd.addEventListener(CommandEvent.COMPLETE, deleteCubeCompleteHandler);
@@ -211,21 +218,6 @@ package com.muxxu.kube.kuberank.model {
 		}
 		
 		/**
-		 * Opens a list
-		 */
-		public function openList(id:int):void {
-			lock();
-			_top3Mode = false;
-			_userName = "";
-			_lastSearchName = "";
-			_kubesList = id;
-			_startIndex = 0;
-			_length = 200;//hard limit not to explode server
-			_data.clear();
-			loadCubes();
-		}
-		
-		/**
 		 * Updates a list
 		 */
 		public function updateList(list:ListData, addAction:Boolean, kube:CubeData):void {
@@ -237,18 +229,44 @@ package com.muxxu.kube.kuberank.model {
 		}
 		
 		/**
+		 * Loads a specific kube
+		 */
+		public function loadKube(kubeId:String):void {
+			lock();
+			var cmd:LoadCubesCmd = new LoadCubesCmd(0, 1, null, false, 0, kubeId);
+			cmd.addEventListener(CommandEvent.COMPLETE, loadSingleCubesCompleteHandler);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+		
+		/**
+		 * Renames a list
+		 */
+		public function renameList(data:ListData, text:String):void {
+			lock();
+			var cmd:RenameListCmd = new RenameListCmd(data.id, text);
+			cmd.addEventListener(CommandEvent.COMPLETE, listRequestComplete);
+			cmd.addEventListener(CommandEvent.ERROR, unlock);
+			cmd.execute();
+		}
+		
+		
+		
+		
+		/**
 		 * Sorts the results.
 		 * 
 		 * @param byDate	defines if the results should be sorted by date. Else it's by votes
 		 */
 		public function sort(byDate:Boolean):void {
 			lock();
+			_currentListName = "";
+			_forceReload = _sortByDate != byDate || _kubesList > -1 || _top3Mode;
 			_sortByDate = byDate;
 			_top3Mode = false;
 			_startIndex = 0;
 			_length = _ITEMS_PER_PAGE * 2;
 			_userName = "";
-			_lastSearchName = "";
 			_kubesList = -1;
 			_data.clear();
 			loadCubes();
@@ -270,12 +288,12 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function showTop3():void {
 			lock();
+			_forceReload = !_top3Mode;
 			_top3Mode = true;
 			_startIndex = 0;
 			_length = 3;
 			_sortByDate = false;
 			_userName = "";
-			_lastSearchName = "";
 			_kubesList = -1;
 			_data.clear();
 			loadCubes();
@@ -285,10 +303,9 @@ package com.muxxu.kube.kuberank.model {
 		 * Loads the kubes of a specific user.
 		 */
 		public function searchKubesOfUser(userName:String):void {
-			if(userName == _lastSearchName) return;
 			lock();
+			_forceReload = _userName != userName;
 			_openedCube = null;
-			_lastSearchName = userName;
 			_userName = userName;
 			_top3Mode = false;
 			_sortByDate = true;
@@ -300,15 +317,19 @@ package com.muxxu.kube.kuberank.model {
 		}
 		
 		/**
-		 * Loads a specific kube
+		 * Opens a list
 		 */
-		public function loadKube(kubeId:String):void {
-			//Do not clear the previous command, that, the items are still loaded
-			//and there won't be "holes" in the slide.
-			var cmd:LoadCubesCmd = new LoadCubesCmd(0, 1, null, false, 0, kubeId);
-			cmd.addEventListener(CommandEvent.COMPLETE, loadSingleCubesCompleteHandler);
-			cmd.addEventListener(CommandEvent.ERROR, unlock);
-			cmd.execute();
+		public function openList(id:int):void {
+			lock();
+			_forceReload = true;
+			_forceReload = true;
+			_top3Mode = false;
+			_userName = "";
+			_kubesList = id;
+			_startIndex = 0;
+			_length = 200;//hard limit not to explode server
+			_data.clear();
+			loadCubes();
 		}
 		
 		/**
@@ -338,11 +359,9 @@ package com.muxxu.kube.kuberank.model {
 			lock();
 			_openedCube = null;
 			_userName = "";
-			_lastSearchName = "";
 			_top3Mode = false;
 			_sortByDate = false;
 			_profileMode = true;
-			_kubesList = -1;
 			getLists();
 		}
 
@@ -374,16 +393,21 @@ package com.muxxu.kube.kuberank.model {
 			_totalResults = parseInt(XML(event.data).child("pagination").@total);
 			var startIndex:Number = parseInt(XML(event.data).child("pagination").@startIndex);
 			_data.populate(XML(event.data).child("kubes")[0], startIndex);
+			_currentListName = XML(event.data).child("listName")[0];
 			if(_data.length == 0) {
 				_userName = "";
 				if(_rerootToTop3) {
 					_rerootToTop3 = false;
 					showTop3();
+				}else{
+					unlock();
+					throw new KubeException(Label.getLabel("noResults"), KubeExceptionLevel.WARNING);
 				}
 			}else{
 				update();
 				unlock();
 			}
+			_forceReload = false;
 		}
 		
 		/**
@@ -396,6 +420,7 @@ package com.muxxu.kube.kuberank.model {
 				showTop3();
 			}
 			unlock();
+			_forceReload = false;
 		}
 		
 		/**
@@ -455,6 +480,11 @@ package com.muxxu.kube.kuberank.model {
 		private function listUpdateHandler(event:CommandEvent):void {
 			unlock();
 			var label:String = UpdateListCmd(event.currentTarget).addMode? Label.getLabel("updateListAddSuccess") : Label.getLabel("updateListDelSuccess");
+			if(_kubesList == UpdateListCmd(event.currentTarget).lid) {
+				_forceReload = true;
+				_data.clear();
+				loadCubes();
+			}
 			throw(new KubeException(label, KubeExceptionLevel.SUCCESS));
 		}
 		

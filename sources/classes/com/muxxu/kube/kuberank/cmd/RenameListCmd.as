@@ -18,22 +18,16 @@ package com.muxxu.kube.kuberank.cmd {
 	 * @author Francois
 	 * @date 24 avr. 2011;
 	 */
-	public class UpdateListCmd extends LoadFileCmd implements Command {
+	public class RenameListCmd extends LoadFileCmd implements Command {
 		
-		private var _addMode:Boolean;
-		private var _lid:int;
-
 
 		/**
 		 * Constructor
 		 */
-		public function UpdateListCmd(kid:int, lid:int, addMode:Boolean) {
-			_lid = lid;
-			_addMode = addMode;
-			super(Config.getPath("updateList"));
-			_urlVariables["kid"] = kid.toString();
-			_urlVariables["lid"] = lid.toString();
-			_urlVariables["act"] = addMode? "add" : "del";
+		public function RenameListCmd(id:int, name:String) {
+			super(Config.getPath("renameList"));
+			_urlVariables["lid"] = id.toString();
+			_urlVariables["name"] = name;
 		}
 
 		/**
@@ -46,14 +40,14 @@ package com.muxxu.kube.kuberank.cmd {
 				data = new XML(URLLoader(event.target).data);
 			}catch(error:Error) {
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR));
-				throw new KubeException(Label.getLabel("errorUpdateListResultFormat"), KubeExceptionLevel.ERROR);
+				throw new KubeException(Label.getLabel("errorRenameListResultFormat"), KubeExceptionLevel.ERROR);
 			}
 			var result:String = data.child("result")[0];
 			if(result == "0") {
 				dispatchEvent(new CommandEvent(CommandEvent.COMPLETE, data));
 			}else{
 				dispatchEvent(new CommandEvent(CommandEvent.ERROR));
-				throw new KubeException(Label.getLabel("errorUpdateListResult"+result), KubeExceptionLevel.ERROR);
+				throw new KubeException(Label.getLabel("errorRenameListResult"+result), KubeExceptionLevel.ERROR);
 			}
 		}
 		
@@ -62,15 +56,7 @@ package com.muxxu.kube.kuberank.cmd {
 		 */
 		override protected function loadErrorHandler(event:IOErrorEvent):void {
 			super.loadErrorHandler(event);
-			throw new KubeException(Label.getLabel("errorUpdateListResult404"), KubeExceptionLevel.ERROR);
-		}
-
-		public function get addMode():Boolean {
-			return _addMode;
-		}
-
-		public function get lid():int {
-			return _lid;
+			throw new KubeException(Label.getLabel("errorRenameListResult404"), KubeExceptionLevel.ERROR);
 		}
 
 	}

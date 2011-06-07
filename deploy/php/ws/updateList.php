@@ -19,7 +19,7 @@ if (isset($_UID, $_UNAME)) {
 		}else {
 			if ($_POST['act'] == "del") {
 				$kubes = str_replace(intval($_POST['kid']).",", "", $entry["kubes"]);
-				$sql = "UPDATE `kubebuilder_lists` SET kubes = '".$kubes."') WHERE id=".intval($_POST["lid"]);
+				$sql = "UPDATE `kubebuilder_lists` SET kubes = '".$kubes."' WHERE id=".intval($_POST["lid"]);
 			}else{
 				$sql = "UPDATE `kubebuilder_lists` SET kubes = CONCAT(kubes,'".intval($_POST['kid']).",') WHERE id=".intval($_POST["lid"]);
 			}

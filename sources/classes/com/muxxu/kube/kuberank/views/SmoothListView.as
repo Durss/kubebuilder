@@ -1,4 +1,6 @@
 package com.muxxu.kube.kuberank.views {
+	import com.nurun.utils.pos.PosUtils;
+	import com.nurun.components.text.CssTextField;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -48,6 +50,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _rolledItem:TileEngineItem;
 		private var _lastUserName:String;
 		private var _wasTop3Mode:Boolean;
+		private var _title:CssTextField;
 		
 		
 		
@@ -80,8 +83,7 @@ package com.muxxu.kube.kuberank.views {
 			TweenLite.killTweensOf(this);
 			var model:ModelKR = event.model as ModelKR;
 			if(!model.top3Mode && !model.profileMode) {
-				var cantShowSignal:Boolean = _lastSortType != model.sortByDate || _lastUserName != model.userName;
-				var resetChange:Boolean = cantShowSignal || _wasTop3Mode != model.top3Mode;
+				var resetChange:Boolean = model.forceReload;// || _wasTop3Mode != model.top3Mode;
 				var prevLength:int = _lastLength;
 				if(resetChange) _lastLength = 0;
 				removeEventListener(Event.ENTER_FRAME, enterFrameHandler);
@@ -105,7 +107,7 @@ package com.muxxu.kube.kuberank.views {
 					stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseWheelHandler);
 					_scrollbar.height = stage.stageWidth;
 					_scrollbar.y = 400 + 13;
-				}else if(model.data.version != _lastVersion && !cantShowSignal && model.data.length > prevLength){
+				}else if(model.data.version != _lastVersion && !model.forceReload && model.data.length > prevLength){
 					//If the view si already opened and if it's not a sort update
 					//then display the load signal.
 					_loadSignal.y = Math.round((400 - 100) * .5);
@@ -113,6 +115,11 @@ package com.muxxu.kube.kuberank.views {
 					TweenLite.to(_loadSignal, .5, {autoAlpha:1});
 					TweenLite.to(_loadSignal, .5, {autoAlpha:0, delay:1});
 				}
+				
+				_title.text = model.currentListName == null? "" : model.currentListName;
+				PosUtils.centerInStage(_title);
+				_title.y = 0;
+				
 				_lastSortType = model.sortByDate;
 				_lastUserName = model.userName;
 				_lastVersion = model.data.version;
@@ -170,6 +177,8 @@ package com.muxxu.kube.kuberank.views {
 			_loadSignal.alpha = 0;
 			_loadSignal.visible = false;
 			_loadSignal.filters = [new DropShadowFilter(5, 135, 0, 1, 4, 4, .3, 3)];
+			
+			_title = addChild(new CssTextField("listName")) as CssTextField;
 			
 			_details = new CubeDetailsWindow();
 			

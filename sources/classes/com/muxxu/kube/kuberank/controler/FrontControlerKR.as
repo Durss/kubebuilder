@@ -162,6 +162,13 @@ package com.muxxu.kube.kuberank.controler {
 		public function updateList(list:ListData, addAction:Boolean, kube:CubeData):void {
 			_model.updateList(list, addAction, kube);
 		}
+		
+		/**
+		 * Renames a list
+		 */
+		public function renameList(data:ListData, text:String):void {
+			_model.renameList(data, text);
+		}
 
 
 		

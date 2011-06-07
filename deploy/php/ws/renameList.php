@@ -9,15 +9,19 @@ require_once('../connection.php');
 require_once('../secure.php');
 require_once('../getUserInfos.php');
 
-$result = 0;
-$listNodes = "";
 if (isset($_UID, $_UNAME)) {
-	$sql = "SELECT id, name, kubes FROM `kubebuilder_lists` WHERE uid=".$_UID;
-	$request = mysql_query($sql);
-	while ($entry = mysql_fetch_assoc($request)) {
-		$listNodes .= "\t\t<l id='".$entry["id"]."' kubes='".$entry["kubes"]."'>".htmlspecialchars(utf8_encode($entry["name"]))."</l>\r\n";
+	if (isset($_POST['name'], $_POST['lid'])) {
+		$sql = "UPDATE `kubebuilder_lists` SET name = '".secure_string($_POST['name'])."' WHERE id=".intval($_POST["lid"]);
+		$request = mysql_query($sql);
+		$result = $request === false? "Sql" : 0;
+		mysql_close();
+		
+		if ($result === 0) {
+			header("Location: getLists.php?key=".$_GET['key']);
+		}
+	}else {
+		$result = "Post";
 	}
-	mysql_close();
 }else {
 	$result = "Auth";
 }
@@ -25,9 +29,5 @@ if (isset($_UID, $_UNAME)) {
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 echo "<root>\r\n";
 echo "	<result>".$result."</result>\r\n";
-echo "	<lists>\r\n";
-echo $listNodes;
-echo "	</lists>\r\n";
 echo "</root>";
-
 ?>

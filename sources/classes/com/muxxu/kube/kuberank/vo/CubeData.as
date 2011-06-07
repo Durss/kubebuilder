@@ -87,7 +87,7 @@ package com.muxxu.kube.kuberank.vo {
 			_rawData = xml;
 			_id = parseInt(xml.@id);
 			_uid = parseInt(xml.@uid);
-			_name = xml.@name;
+			_name = String(xml.@name).replace("<", "&lt;").replace(">", "&gt;");
 			_file = xml.@file;
 			_pseudo = xml.@pseudo;
 			_date = parseInt(xml.@date);
