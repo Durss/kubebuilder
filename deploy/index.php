@@ -141,18 +141,18 @@
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";
-		echo "\t\t\tso.addVariable('uid', '".$_GET['uid']."');\r\n";
-		echo "\t\t\tso.addVariable('uname', '".$_GET['name']."');\r\n";
-		echo "\t\t\tso.addVariable('pubkey', '".$_GET['pubkey']."');\r\n";
+		echo "\t\t\tso.addVariable('uid', '".intval($_GET['uid'])."');\r\n";
+		echo "\t\t\tso.addVariable('uname', '".htmlspecialchars($_GET['name'])."');\r\n";
+		echo "\t\t\tso.addVariable('pubkey', '".htmlspecialchars($_GET['pubkey'])."');\r\n";
 		echo "\t\t\tso.addVariable('key', '".$userKey."');\r\n";
 		echo "\t\t\tso.addVariable('votesTotal', '".MAX_VOTES_PER_DAY."');\r\n";
 		echo "\t\t\tso.addVariable('votesDone', '".$votesDone."');\r\n";
 		echo "\t\t\tso.addVariable('infosRead', '".$_INFO_READ."');\r\n";
 		if (isset($_GET["user"])) {
-			echo "\t\t\tso.addVariable('userToShow', '".$_GET["user"]."');\r\n";
+			echo "\t\t\tso.addVariable('userToShow', '".intval($_GET["user"])."');\r\n";
 		}
 		if (isset($_GET["list"])) {
-			echo "\t\t\tso.addVariable('listToShow', '".$_GET["list"]."');\r\n";
+			echo "\t\t\tso.addVariable('listToShow', '".intval($_GET["list"])."');\r\n";
 		}
 		if(isset($_GET["kid"])) {
 			$sql = "SELECT * FROM kubebuilder_kubes WHERE locked=0 AND id=".intval($_GET["kid"]);
