@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<labels>
+		<label code="closeError"><![CDATA[Cerrar]]></label>
+		<label code="tools"><![CDATA[<font size="10">Herramientas</font> ]]></label>
+		<label code="patron"><![CDATA[Patrón]]></label>
+		<label code="copy"><![CDATA[Copiar]]></label>
+		<label code="past"><![CDATA[Pegar]]></label>
+		<label code="raz"><![CDATA[RESET]]></label>
+		<label code="image"><![CDATA[<font size="11">Imagen</font>]]></label>
+		<label code="exportImage"><![CDATA[<font size="11">Exportar cara</font>]]></label>
+		<label code="downloadKub"><![CDATA[Guardar el Kubo]]></label>
+		<label code="uploadKub"><![CDATA[Cargar un Kubo]]></label>
+		<label code="openForm"><![CDATA[Enviar]]></label>
+		<label code="formTitle"><![CDATA[¡Dale un nombre a tu Kubo y déjalo volar por el mundo de Kube!]]></label>
+		<label code="formSubmit"><![CDATA[Enviar]]></label>
+		<label code="readInfo"><![CDATA[Antes de crear un Kubo, por favor lee la parte de <b>"Información"</b> para entender para qué es esta aplicación.]]></label>
+		<label code="readInfoButton"><![CDATA[Leer Información]]></label>
+		
+		<label code="tooltipLoad"><![CDATA[Cargar un Kubo guardado en tu ordenador]]></label>
+		<label code="tooltipSave"><![CDATA[Guardar el Kubo en tu ordenador]]></label>
+		<label code="tooltipSubmit"><![CDATA[Enviar tu Kubo al servidor]]></label>
+		
+		<label code="errorImageLoading"><![CDATA[No se pudo cargar. Por favor asegúrate de que el archivo es un archivo de imagen válido.]]></label>
+		<label code="errorSubmitResultFormat"><![CDATA[Transmisión a Kube fallida. Cambio de formato de datos no válido.]]></label>
+		<label code="errorSubmitResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		<label code="errorSubmitResultName"><![CDATA[Transmisión a Kube fallida. Nombre no definido.]]></label>
+		<label code="errorSubmitResultFile"><![CDATA[Transmisión a Kube fallida. Problema con la transmisión del archivo.]]></label>
+		<label code="errorSubmitResultPost"><![CDATA[Transmisión a Kube fallida. Datos no transferidos.]]></label>
+		<label code="errorSubmitResultCreate"><![CDATA[Transmisión a Kube fallida. Problema con la creación del archivo.]]></label>
+		<label code="errorSubmitResultSql"><![CDATA[Transmisión a Kube fallida. Error SQL.]]></label>
+		<label code="errorSubmitResultWrite"><![CDATA[Transmisión a Kube fallida. No se puede escribir el archivo.]]></label>
+		<label code="errorSubmitResultAuth"><![CDATA[La autenticación falló. Intenta recargar la página.]]></label>
+		<label code="errorSubmitResultMaxCreationPerDayReached"><![CDATA[No puedes enviar más Kubos hoy.<br /><br />Si no quieres perder el Kubo que has creado,<br />guárdalo en tu ordenador clickando <i>"Guardar el Kubo"</i>.<br /><br />Podrás cargarlo de nuevo a la aplicación clickando<br /><i>"Cargar un Kubo"</i> y enviarlo de nuevo mañana.]]></label>
+		<label code="errorSubmitResultBanned"><![CDATA[No tienes más derecho a crear Kubos debido a un abuso del sistema de creación/voto/reporte.]]></label>
+		
+		<label code="errorLoadResultListNotExisting"><![CDATA[La lista de ID especificada no existe.]]></label>
+		<label code="errorLoadResultUserNotFound"><![CDATA[No hay usuarios con el nombre especificado.]]></label>
+		<label code="errorLoadResultNoResultsForThisUser"><![CDATA[Este usuario aún no ha enviado Kubos.]]></label>
+		<label code="errorLoadResultNoKubeAtThisIndex"><![CDATA[El Kubo especificado no existe.]]></label>
+		<label code="errorLoadResultFormat"><![CDATA[Error en la carga del Kubo. Devolución de datos inválida.]]></label>
+		<label code="errorLoadResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="errorVoteResultPost"><![CDATA[Voto fallido. Falta de parámetros de solicitud.]]></label>
+		<label code="errorVoteResultAuth"><![CDATA[La autenticación falló. Intenta recargar la página.]]></label>
+		<label code="errorVoteResultSql"><![CDATA[Voto fallido. Error SQL.]]></label>
+		<label code="errorVoteResultVotesLeft"><![CDATA[No puedes votar más hoy.]]></label>
+		<label code="errorVoteResultAlreadyVoted"><![CDATA[¡Ya has votado este Kubo!]]></label>
+		<label code="errorVoteResultFormat"><![CDATA[Voto fallido. Devolución de datos inválida.]]></label>
+		<label code="errorVoteResultBanned"><![CDATA[No puedes votar más debido a un abuso.]]></label>
+		<label code="errorVoteResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="deleteSuccess"><![CDATA[Tu Kubo ha sido eliminado con éxito.]]></label>
+		<label code="errorDeleteResultPost"><![CDATA[Fallo borrando el Kubo. Falta de párametros de solicitud.]]></label>
+		<label code="errorDeleteResultAuth"><![CDATA[La autenticación falló. Intenta recargar la página.]]></label>
+		<label code="errorDeleteResultSql"><![CDATA[Fallo borrando el Kubo. Error SQL.]]></label>
+		<label code="errorDeleteResultFormat"><![CDATA[Fallo borrando el Kubo. Devolución de datos inválida.]]></label>
+		<label code="errorDeleteResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		<label code="errorDeleteResultNotFound"><![CDATA[Kubo no encontrado.]]></label>
+		
+		<label code="reportSuccess"><![CDATA[<p align="center">Reporte enviado.<br />Gracias.</p>]]></label>
+		<label code="errorReportResultPost"><![CDATA[Reporte fallido. Falta de parámetros de solicitud.]]></label>
+		<label code="errorReportResultAuth"><![CDATA[La autenticación falló. Intenta recargar la página.]]></label>
+		<label code="errorReportResultSql"><![CDATA[Reporte fallido. Error SQL.]]></label>
+		<label code="errorReportResultFormat"><![CDATA[Reporte fallido. Devolución de datos inválida.]]></label>
+		<label code="errorReportResultBanned"><![CDATA[No puedes reportar más Kubos debido a un abuso.]]></label>
+		<label code="errorReportResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="errorCreateListResultPost"><![CDATA[Creación de lista fallida. Falta de parámetros de solicitud.]]></label>
+		<label code="errorCreateListResultAuth"><![CDATA[La autenticación falló. Intenta recargar la página.]]></label>
+		<label code="errorCreateListResultSql"><![CDATA[Creación de lista fallida. Error SQL.]]></label>
+		<label code="errorCreateListResultFormat"><![CDATA[Creación de lista fallida. Devolución de datos inválida.]]></label>
+		<label code="errorCreateListResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="errorGetListsResultAuth"><![CDATA[La autenticación falló. Intenta recargar la página.]]></label>
+		<label code="errorGetListsResultSql"><![CDATA[Recuperación de lista fallida. Error SQL.]]></label>
+		<label code="errorGetListsResultFormat"><![CDATA[Recuperación de lista fallida. Devolución de datos inválida.]]></label>
+		<label code="errorGetListsResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="errorDeleteListResultAuth"><![CDATA[Borrado de lista fallido. Intenta recargar la página.]]></label>
+		<label code="errorDeleteListResultSql"><![CDATA[Borrado de lista fallido. Error SQL.]]></label>
+		<label code="errorDeleteListResultFormat"><![CDATA[Borrado de lista fallido. Devolución de datos inválida.]]></label>
+		<label code="errorDeleteListResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="updateListAddSuccess"><![CDATA[Kubo añadido a la lista con éxito.]]></label>
+		<label code="updateListDelSuccess"><![CDATA[Kubo borrado de la lista con éxito.]]></label>
+		<label code="errorUpdateListResultNotYourList"><![CDATA[No puedes modificar esta lista.]]></label>
+		<label code="errorUpdateListResultPost"><![CDATA[Actualización de lista fallida. Falta de parámetros de solicitud.]]></label>
+		<label code="errorUpdateListResultAuth"><![CDATA[Actualización de lista fallida. Intenta recargar la página.]]></label>
+		<label code="errorUpdateListResultSql"><![CDATA[Actualización de lista fallida. Error SQL.]]></label>
+		<label code="errorUpdateListResultFormat"><![CDATA[Actualización de lista fallida. Devolución de datos inválida.]]></label>
+		<label code="errorUpdateListResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="errorRenameListResultAuth"><![CDATA[Renombramiento de lista fallido. Intenta recargar la página.]]></label>
+		<label code="errorRenameListResultSql"><![CDATA[Renombramiento de lista fallido. Error SQL.]]></label>
+		<label code="errorRenameListResultFormat"><![CDATA[Renombramiento de lista fallido. Devolución de datos inválida.]]></label>
+		<label code="errorRenameListResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
+		<label code="showTop"><![CDATA[TOP 3]]></label>
+		<label code="orderByDate"><![CDATA[Según fecha]]></label>
+		<label code="orderByVotes"><![CDATA[Según votos]]></label>
+		<label code="searchMine"><![CDATA[<p align="center">Mis<br />Kubos</p>]]></label>
+		<label code="searchTitle"><![CDATA[Buscar:]]></label>
+		<label code="searchByName"><![CDATA[Kubos hechos por:]]></label>
+		<label code="searchByKID"><![CDATA[Nº de Kubos:]]></label>
+		<label code="searchByNameInput"><![CDATA[Nombre...]]></label>
+		<label code="searchByKIDInput"><![CDATA[ID del Kubo...]]></label>
+		<label code="searchLabel"><![CDATA[Buscar]]></label>
+		
+		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Por : <b>{USER_NAME}</b><br />El : {DATE}]]></label>
+		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Por : <b>{USER_NAME}</b><br />Hoy a las : {DATE}]]></label>
+		<label code="kubeDetailsList"><![CDATA[<font size="20">Añadir este Kubo a una lista</font>]]></label>
+		<label code="kubeDetailsCreateList"><![CDATA[Crear una lista]]></label>
+		<label code="kubeDetailsLong"><![CDATA[Nombre del Kubo: <b>{KUBE_NAME}</b><br />Creado por <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> el {DATE}]]></label>
+		<label code="kubeDetailsLongToday"><![CDATA[Nombre del Kubo: <b>{KUBE_NAME}</b><br />Created Por <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Hoy a las {DATE}]]></label>
+		<label code="clickToCreate"><![CDATA[<font size="22"><b>Crear mi propio Kubo</b></font>]]></label>
+		<label code="vote"><![CDATA[Votar este Kubo]]></label>
+		<label code="voted"><![CDATA[Ya has votado este Kubo]]></label>
+		<label code="confirmVote"><![CDATA[¡Voto registrado!]]></label>
+		<label code="warn"><![CDATA[Reportar este Kubo]]></label>
+		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Por favor, usa este botón sólo si el Kubo representa alguna imagen racista, obscena o insultante, ¡o si eres el dueño de la imagen!<br />Cualquier abuso se sancionará con la retirada de tus derechos de votar, reportar y crear.</span>]]></label>
+		<label code="voteTooltip"><![CDATA[<b>Aviso:</b> ¡Tienes <b>{VOTES}/{TOTAL}</b> votos por dejar hoy!]]></label>
+		<label code="voteInformations"><![CDATA[<b>Información:</b> El voto de cada jugador se pondera según las estadísticas del jugador en Kube.]]></label>
+		<label code="alreadyVotedTitle"><![CDATA[¡Ya has votado este Kubo!]]></label>
+		<label code="lastKubesTitle"><![CDATA[Últimas creaciones]]></label>
+		<label code="lastKubesNext"><![CDATA[»]]></label>
+		<label code="copySharePath"><![CDATA[Copiar]]></label>
+		<label code="shareTitle"><![CDATA[Comparte este Kubo con tus amigos:]]></label>
+		<label code="deleteKube"><![CDATA[BORRAR MI KUBO]]></label>
+		<label code="viewUserKubes"><![CDATA[VER LOS KUBOS DE ESTE JUGADOR]]></label>
+		
+		<label code="listNewInput"><![CDATA[Nombre de mi nueva lista...]]></label>
+		<label code="listNewSubmit"><![CDATA[Crear]]></label>
+		<label code="listTitle"><![CDATA[Tu lista de Kubos]]></label>
+		<label code="listEntry"><![CDATA[({NBR_KUBES}) {NAME}]]></label>
+		<label code="listEntryDefault"><![CDATA[Mis Kubos]]></label>
+		<label code="listEntryCopyBBC"><![CDATA[¡Echa un vistazo a mi lista de Kubos, "[lien={URL}]{NAME}[/lien]"!]]></label>
+		<label code="listEntryCopyBBCProfile"><![CDATA[¡Echa un vistazo a [lien={URL}]mis Kubos[/lien]!]]></label>
+		<label code="listEntryShareURL"><![CDATA[Copiar el enlace.]]></label>
+		<label code="listEntryShareBBC"><![CDATA[Copiar el formato del enlace.]]></label>
+		
+		<label code="noResults"><![CDATA[Sin resultados.]]></label>
+	</labels>
+</root>
