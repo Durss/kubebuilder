@@ -10,7 +10,7 @@
 		<label code="image"><![CDATA[Image]]></label>
 		<label code="exportImage"><![CDATA[Export face]]></label>
 		<label code="downloadKub"><![CDATA[Save the kube]]></label>
-		<label code="uploadKub"><![CDATA[Charger un kube]]></label>
+		<label code="uploadKub"><![CDATA[Load a kube]]></label>
 		<label code="openForm"><![CDATA[Submit]]></label>
 		<label code="formTitle"><![CDATA[Give a name to your kube and let him fly to the kube's world!]]></label>
 		<label code="formSubmit"><![CDATA[Send]]></label>
