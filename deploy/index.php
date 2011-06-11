@@ -41,6 +41,7 @@
 	$swf = isset($_GET["act"]) && $_GET["act"] == "editor"? "kubeBuilder.swf" : "kubeRank.swf";
 	
 	//Put in english if the asked localistion doesn't exists
+	if(isset($_GET["lang"])) $_LANG = $_GET["lang"];
 	if(!file_exists("i18n/xml/labels_".$_LANG.".xml")) $_LANG = "en";
 	//$_LANG = "en";
 ?>
