@@ -15,7 +15,7 @@ $resultCode = 0;
 
 //If a user name is specified gets its ID to search its kubes.
 if (isset($_POST['userName']) && strlen($_POST['userName']) > 0) {
-	$sql = "SELECT id FROM kubebuilder_users WHERE name_low='".secure_string(strtolower($_POST['userName']))."'";
+	$sql = "SELECT `id` FROM `kubebuilder_users` WHERE `name_low`='".secure_string(strtolower($_POST['userName']))."'";
 	$req = mysql_query($sql);
 	if ($req !== false && mysql_num_rows($req) > 0) {
 		$user = mysql_fetch_assoc($req);
@@ -41,7 +41,7 @@ if (isset($_POST['ownerId'])) {//Search by user ID
 }
 
 if (isset($_POST['kubesList'])) {
-	$sqlList = "SELECT kubes, name FROM kubebuilder_lists WHERE id=".intval($_POST['kubesList']);
+	$sqlList = "SELECT `kubes`, `name` FROM `kubebuilder_lists` WHERE `id`=".intval($_POST['kubesList']);
 	$requestList = mysql_query($sqlList);
 	if (mysql_num_rows($requestList) > 0) {
 		$list = mysql_fetch_assoc($requestList);
@@ -83,7 +83,7 @@ if($resultCode === 0) {
 	function getKubeDetails($kube) {
 		global $uidCache, $_UID;
 		if(!isset($uidCache[$kube['uid']])) {
-			$sqlUser = "SELECT name FROM kubebuilder_users WHERE id=".$kube['uid'];
+			$sqlUser = "SELECT `name` FROM `kubebuilder_users` WHERE id=".$kube['uid'];
 			$user = mysql_fetch_assoc(mysql_query($sqlUser));
 			$uidCache[$kube['uid']] = $user;
 		}else {
@@ -92,7 +92,7 @@ if($resultCode === 0) {
 		}
 		
 		if (isset($_UID)) {
-			$sqlEval = "SELECT COUNT(kid) as `total` FROM kubebuilder_evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
+			$sqlEval = "SELECT COUNT(kid) as `total` FROM `kubebuilder_evaluation` WHERE kid=".$kube['id']." AND uid=".$_UID;
 			$uvote = mysql_fetch_assoc(mysql_query($sqlEval));
 			$voted = intval($uvote['total']) > 0? "true" : "false";
 		}else {
@@ -116,7 +116,7 @@ if($resultCode === 0) {
 
 	}
 
-	$sqlList = "SELECT * FROM kubebuilder_kubes ".$where." ".$order." LIMIT ".$start.",".$length;
+	$sqlList = "SELECT * FROM `kubebuilder_kubes` ".$where." ".$order." LIMIT ".$start.",".$length;
 	$query = mysql_query($sqlList);
 	$kubeNodes = "";
 	$lastKubesNode = "";
@@ -134,7 +134,7 @@ if($resultCode === 0) {
 
 	//If last added kubes asked, load them
 	if(isset($_POST["lastToLoad"]) && intval($_POST["lastToLoad"]) > 0) {
-		$sqlLast = "SELECT * FROM kubebuilder_kubes WHERE locked=0 ORDER BY date DESC LIMIT 0,".intval($_POST["lastToLoad"]);
+		$sqlLast = "SELECT * FROM `kubebuilder_kubes` WHERE `locked`=0 ORDER BY `date` DESC LIMIT 0,".intval($_POST["lastToLoad"]);
 		$query = mysql_query($sqlLast);
 		while ($kube = mysql_fetch_assoc($query)) {
 			$kubeNodes .= createKubeNode($kube);

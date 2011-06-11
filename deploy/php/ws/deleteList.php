@@ -12,7 +12,7 @@ require_once('../getUserInfos.php');
 if (isset($_UID, $_UNAME)) {
 	if (isset($_POST['lid'])) {
 		$name = secure_string($_POST['name']);
-		$sql = "DELETE FROM `kubebuilder_lists` WHERE id=".intval($_POST['lid'])." AND uid=".$_UID."";
+		$sql = "DELETE FROM `kubebuilder_lists` WHERE `id`=".intval($_POST['lid'])." AND `uid`=".$_UID."";
 		$request = mysql_query($sql);
 		$result = $request === false? "Sql" : 0;
 		if ($result === 0) {

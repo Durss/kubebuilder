@@ -19,7 +19,7 @@ if (isset($_UID, $_UNAME))
 		if($_RIGHTS > 0) {
 			$kid = intval($_POST['kid']);
 			//Check votes of the day
-			$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
+			$sql = "SELECT COUNT(uid) as `total` FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND `uid`=".$_UID;
 			$req = mysql_query($sql);
 			if ($req === false) {
 				$result	= "Sql";
@@ -33,7 +33,7 @@ if (isset($_UID, $_UNAME))
 				
 					//Check votes for this kube
 					if(ONE_VOTE_PER_KUBE) {
-						$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE kid=".$kid." AND uid=".$kid;
+						$sql = "SELECT COUNT(uid) as `total` FROM `kubebuilder_evaluation` WHERE `kid`=".$kid." AND `uid`=".$kid;
 						$req = mysql_query($sql);
 					}
 					if (ONE_VOTE_PER_KUBE && $req === false) {

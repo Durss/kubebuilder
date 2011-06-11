@@ -13,9 +13,9 @@ $result = 0;
 $listNodes = "";
 if (isset($_UID, $_UNAME)) {
 	if (isset($_POST['lid'])) {
-		$sql = "SELECT kubes FROM `kubebuilder_lists` WHERE id=".intval($_POST['lid']);
+		$sql = "SELECT `kubes` FROM `kubebuilder_lists` WHERE `id`=".intval($_POST['lid']);
 		$request = mysql_query($sql);
-		$sqlKubes = "SELECT *FROM kubebuilder_kubes WHERE";//TODO
+		$sqlKubes = "SELECT *FROM `kubebuilder_kubes` WHERE";//TODO
 		$entry = mysql_fetch_assoc($request);
 		$kubes = explode(",", $entry["kubes"]);
 		for ($i = 0; $i < count($kubes); $i++) {

@@ -11,7 +11,7 @@ require_once('../getUserInfos.php');
 
 if (isset($_UID, $_UNAME)) {
 	if (isset($_POST['kid'], $_POST['lid'], $_POST['act']) && ($_POST['act'] == "del" || $_POST['act'] == "add")) {
-		$sql = "SELECT kubes, uid FROM `kubebuilder_lists` WHERE id=".intval($_POST["lid"]);
+		$sql = "SELECT `kubes`, `uid` FROM `kubebuilder_lists` WHERE `id`=".intval($_POST["lid"]);
 		$request = mysql_query($sql);
 		$entry = mysql_fetch_assoc($request);
 		if ($entry["uid"] != $_UID) {
@@ -19,9 +19,9 @@ if (isset($_UID, $_UNAME)) {
 		}else {
 			if ($_POST['act'] == "del") {
 				$kubes = str_replace(intval($_POST['kid']).",", "", $entry["kubes"]);
-				$sql = "UPDATE `kubebuilder_lists` SET kubes = '".$kubes."' WHERE id=".intval($_POST["lid"]);
+				$sql = "UPDATE `kubebuilder_lists` SET `kubes` = '".$kubes."' WHERE `id`=".intval($_POST["lid"]);
 			}else{
-				$sql = "UPDATE `kubebuilder_lists` SET kubes = CONCAT(kubes,'".intval($_POST['kid']).",') WHERE id=".intval($_POST["lid"]);
+				$sql = "UPDATE `kubebuilder_lists` SET `kubes` = CONCAT(`kubes`,'".intval($_POST['kid']).",') WHERE `id`=".intval($_POST["lid"]);
 			}
 			$request = mysql_query($sql);
 			$result = $request === false? "Sql" : 0;
