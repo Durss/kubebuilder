@@ -12,7 +12,7 @@ require_once('../getUserInfos.php');
 $result = 0;
 $listNodes = "";
 if (isset($_UID, $_UNAME)) {
-	$sql = "SELECT id, name, kubes FROM `kubebuilder_lists` WHERE uid=".$_UID;
+	$sql = "SELECT `id`, `name`, `kubes` FROM `kubebuilder_lists` WHERE `uid`=".$_UID;
 	$request = mysql_query($sql);
 	while ($entry = mysql_fetch_assoc($request)) {
 		$listNodes .= "\t\t<l id='".$entry["id"]."' kubes='".$entry["kubes"]."'>".htmlspecialchars(utf8_encode($entry["name"]))."</l>\r\n";

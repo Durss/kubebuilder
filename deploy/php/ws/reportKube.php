@@ -18,7 +18,7 @@ if (isset($_UID, $_UNAME))
 		{
 			$kid = intval($_POST['kid']);
 			//Check votes of the day
-			$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_reports` WHERE kid=".$kid." AND uid=".$_UID;
+			$sql = "SELECT COUNT(uid) as `total` FROM `kubebuilder_reports` WHERE `kid`=".$kid." AND `uid`=".$_UID;
 			$req = mysql_query($sql);
 			if ($req === false) {
 				$result	= "Sql";
@@ -32,7 +32,7 @@ if (isset($_UID, $_UNAME))
 					if ($req === false) {
 						$result	= "Sql";
 					}else {
-						$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_reports` WHERE kid=".$kid;
+						$sql = "SELECT COUNT(uid) as `total` FROM `kubebuilder_reports` WHERE kid=".$kid;
 						$req = mysql_query($sql);
 						if ($req === false) {
 							$result	= "Sql";

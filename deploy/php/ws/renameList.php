@@ -11,7 +11,7 @@ require_once('../getUserInfos.php');
 
 if (isset($_UID, $_UNAME)) {
 	if (isset($_POST['name'], $_POST['lid'])) {
-		$sql = "UPDATE `kubebuilder_lists` SET name = '".secure_string($_POST['name'])."' WHERE id=".intval($_POST["lid"]);
+		$sql = "UPDATE `kubebuilder_lists` SET `name` = '".secure_string($_POST['name'])."' WHERE `id`=".intval($_POST["lid"]);
 		$request = mysql_query($sql);
 		$result = $request === false? "Sql" : 0;
 		mysql_close();

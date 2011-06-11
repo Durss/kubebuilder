@@ -17,7 +17,7 @@ if (isset($_UID, $_UNAME))
 	if (isset($_POST['kid']))
 	{
 		$kid = intval($_POST['kid']);
-		$sql = "SELECT file FROM `kubebuilder_kubes` WHERE id=".$kid." AND uid=".$_UID;
+		$sql = "SELECT `file` FROM `kubebuilder_kubes` WHERE id=".$kid." AND uid=".$_UID;
 		$req = mysql_query($sql);
 		$result = $req === false? "Sql" : 0;
 		if($result === 0) {
@@ -28,17 +28,17 @@ if (isset($_UID, $_UNAME))
 				@unlink("../../kubes/".$kube["file"].".kub");
 				
 				//Delete the kube
-				$sql = "DELETE FROM `kubebuilder_kubes` WHERE id=".$kid." AND uid=".$_UID;
+				$sql = "DELETE FROM `kubebuilder_kubes` WHERE `id`=".$kid." AND `uid`=".$_UID;
 				$req = mysql_query($sql);
 				$result = $req === false? "Sql" : 0;
 				if ($result === 0) {
 					//Delte reports for thisckube
-					$sql = "DELETE FROM `kubebuilder_reports` WHERE kid=".$kid;
+					$sql = "DELETE FROM `kubebuilder_reports` WHERE `kid`=".$kid;
 					$req = mysql_query($sql);
 					$result = $req === false? "Sql" : 0;
 					if ($result === 0) {
 						//Delete evaluations for thisckube
-						$sql = "DELETE FROM `kubebuilder_evaluation` WHERE kid=".$kid;
+						$sql = "DELETE FROM `kubebuilder_evaluation` WHERE `kid`=".$kid;
 						$req = mysql_query($sql);
 						$result = $req === false? "Sql" : 0;
 					}
