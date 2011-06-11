@@ -99,7 +99,7 @@
 		<label code="showTop"><![CDATA[TOP 3]]></label>
 		<label code="orderByDate"><![CDATA[Según fecha]]></label>
 		<label code="orderByVotes"><![CDATA[Según votos]]></label>
-		<label code="searchMine"><![CDATA[<p align="center">Mis<br />Kubos</p>]]></label>
+		<label code="searchMine"><![CDATA[<p align="center">Mi<br />página</p>]]></label>
 		<label code="searchTitle"><![CDATA[Buscar:]]></label>
 		<label code="searchByName"><![CDATA[Kubos hechos por:]]></label>
 		<label code="searchByKID"><![CDATA[Nº de Kubos:]]></label>
