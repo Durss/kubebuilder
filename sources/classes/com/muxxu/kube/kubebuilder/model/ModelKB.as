@@ -209,6 +209,8 @@ package com.muxxu.kube.kubebuilder.model {
 		 * Submits a kube
 		 */
 		public function submit(name:String, callback:Function):void {
+			if(_kubeSubmitted) return;
+			
 			var cmd:SubmitKubeCmd = new SubmitKubeCmd(Config.getPath("postKube"), name, _kubeData);
 			cmd.addEventListener(CommandEvent.COMPLETE, postKubeCompleteHandler);
 			cmd.execute();
@@ -229,6 +231,23 @@ package com.muxxu.kube.kubebuilder.model {
 		 */
 		public function readInfos():void {
 			navigateToURL(new URLRequest(Config.getPath("infosUrl")), "_self");
+		}
+		
+		/**
+		 * Gets if a kube can be submitted or not
+		 */
+		public function isSubmitable():Boolean {
+			if(!_kubeData.isFaceModified(_kubeData.faceTop)) {
+				setCurrentFace(FaceIds.TOP);
+				return false;
+			}else if(!_kubeData.isFaceModified(_kubeData.faceSides)) {
+				setCurrentFace(FaceIds.FRONT);
+				return false;
+			}else if(!_kubeData.isFaceModified(_kubeData.faceBottom)) {
+				setCurrentFace(FaceIds.BOTTOM);
+				return false;
+			}
+			return true;
 		}
 
 
@@ -336,7 +355,6 @@ package com.muxxu.kube.kubebuilder.model {
 			_postKubeCallback();
 			_kubeSubmitted = true;
 			update();
-			_kubeSubmitted = false;
 		}
 	}
 }

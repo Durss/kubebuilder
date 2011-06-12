@@ -1,10 +1,12 @@
 package com.muxxu.kube.kubebuilder.components.form.colorpicker {
+	import gs.TweenLite;
+
 	import com.muxxu.kube.common.components.form.input.InputKube;
 	import com.muxxu.kube.kubebuilder.components.buttons.ColorButton;
 	import com.muxxu.kube.kubebuilder.graphics.ColorPickerGradientGraphic;
 	import com.nurun.utils.color.ColorFunctions;
-	import com.nurun.utils.pos.PosUtils;
 	import com.nurun.utils.string.StringUtils;
+
 	import flash.display.BitmapData;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -12,7 +14,6 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 	import flash.events.MouseEvent;
 	import flash.filters.GlowFilter;
 	import flash.geom.Matrix;
-	import gs.TweenLite;
 	
 	
 	/**
@@ -25,6 +26,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 	 * @author Francois
 	 */
 	public class ColorPicker extends Sprite {
+		
 		private var _gradient:ColorPickerGradientGraphic;
 		private var _brightnessSelector:BrightnessSelector;
 		private var _gradientCursor:Shape;
@@ -90,15 +92,23 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_colorButtonsHolder	= addChild(new Sprite()) as Sprite;
 			
 			var i:int, len:int, bt:ColorButton;
-			len = 12 * 4;
+			len = 12 * 3;
 			_buttons = new Vector.<ColorButton>(len, true);
 			var defaultColors:Array = [uint.MAX_VALUE, 0, 0xffffff, 0xff0000, 0xff00ff, 0xffff00, 0x00ff00, 0x00ffff, 0x0000ff];
 			for(i = 0; i < len; ++i) {
 				bt = _colorButtonsHolder.addChild(new ColorButton(11,11)) as ColorButton;
 				if(i < defaultColors.length) bt.color = defaultColors[i];
 				_buttons[i] = bt;
+				if(i < 12) {
+					bt.x = (6+i%6) * (bt.width + 4);
+					bt.y = Math.floor(i/6) * (bt.height + 2);
+				}else{
+					bt.x = (i%12) * (bt.width + 4);
+					bt.y = (Math.floor(i/12) + 1) * (bt.height + 2);
+				}
+				bt.x = Math.round(bt.x);
+				bt.y = Math.round(bt.y);
 			}
-			PosUtils.hDistribute(_buttons, 190, 4, 2, true);
 			
 			//Draw selection cursor
 			_gradientCursor.graphics.beginFill(0, .5);
@@ -107,10 +117,8 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_gradientCursor.graphics.drawRect(2, 1, 1, 1);
 			_gradientCursor.graphics.drawRect(0, 2, 3, 1);
 			_gradientCursor.graphics.endFill();
+			_gradientCursor.x = _gradientCursor.y = 10;
 			
-			_brightnessSelector.color = 0xff0000;
-			_brightnessSelector.setBaseColor(0xff0000);
-			_hexInput.text = "#ff0000";
 			_hexInput.textfield.maxChars = 7;
 			_hexInput.textfield.restrict = "[0-9a-fA-F]#";
 			
@@ -118,7 +126,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			_gradient.width = _gradient.height = _brightnessSelector.height = 150;
 			_brightnessSelector.x = _gradient.width + 5;
 			_brightnessSelector.width = 20;
-			_hexInput.width = 77;
+			_hexInput.width = 86;
 			_hexInput.validate();
 			_hexInput.x = Math.round(176 - _hexInput.width);
 			_hexInput.y = Math.round(_gradient.y + _gradient.height + 5);
@@ -145,6 +153,8 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			_gradient.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			
+			color = 0xff0000;
 		}
 		
 		/**

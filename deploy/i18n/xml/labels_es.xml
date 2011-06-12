@@ -106,6 +106,7 @@
 		<label code="searchByNameInput"><![CDATA[Nombre...]]></label>
 		<label code="searchByKIDInput"><![CDATA[ID del Kubo...]]></label>
 		<label code="searchLabel"><![CDATA[Buscar]]></label>
+		<label code="modifyAllFaces"><![CDATA[No has modificado lo suficiente cada una<br />de las caras para poder validar tu Kubo.<br /><br />¡Por favor, modifícalo un poco!]]></label>
 		
 		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Por : <b>{USER_NAME}</b><br />El : {DATE}]]></label>
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Por : <b>{USER_NAME}</b><br />Hoy a las : {DATE}]]></label>

@@ -1,4 +1,7 @@
 package com.muxxu.kube.kubebuilder.components.panel {
+	import com.muxxu.kube.kubebuilder.graphics.NoiseGraphic;
+	import com.muxxu.kube.kubebuilder.graphics.DarkenGraphic;
+	import com.muxxu.kube.kubebuilder.graphics.LightenGraphic;
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.muxxu.kube.kubebuilder.components.buttons.ToolButton;
 	import com.muxxu.kube.kubebuilder.components.form.colorpicker.ColorPicker;
@@ -26,6 +29,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 	 * @author Francois
 	 */
 	public class PanelToolsContent extends Sprite {
+		
 		private var _copyBt:ButtonKube;
 		private var _pastBt:ButtonKube;
 		private var _resetBt:ButtonKube;
@@ -37,6 +41,9 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		private var _group:FormComponentGroup;
 		private var _buttonToToolId:Dictionary;
 		private var _exportBt:ButtonKube;
+		private var _lightenBt:ToolButton;
+		private var _darkenBt:ToolButton;
+		private var _noiseBt:ToolButton;
 		
 		
 		
@@ -87,15 +94,24 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			_pencilBt = addChild(new ToolButton(new PencilGraphic())) as ToolButton;
 			_pipetteBt = addChild(new ToolButton(new PipetteGraphic())) as ToolButton;
 			_paintBucketBt = addChild(new ToolButton(new PaintBucketGraphic())) as ToolButton;
+			_lightenBt = addChild(new ToolButton(new LightenGraphic())) as ToolButton;
+			_darkenBt = addChild(new ToolButton(new DarkenGraphic())) as ToolButton;
+			_noiseBt = addChild(new ToolButton(new NoiseGraphic())) as ToolButton;
 			
 			_group.add(_pencilBt);
 			_group.add(_pipetteBt);
 			_group.add(_paintBucketBt);
+			_group.add(_lightenBt);
+			_group.add(_darkenBt);
+			_group.add(_noiseBt);
 			
 			_buttonToToolId = new Dictionary();
 			_buttonToToolId[_pencilBt] = ToolType.PENCIL;
 			_buttonToToolId[_paintBucketBt] = ToolType.PAINT_BUCKET;
 			_buttonToToolId[_pipetteBt] = ToolType.PIPETTE;
+			_buttonToToolId[_lightenBt] = ToolType.LIGHTEN;
+			_buttonToToolId[_darkenBt] = ToolType.DARKEN;
+			_buttonToToolId[_noiseBt] = ToolType.NOISE;
 			
 			_pencilBt.selected = true;
 			
@@ -142,6 +158,9 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			
 			_pencilBt.y = _paintBucketBt.y = _pipetteBt.y = _colorPicker.y + 155;
 			PosUtils.hPlaceNext(10, _pencilBt, _paintBucketBt, _pipetteBt);
+			
+			_darkenBt.y = _lightenBt.y = _noiseBt.y = Math.round(_pencilBt.y + _pencilBt.height + 5);
+			PosUtils.hPlaceNext(10, _darkenBt, _lightenBt, _noiseBt);
 		}
 		
 		/**
@@ -201,6 +220,12 @@ package com.muxxu.kube.kubebuilder.components.panel {
 					_pencilBt.selected  = true;
 				}else if(event.keyCode == Keyboard.B) {
 					_paintBucketBt.selected  = true;
+				}else if(event.keyCode == Keyboard.N) {
+					_noiseBt.selected  = true;
+				}else if(event.keyCode == Keyboard.D) {
+					_darkenBt.selected  = true;
+				}else if(event.keyCode == Keyboard.L) {
+					_lightenBt.selected  = true;
 				}
 			}
 		}

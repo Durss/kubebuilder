@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.views {
+	import com.muxxu.kube.common.components.LoaderSpinning;
 	import flash.display.DisplayObject;
 	import com.muxxu.kube.common.views.ExceptionView;
 	import gs.TweenLite;
@@ -20,6 +21,7 @@ package com.muxxu.kube.kuberank.views {
 	public class LockStateView extends AbstractView {
 		private var _locked:Boolean;
 		private var _exceptionView:ExceptionView;
+		private var _spin:LoaderSpinning;
 		
 		
 		
@@ -63,6 +65,9 @@ package com.muxxu.kube.kuberank.views {
 		 * Initializes the class.
 		 */
 		private function initialize():void {
+			_spin = addChild(new LoaderSpinning()) as LoaderSpinning;
+			_spin.open();
+			_spin.scaleX = _spin.scaleY = 2;
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			ViewLocator.getInstance().addEventListener(KubeModelEvent.LOCK, lockStateChangeHandler);
 			ViewLocator.getInstance().addEventListener(KubeModelEvent.UNLOCK, lockStateChangeHandler);
@@ -108,6 +113,9 @@ package com.muxxu.kube.kuberank.views {
 			graphics.beginFill(0, .5);
 			graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
 			graphics.endFill();
+			
+			_spin.x = stage.stageWidth * .5;
+			_spin.y = stage.stageHeight * .5;
 		}
 		
 		/**

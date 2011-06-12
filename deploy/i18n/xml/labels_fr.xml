@@ -106,6 +106,7 @@
 		<label code="searchByNameInput"><![CDATA[pseudo...]]></label>
 		<label code="searchByKIDInput"><![CDATA[kube ID...]]></label>
 		<label code="searchLabel"><![CDATA[Chercher]]></label>
+		<label code="modifyAllFaces"><![CDATA[Vous n'avez pas apporté assez de modifications à<br />chacunes des faces pour pouvoir valider votre kube.<br /><br />Merci de le modifier encore un peu!]]></label>
 		
 		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <b>{USER_NAME}</b><br />Le : {DATE}]]></label>
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />Par : <b>{USER_NAME}</b><br />Aujourd'hui à : {DATE}]]></label>
@@ -118,7 +119,7 @@
 		<label code="voted"><![CDATA[Tu as déjà voté pour ce kube]]></label>
 		<label code="confirmVote"><![CDATA[Ton vote a bien été enregistré !]]></label>
 		<label code="warn"><![CDATA[Signaler ce kube]]></label>
-		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Merci de n'utiliser ce bouton que si le kube représente un message raciste, obscène, insultant ou si vous êtes propriétaire de l'image qu'il représente !<br />Tout abus sera sanctionné par le retrait de votre droit de vote.</span>]]></label>
+		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Merci de n'utiliser ce bouton que si le kube représente un message raciste, obscène, insultant ou si vous êtes propriétaire de l'image qu'il représente !<br />Tout abus sera sanctionné par le retrait de vos droits de vote, création et report.</span>]]></label>
 		<label code="voteTooltip"><![CDATA[<b>Attention :</b> Il te reste <b>{VOTES}/{TOTAL}</b> votes pour aujourd'hui!]]></label>
 		<label code="voteInformations"><![CDATA[<b>Information :</b> Le vote de chaque joueur est pondéré en fonction de ses statistiques sur Kube.]]></label>
 		<label code="alreadyVotedTitle"><![CDATA[Vous avez déjà voté pour ce kube]]></label>

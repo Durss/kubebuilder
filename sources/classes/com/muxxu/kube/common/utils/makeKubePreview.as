@@ -36,15 +36,15 @@ package com.muxxu.kube.common.utils {
 									0, 0,
 									1, 0,
 									//LEFT FACE
-									0, 0,
 									1, 0,
-									1, 1,
+									0, 0,
 									0, 1,
+									1, 1,
 									//RIGHT FACE
-									1, 0,
 									1, 1,
-									0, 1,
+									1, 0,
 									0, 0,
+									0, 1,
 									]);
 
 			var indicesTop:Vector.<int> = Vector.<int>([0, 1, 3, 3, 1, 2]);
