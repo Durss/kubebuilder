@@ -230,7 +230,7 @@ package com.muxxu.kube.kubebuilder.views {
 			if(_bitmapModified) {
 				addImageToHistory();
 			}
-			_prevPos = new Point();
+			_prevPos = new Point(-1,-1);
 			_pressed = false;
 			_bitmapModified = false;
 //			removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);

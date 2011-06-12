@@ -150,7 +150,7 @@
 		echo "\t\t\tso.addVariable('votesDone', '".$votesDone."');\r\n";
 		echo "\t\t\tso.addVariable('infosRead', '".$_INFO_READ."');\r\n";
 		if (isset($_GET["user"])) {
-			echo "\t\t\tso.addVariable('userToShow', '".intval($_GET["user"])."');\r\n";
+			echo "\t\t\tso.addVariable('userToShow', '".htmlspecialchars($_GET["user"])."');\r\n";
 		}
 		if (isset($_GET["list"])) {
 			echo "\t\t\tso.addVariable('listToShow', '".intval($_GET["list"])."');\r\n";
