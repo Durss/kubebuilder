@@ -11,24 +11,37 @@
 	$error = 0;
 	if(isset($_GET["unreport"])) {
 		$kid = intval($_GET['unreport']);
-		//Delete reports for this kube
-		$sql = "DELETE FROM `kubebuilder_reports` WHERE kid=".$kid;
-		$req = mysql_query($sql);
-		$error = $req === false? "SQL : delete reports" : 0;
+		
+		//get all the reports for this kube
+		$sql = "SELECT `uid` FROM `kubebuilder_reports` WHERE `kid`=".$kid;
+		$query = mysql_query($sql);
+		$error = $query === false? "SQL : get reports" : 0;
 		if ($error === 0) {
-			$sql = "UPDATE `kubebuilder_kubes` SET locked=0 WHERE id=".$kid;
-			$req = mysql_query($sql);
-			$error = $req === false? "SQL : unlock kube" : 0;
+			//Update users and lock the users that reported too much times a kube as spam but it wasn't
+			while ($report = mysql_fetch_assoc($query)) {
+				$sqlWarn = "UPDATE `kubebuilder_users` SET `warnings`=`warnings`+1, `level`=IF(`warnings`=".WRONG_REPORTS_BEFORE_LOCK.", 0, `level`) WHERE `id`=".$report['uid'];
+				mysql_query($sqlWarn);
+			}
+			
+			//Delete reports for this kube
+			$sql = "DELETE FROM `kubebuilder_reports` WHERE `kid`=".$kid;
+			$query = mysql_query($sql);
+			$error = $query === false? "SQL : delete reports" : 0;
+			if ($error === 0) {
+				$sql = "UPDATE `kubebuilder_kubes` SET `locked`=0 WHERE `id`=".$kid;
+				$query = mysql_query($sql);
+				$error = $query === false? "SQL : unlock kube" : 0;
+			}
 		}
 	}
 	
 	if(isset($_GET["delete"])) {
 		$kid = intval($_GET['delete']);
 		$sql = "SELECT file FROM `kubebuilder_kubes` WHERE id=".$kid;
-		$req = mysql_query($sql);
-		$error = $req === false? "SQL : select kube" : 0;
+		$query = mysql_query($sql);
+		$error = $query === false? "SQL : select kube" : 0;
 		if($error === 0) {
-			$kube = mysql_fetch_assoc($req);
+			$kube = mysql_fetch_assoc($query);
 			if ($kube === false) {
 				$error = "Kube not found";
 			}else{
@@ -36,18 +49,18 @@
 				
 				//Delete the kube
 				$sql = "DELETE FROM `kubebuilder_kubes` WHERE id=".$kid;
-				$req = mysql_query($sql);
-				$error = $req === false? "SQL : delete kube" : 0;
+				$query = mysql_query($sql);
+				$error = $query === false? "SQL : delete kube" : 0;
 				if ($error === 0) {
 					//Delete reports for this kube
 					$sql = "DELETE FROM `kubebuilder_reports` WHERE kid=".$kid;
-					$req = mysql_query($sql);
-					$error = $req === false? "SQL : delete reports" : 0;
+					$query = mysql_query($sql);
+					$error = $query === false? "SQL : delete reports" : 0;
 					if ($error === 0) {
-						//Delete evaluations for thisckube
+						//Delete evaluations for this kube
 						$sql = "DELETE FROM `kubebuilder_evaluation` WHERE kid=".$kid;
-						$req = mysql_query($sql);
-						$error = $req === false? "SQL : delete evaluations" : 0;
+						$query = mysql_query($sql);
+						$error = $query === false? "SQL : delete evaluations" : 0;
 					}
 				}
 			}
@@ -133,8 +146,8 @@
 		$user = mysql_fetch_assoc(mysql_query($sqlUser));
 					
 		if(isset($_UID)) {
-			$req = "SELECT COUNT(kid) as `total` FROM kubebuilder_evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
-			$uvote = mysql_fetch_assoc(mysql_query($req));
+			$query = "SELECT COUNT(kid) as `total` FROM kubebuilder_evaluation WHERE kid=".$kube['id']." AND uid=".$_UID;
+			$uvote = mysql_fetch_assoc(mysql_query($query));
 			$voted = intval($uvote['total']) > 0? true : false;
 		}else {
 			$voted = true;

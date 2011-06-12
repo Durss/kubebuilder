@@ -106,6 +106,7 @@
 		<label code="searchByNameInput"><![CDATA[nickname...]]></label>
 		<label code="searchByKIDInput"><![CDATA[kube ID...]]></label>
 		<label code="searchLabel"><![CDATA[Search]]></label>
+		<label code="modifyAllFaces"><![CDATA[You have not brought enough change<br />to each side in order to validate your kube.<br /><br />Please modify it a bit more!]]></label>
 		
 		<label code="kubeDetails"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />On : {DATE}]]></label>
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />Today at : {DATE}]]></label>

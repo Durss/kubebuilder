@@ -1,5 +1,5 @@
 package com.muxxu.kube.kubebuilder.views {
-	import com.nurun.utils.color.ColorFunctions;
+	import flash.display.BlendMode;
 	import gs.TweenLite;
 
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
@@ -8,6 +8,9 @@ package com.muxxu.kube.kubebuilder.views {
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.structure.mvc.views.ViewLocator;
+	import com.nurun.utils.color.ColorFunctions;
+
+	import mx.utils.ColorUtil;
 
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
@@ -40,6 +43,8 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _facesHistory:Dictionary;
 		private var _highlight:Shape;
 		private var _pressed:Boolean;
+		private var _prevPos:Point;
+		private var _noiseOffset:Number;
 		
 		
 		
@@ -121,6 +126,7 @@ package com.muxxu.kube.kubebuilder.views {
 			_highlight = addChild(new Shape()) as Shape;
 			
 			_facesHistory = new Dictionary();
+			_noiseOffset = Math.random() * 1000;
 			
 			filters = [new DropShadowFilter(0,0,0,.25,10,10,1,3)];
 			
@@ -158,7 +164,8 @@ package com.muxxu.kube.kubebuilder.views {
 				_grid.graphics.drawRect(0, i * _CELL_SIZE, len * _CELL_SIZE, 1);
 				_grid.graphics.endFill();
 			}
-			
+			_grid.alpha = .1;
+			_grid.blendMode = BlendMode.DIFFERENCE;
 			_bmp.scaleX = _bmp.scaleY = _CELL_SIZE;
 			
 			x = 10;
@@ -223,6 +230,7 @@ package com.muxxu.kube.kubebuilder.views {
 			if(_bitmapModified) {
 				addImageToHistory();
 			}
+			_prevPos = new Point();
 			_pressed = false;
 			_bitmapModified = false;
 //			removeEventListener(MouseEvent.MOUSE_MOVE, mouseMoveHandler);
@@ -250,11 +258,27 @@ package com.muxxu.kube.kubebuilder.views {
 			_highlight.graphics.drawRect(0, 0, _CELL_SIZE, _CELL_SIZE);
 			_highlight.graphics.endFill();
 			
-			if(!_pressed) return;
+			if(!_pressed || (_prevPos != null && _prevPos.equals(pos))) return;
 			
 			var color:int = _color == uint.MAX_VALUE? 0 : _color + 0xff000000;
-			
+			_prevPos = pos.clone();
 			switch(_tool){
+				case ToolType.NOISE:
+					var bmd:BitmapData = new BitmapData(16, 16, true, 0);
+					bmd.noise((pos.x+pos.y)*4.5 + _noiseOffset, 247, 255, 7, true);
+					_bmp.bitmapData.draw(bmd, null, null, BlendMode.MULTIPLY);
+					bmd.noise((pos.x+pos.y)*3.2 + _noiseOffset, 0, 8, 7, true);
+					_bmp.bitmapData.draw(bmd, null, null, BlendMode.ADD);
+					_bitmapModified = true;
+					break;
+				case ToolType.DARKEN:
+					_bmp.bitmapData.setPixel32(pos.x, pos.y, ColorUtil.adjustBrightness2(_bmp.bitmapData.getPixel32(pos.x, pos.y), -5) + 0xff000000);
+					_bitmapModified = true;
+					break;
+				case ToolType.LIGHTEN:
+					_bmp.bitmapData.setPixel32(pos.x, pos.y, ColorUtil.adjustBrightness2(_bmp.bitmapData.getPixel32(pos.x, pos.y), 5) + 0xff000000);
+					_bitmapModified = true;
+					break;
 				case ToolType.PAINT_BUCKET:
 					_bmp.bitmapData.floodFill(pos.x, pos.y, color);
 					_bitmapModified = true;

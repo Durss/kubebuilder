@@ -143,6 +143,13 @@ package com.muxxu.kube.kubebuilder.controler {
 		public function readInfos():void {
 			_model.readInfos();
 		}
+		
+		/**
+		 * Gets if a kube can be submitted or not
+		 */
+		public function isSubmitable():Boolean {
+			return _model.isSubmitable();
+		}
 
 
 		

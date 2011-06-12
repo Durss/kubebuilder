@@ -11,4 +11,5 @@
 	define("ONE_VOTE_PER_KUBE", true);
 	define("REPORTS_TO_HIDE_A_KUBE", 10);
 	define("MAX_KUBES_CREATION_PER_DAY", 30000);
+	define("WRONG_REPORTS_BEFORE_LOCK", 3);
 ?>

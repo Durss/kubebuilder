@@ -1,12 +1,13 @@
 package com.muxxu.kube.common.vo {
-	import com.muxxu.kube.common.utils.makeKubePreview;
-	import com.nurun.utils.math.MathUtils;
-	import com.ion.PNGDecoder;
 	import com.adobe.images.PNGEncoder;
-	import flash.utils.ByteArray;
+	import com.ion.PNGDecoder;
+	import com.muxxu.kube.common.utils.makeKubePreview;
 	import com.muxxu.kube.kubebuilder.graphics.DefaultTopFaceGraphic;
-	import flash.display.BitmapData;
 	import com.nurun.core.lang.vo.ValueObject;
+	import com.nurun.utils.math.MathUtils;
+
+	import flash.display.BitmapData;
+	import flash.utils.ByteArray;
 	
 	/**
 	 * Stores the data of a .kub file and provides some serialization/deserialization methods.
@@ -55,6 +56,34 @@ package com.muxxu.kube.common.vo {
 		 */
 		public function reset(bmd:BitmapData):void {
 			bmd.fillRect(bmd.rect, _defaultColor);
+			if(bmd == _faceTop) {
+				bmd.draw(new DefaultTopFaceGraphic());
+			}
+		}
+		
+		/**
+		 * Gets if a face has been modified
+		 */
+		public function isFaceModified(bmd:BitmapData):Boolean {
+			var bmdComp:BitmapData = new BitmapData(16, 16, true, 0);
+			bmdComp.fillRect(bmdComp.rect, _defaultColor);
+			if(bmd == _faceTop) {
+				bmdComp.draw(new DefaultTopFaceGraphic());
+			}
+			var diff:Object = bmd.compare(bmdComp);
+			if(diff == 0) return false;
+			var x:int, y:int, len:int, score:Number, c:uint, pScore:uint, pixelModified:int;
+			len = 16;
+			score = 0;
+			for(x = 0; x < len; ++x) {
+				for(y = 0; y < len; ++y) {
+					c = BitmapData(diff).getPixel(x, y);
+					pScore = ((c >> 16) & 0xff) + ((c >> 8) & 0xff) + (c & 0xff);
+					score += pScore;
+					if(c > 0) pixelModified ++;
+				}
+			}
+			return pixelModified > 80 || score > 0xff * 80;
 		}
 		
 		/**

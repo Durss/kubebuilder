@@ -1,5 +1,4 @@
 package com.muxxu.kube.kubebuilder.views {
-	import flash.display.Shape;
 	import gs.TweenLite;
 	import gs.easing.Sine;
 
@@ -12,6 +11,7 @@ package com.muxxu.kube.kubebuilder.views {
 	import com.nurun.structure.mvc.views.AbstractView;
 	import com.nurun.structure.mvc.views.ViewLocator;
 
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
@@ -101,6 +101,7 @@ package com.muxxu.kube.kubebuilder.views {
 			_patronBt.validate();
 			
 			_mainHolder.mask = _mask;
+//			filters = [new DropShadowFilter(0,45,0,.25,20,20,1,2)];
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(MouseEvent.CLICK, clickHandler);

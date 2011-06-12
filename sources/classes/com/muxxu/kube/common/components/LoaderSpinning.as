@@ -1,4 +1,5 @@
 package com.muxxu.kube.common.components {
+	import flash.filters.DropShadowFilter;
 	import flash.events.Event;
 	import com.muxxu.kube.kubebuilder.graphics.SpinGraphic;
 	
@@ -18,7 +19,7 @@ package com.muxxu.kube.common.components {
 		 * Creates an instance of <code>LoaderSpinning</code>.
 		 */
 		public function LoaderSpinning() {
-			
+			filters = [new DropShadowFilter(0,0,0,.4,5,5,2,2)];
 		}
 
 		

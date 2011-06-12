@@ -1,4 +1,6 @@
 package com.muxxu.kube.kubebuilder.views {
+	import com.muxxu.kube.common.error.KubeExceptionLevel;
+	import com.muxxu.kube.common.error.KubeException;
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.BackWindow;
@@ -172,24 +174,28 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		private function clickHandler(event:MouseEvent):void {
 			if(event.target == _openFormBt) {
-				//Draw the blured disable layer
-				var bmd:BitmapData = new BitmapData(stage.stageWidth, stage.stageHeight, true, 0);
-				bmd.draw(stage);
-				bmd.applyFilter(bmd, bmd.rect, new Point(0,0), new BlurFilter(8,8,3));
-				_disableLayer.graphics.clear();
-				_disableLayer.graphics.beginBitmapFill(bmd);
-				_disableLayer.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
-				_disableLayer.graphics.endFill();
-				
-				_formCtn.alpha = 1;
-				_disableLayer.alpha = 1;
-				
-				addChild(_disableLayer);
-				addChild(_formCtn);
-				TweenLite.from(_formCtn, .5, {blurFilter:{blurX:30, blurY:30, remove:true}, autoAlpha:0, delay: .25});
-				TweenLite.from(_disableLayer, .5, {autoAlpha:0});
-				
-				_form.setFocus();
+				if(FrontControlerKB.getInstance().isSubmitable()) {
+					//Draw the blured disable layer
+					var bmd:BitmapData = new BitmapData(stage.stageWidth, stage.stageHeight, true, 0);
+					bmd.draw(stage);
+					bmd.applyFilter(bmd, bmd.rect, new Point(0,0), new BlurFilter(8,8,3));
+					_disableLayer.graphics.clear();
+					_disableLayer.graphics.beginBitmapFill(bmd);
+					_disableLayer.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+					_disableLayer.graphics.endFill();
+					
+					_formCtn.alpha = 1;
+					_disableLayer.alpha = 1;
+					
+					addChild(_disableLayer);
+					addChild(_formCtn);
+					TweenLite.from(_formCtn, .5, {blurFilter:{blurX:30, blurY:30, remove:true}, autoAlpha:0, delay: .25});
+					TweenLite.from(_disableLayer, .5, {autoAlpha:0});
+					
+					_form.setFocus();
+				}else{
+					throw new KubeException(Label.getLabel("modifyAllFaces"), KubeExceptionLevel.WARNING);
+				}
 			}else if(event.target == _disableLayer) {
 				closeForm();
 			}else if(event.target == _downloadBt) {

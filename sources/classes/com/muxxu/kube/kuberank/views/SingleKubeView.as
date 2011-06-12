@@ -102,10 +102,10 @@ package com.muxxu.kube.kuberank.views {
 			visible = false;
 			
 			_background = addChild(new BackWindow()) as BackWindow;
+			_closeBt = addChild(new CubeButtonIcon(new _closeKub())) as CubeButtonIcon;
 			_details = addChild(new CssTextField("kubeDetails")) as CssTextField;
 			_infoTxt = addChild(new CssTextField("voteInfo")) as CssTextField;
 			_form = addChild(new KubeDetailsForm()) as KubeDetailsForm;
-			_closeBt = addChild(new CubeButtonIcon(new _closeKub())) as CubeButtonIcon;
 			_cube = addChild(new CubeResult()) as CubeResult;
 			_deleteBt = addChild(new ButtonKube(Label.getLabel("deleteKube"), false, null, true)) as ButtonKube;
 			_viewKubesBt = addChild(new ButtonKube(Label.getLabel("viewUserKubes"), false)) as ButtonKube;
