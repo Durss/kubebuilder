@@ -19,7 +19,7 @@
 		if ($error === 0) {
 			//Update users and lock the users that reported too much times a kube as spam but it wasn't
 			while ($report = mysql_fetch_assoc($query)) {
-				$sqlWarn = "UPDATE `kubebuilder_users` SET `warnings`=`warnings`+1, `level`=IF(`warnings`=".WRONG_REPORTS_BEFORE_LOCK.", 0, `level`) WHERE `id`=".$report['uid'];
+				$sqlWarn = "UPDATE `kubebuilder_users` SET `warnings`=`warnings`+1, `level`=IF(`warnings`>=".WRONG_REPORTS_BEFORE_LOCK." AND `level`=1, 0, `level`) WHERE `id`=".$report['uid'];
 				mysql_query($sqlWarn);
 			}
 			
@@ -28,7 +28,7 @@
 			$query = mysql_query($sql);
 			$error = $query === false? "SQL : delete reports" : 0;
 			if ($error === 0) {
-				$sql = "UPDATE `kubebuilder_kubes` SET `locked`=0 WHERE `id`=".$kid;
+				$sql = "UPDATE `kubebuilder_kubes` SET `locked`=0, `reportable`=0 WHERE `id`=".$kid;
 				$query = mysql_query($sql);
 				$error = $query === false? "SQL : unlock kube" : 0;
 			}
@@ -169,6 +169,7 @@
 		fclose($handle);
 		$xml = "<kube id=\"".$kube["id"]."\" uid=\"".$kube["uid"]."\" name=\"".htmlspecialchars(utf8_encode($kube["name"]))."\" pseudo=\"".htmlspecialchars(utf8_encode($user["name"]))."\" date=\"".strtotime ($kube["date"])."\" votes=\"".$kube["score"]."\" voted=\"".$voted."\"><![CDATA[".$fileContent."]]></kube>";
 		echo "									so".$index.".addVariable('kube', '".urlencode($xml)."');\r\n";
+		echo "									so".$index.".addVariable('dragSensitivity', '4');\r\n";
 		
 		if($light) {
 			echo "									so".$index.".addVariable('light', 'true');\r\n";

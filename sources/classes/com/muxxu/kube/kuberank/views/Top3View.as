@@ -122,7 +122,7 @@ package com.muxxu.kube.kuberank.views {
 			for(i = 0; i < len; ++i) {
 				tf = addChildAt(new CssTextField("top3Pseudo"), 1) as CssTextField;
 				tf.width = 130;
-				tf.filters = [new BevelFilter(1,230,0xffffff,.6,0,.6,1,1,2,3,"outer")];
+				tf.filters = [new BevelFilter(1,320,0xffffff,.6,0,.6,1,1,2,3,"outer")];
 				_labels[i] = tf;
 				cube = addChild(new CubeResult()) as CubeResult;
 				_cubes[i] = cube;

@@ -8,6 +8,7 @@ package com.muxxu.kube.common.components {
 	import com.nurun.components.scroll.scroller.scrollbar.ScrollbarClassicSkin;
 
 	import flash.display.MovieClip;
+	import flash.events.MouseEvent;
 	
 	/**
 	 * Creates a pre-skined scrollbar
@@ -25,7 +26,7 @@ package com.muxxu.kube.common.components {
 		/**
 		 * Creates an instance of <code>KBScrollbar</code>.
 		 */
-		public function ScrollbarKube(slider:Boolean = false) {
+		public function ScrollbarKube(slider:Boolean = false, lockWheel:Boolean = false) {
 			var upBt:ScrollbarUpBtSkin, downBt:ScrollbarDownBtSkin, scrollerBt:MovieClip;
 			if(!slider) {
 				upBt = new ScrollbarUpBtSkin();
@@ -35,6 +36,7 @@ package com.muxxu.kube.common.components {
 				scrollerBt = new ScrollbarScrollerBtBigSkin();
 			}
 			super(new ScrollbarClassicSkin(upBt, downBt, scrollerBt, null, new ScrollbarTrackBtSkin()));
+			if(lockWheel) addEventListener(MouseEvent.MOUSE_WHEEL, lockEvent, true, 1);
 		}
 
 		
@@ -55,6 +57,10 @@ package com.muxxu.kube.common.components {
 		/* ******* *
 		 * PRIVATE *
 		 * ******* */
+
+		private function lockEvent(event:MouseEvent):void {
+			event.stopPropagation();
+		}
 		
 	}
 }

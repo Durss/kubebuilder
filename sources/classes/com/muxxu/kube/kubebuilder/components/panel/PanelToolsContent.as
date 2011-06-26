@@ -197,7 +197,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 			}else if(target == _copyBt) {
 				FrontControlerKB.getInstance().copy();
 			}else if(target == _pastBt) {
-				FrontControlerKB.getInstance().past();
+				FrontControlerKB.getInstance().paste();
 			}else if(target == _exportBt) {
 				FrontControlerKB.getInstance().exportFace();
 			}
@@ -211,7 +211,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 				if(event.keyCode == Keyboard.C) {
 					FrontControlerKB.getInstance().copy();
 				}else if(event.keyCode == Keyboard.V) {
-					FrontControlerKB.getInstance().past();
+					FrontControlerKB.getInstance().paste();
 				}
 			}else{
 				if(event.keyCode == Keyboard.P || event.keyCode == Keyboard.I) {

@@ -11,7 +11,7 @@ include '../getUserInfos.php';
 include '../secure.php';
 		
 $resultCode = 0;
-//TODO gérer les cas d'erreurs SQL
+$uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
 
 //If a user name is specified gets its ID to search its kubes.
 if (isset($_POST['userName']) && strlen($_POST['userName']) > 0) {
@@ -33,19 +33,27 @@ if (isset($_POST['orderBy']) && $_POST['orderBy'] == 'date') {
 	$order = "ORDER BY `score` DESC, `date` DESC";
 }
 
-$where = "WHERE locked=0 ";
+$where = "WHERE `locked`=0 ";
 if (isset($_POST['ownerId'])) {//Search by user ID
-	$where .= "AND uid=".intval($_POST['ownerId']);
+	$where .= "AND uid=".intval($_POST['ownerId'])." ";
 } else if (isset($_POST['kubeId'])) {//Search by kube ID
-	$where .= "AND id=".intval($_POST['kubeId']);
+	$where .= "AND id=".intval($_POST['kubeId'])." ";
+} else {
+	$where .= "AND `hof`=0 ";
 }
 
 if (isset($_POST['kubesList'])) {
-	$sqlList = "SELECT `kubes`, `name` FROM `kubebuilder_lists` WHERE `id`=".intval($_POST['kubesList']);
+	$sqlList = "SELECT `kubes`, `name`, `uid` FROM `kubebuilder_lists` WHERE `id`=".intval($_POST['kubesList']);
 	$requestList = mysql_query($sqlList);
 	if (mysql_num_rows($requestList) > 0) {
 		$list = mysql_fetch_assoc($requestList);
 		$listName = $list["name"];
+		//Get author
+		$sqlUser = "SELECT `name`, `id` FROM `kubebuilder_users` WHERE `id`=".$list["uid"];
+		$user = mysql_fetch_assoc(mysql_query($sqlUser));
+		$uidCache[$user['id']] = $user;
+		$listAuthor = $user["name"];
+			
 		$kubes = substr($list["kubes"], 0, strlen($list["kubes"]) - 1);
 		if(strlen($kubes) > 0) {
 			$where .= "AND id IN (".secure_string($kubes).")";
@@ -72,7 +80,7 @@ if (isset($_POST['start']) && isset($_POST['length'])) {
 if($resultCode === 0) {
 
 	//Gets the number of results
-	$sql = "SELECT COUNT(*) as `total` FROM kubebuilder_kubes ".$where;
+	$sql = "SELECT COUNT(*) as `total` FROM `kubebuilder_kubes` ".$where;
 	$query = mysql_query($sql);
 	$res = mysql_fetch_assoc($query);
 	$totalKubes = intval($res["total"]);
@@ -112,7 +120,7 @@ if($resultCode === 0) {
 		$handle = fopen($fileName, "r");
 		$fileContent = base64_encode(fread($handle, filesize($fileName)));
 		fclose($handle);
-		return "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($details['user']['name']))."\" date=\"".strtotime ($kube['date'])."\" voted=\"".$details['voted']."\"><![CDATA[".$fileContent."]]></kube>\r\n";
+		return "\t\t<kube id=\"".$kube['id']."\" uid=\"".$kube['uid']."\" name=\"".htmlspecialchars(utf8_encode($kube['name']))."\" pseudo=\"".htmlspecialchars(utf8_encode($details['user']['name']))."\" date=\"".strtotime ($kube['date'])."\" voted=\"".$details['voted']."\" hof=\"".$kube['hof']."\"><![CDATA[".$fileContent."]]></kube>\r\n";
 
 	}
 
@@ -120,7 +128,6 @@ if($resultCode === 0) {
 	$query = mysql_query($sqlList);
 	$kubeNodes = "";
 	$lastKubesNode = "";
-	$uidCache = array();//Prevents from unnecessary SQL calls to get user's informations.
 	if(mysql_num_rows($query) == 0 && $resultCode === 0) {
 		if (isset($_POST['kubeId'])) {
 			$resultCode = "NoKubeAtThisIndex";
@@ -134,7 +141,7 @@ if($resultCode === 0) {
 
 	//If last added kubes asked, load them
 	if(isset($_POST["lastToLoad"]) && intval($_POST["lastToLoad"]) > 0) {
-		$sqlLast = "SELECT * FROM `kubebuilder_kubes` WHERE `locked`=0 ORDER BY `date` DESC LIMIT 0,".intval($_POST["lastToLoad"]);
+		$sqlLast = "SELECT * FROM `kubebuilder_kubes` WHERE `locked`=0 AND `hof`=0 ORDER BY `date` DESC LIMIT 0,".intval($_POST["lastToLoad"]);
 		$query = mysql_query($sqlLast);
 		while ($kube = mysql_fetch_assoc($query)) {
 			$kubeNodes .= createKubeNode($kube);
@@ -146,8 +153,10 @@ if($resultCode === 0) {
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 echo "<root>\r\n";
 echo "	<result>".$resultCode."</result>\r\n";
+echo "	<where>".$where."</where>\r\n";
 if(isset($listName)) {
-	echo "	<listName><![CDATA[".htmlspecialchars($listName)."]]></listName>";
+	echo "	<listName><![CDATA[".htmlspecialchars($listName)."]]></listName>\r\n";
+	echo "	<listAuthor><![CDATA[".htmlspecialchars($listAuthor)."]]></listAuthor>\r\n";
 }
 if($resultCode === 0) {
 	echo "	<pagination startIndex='".$start."' total='".$totalKubes."' />\r\n";

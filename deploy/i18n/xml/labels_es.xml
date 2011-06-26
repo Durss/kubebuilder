@@ -119,7 +119,7 @@
 		<label code="voted"><![CDATA[Ya has votado este Kubo]]></label>
 		<label code="confirmVote"><![CDATA[¡Voto registrado!]]></label>
 		<label code="warn"><![CDATA[Reportar este Kubo]]></label>
-		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Por favor, usa este botón sólo si el Kubo representa alguna imagen racista, obscena o insultante, ¡o si eres el dueño de la imagen!<br />Cualquier abuso se sancionará con la retirada de tus derechos de votar, reportar y crear.</span>]]></label>
+		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Por favor, usa este botón sólo si el Kubo representa alguna imagen racista, obscena o insultante, ¡o si eres el dueño de la imagen!<br /><u>CUALQUIER ABUSO SE SANCIONARÁ</u> con la retirada de tus derechos de votar, reportar y crear.</span>]]></label>
 		<label code="voteTooltip"><![CDATA[<b>Aviso:</b> ¡Tienes <b>{VOTES}/{TOTAL}</b> votos por dejar hoy!]]></label>
 		<label code="voteInformations"><![CDATA[<b>Información:</b> El voto de cada jugador se pondera según las estadísticas del jugador en Kube.]]></label>
 		<label code="alreadyVotedTitle"><![CDATA[¡Ya has votado este Kubo!]]></label>
@@ -141,5 +141,8 @@
 		<label code="listEntryShareBBC"><![CDATA[Copiar el formato del enlace.]]></label>
 		
 		<label code="noResults"><![CDATA[Sin resultados.]]></label>
+		
+		<label code="confirm"><![CDATA[Confirmar]]></label>
+		<label code="cancel"><![CDATA[Cancelar]]></label>
 	</labels>
 </root>

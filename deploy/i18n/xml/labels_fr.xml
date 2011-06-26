@@ -119,7 +119,7 @@
 		<label code="voted"><![CDATA[Tu as déjà voté pour ce kube]]></label>
 		<label code="confirmVote"><![CDATA[Ton vote a bien été enregistré !]]></label>
 		<label code="warn"><![CDATA[Signaler ce kube]]></label>
-		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Merci de n'utiliser ce bouton que si le kube représente un message raciste, obscène, insultant ou si vous êtes propriétaire de l'image qu'il représente !<br />Tout abus sera sanctionné par le retrait de vos droits de vote, création et report.</span>]]></label>
+		<label code="warnTooltip"><![CDATA[<span class="tooltipContentWarn">Merci de n'utiliser ce bouton que si le kube représente un message raciste, obscène, insultant ou si vous êtes propriétaire de l'image qu'il représente !<br /><u>TOUT ABUS SERA SANCTIONNÉ</u> par le retrait de vos droits de vote, création et report.</span>]]></label>
 		<label code="voteTooltip"><![CDATA[<b>Attention :</b> Il te reste <b>{VOTES}/{TOTAL}</b> votes pour aujourd'hui!]]></label>
 		<label code="voteInformations"><![CDATA[<b>Information :</b> Le vote de chaque joueur est pondéré en fonction de ses statistiques sur Kube.]]></label>
 		<label code="alreadyVotedTitle"><![CDATA[Vous avez déjà voté pour ce kube]]></label>
@@ -141,5 +141,8 @@
 		<label code="listEntryShareBBC"><![CDATA[Copier le lien formaté.]]></label>
 		
 		<label code="noResults"><![CDATA[Aucun résultat.]]></label>
+		
+		<label code="confirm"><![CDATA[Confirmer]]></label>
+		<label code="cancel"><![CDATA[Annuler]]></label>
 	</labels>
 </root>

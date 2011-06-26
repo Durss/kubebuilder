@@ -12,6 +12,7 @@ package com.muxxu.kube.common.events {
 		static public const UPDATE:String = "onModelUpdate";
 		static public const LOCK:String = "lockModel";
 		static public const UNLOCK:String = "unlockModel";
+		static public const CONFIRM:String = "confirmAction";
 		
 		
 		

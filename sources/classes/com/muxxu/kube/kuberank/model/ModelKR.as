@@ -1,5 +1,7 @@
 package com.muxxu.kube.kuberank.model {
 
+	import com.nurun.core.lang.Disposable;
+	import com.nurun.core.commands.Command;
 	import com.muxxu.kube.kuberank.cmd.RenameListCmd;
 	import com.muxxu.kube.kuberank.cmd.UpdateListCmd;
 	import com.muxxu.kube.common.error.KubeException;
@@ -51,6 +53,8 @@ package com.muxxu.kube.kuberank.model {
 		private var _rerootToStart:Boolean;
 		private var _forceReload:Boolean;
 		private var _currentListName:String;
+		private var _toConfirm:Command;
+		private var _currentListAuthor:*;
 		
 		
 		
@@ -98,6 +102,8 @@ package com.muxxu.kube.kuberank.model {
 		public function get currentListId():int { return _kubesList; }
 
 		public function get currentListName():String { return _currentListName; }
+
+		public function get currentListAuthor():String { return _currentListAuthor; }
 
 
 
@@ -147,29 +153,26 @@ package com.muxxu.kube.kuberank.model {
 		 * Votes for a specific kube
 		 */
 		public function vote(cube:CubeData):void {
-			lock();
 			var cmd:VoteCmd = new VoteCmd(cube);
 			cmd.addEventListener(CommandEvent.COMPLETE, voteCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
-			cmd.execute();
+			askForConfirmation(cmd);
 		}
 		
 		/**
 		 * Reports a specific kube as bad.
 		 */
 		public function report(cube:CubeData):void {
-			lock();
 			var cmd:ReportCmd = new ReportCmd(cube);
 			cmd.addEventListener(CommandEvent.COMPLETE, reportCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
-			cmd.execute();
+			askForConfirmation(cmd);
 		}
 
 		/**
 		 * Deletes a kube
 		 */
 		public function deleteKube(data:CubeData):void {
-			lock();
 			_forceReload = true;
 			_openedCube = null;
 			_top3Mode = true;
@@ -181,7 +184,7 @@ package com.muxxu.kube.kuberank.model {
 			var cmd:DeleteKubeCmd = new DeleteKubeCmd(data);
 			cmd.addEventListener(CommandEvent.COMPLETE, deleteCubeCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
-			cmd.execute();
+			askForConfirmation(cmd);
 		}
 		
 		/**
@@ -199,11 +202,10 @@ package com.muxxu.kube.kuberank.model {
 		 * Deletes a list
 		 */
 		public function deleteList(id:int):void {
-			lock();
 			var cmd:DeleteListCmd = new DeleteListCmd(id);
 			cmd.addEventListener(CommandEvent.COMPLETE, listRequestComplete);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
-			cmd.execute();
+			askForConfirmation(cmd);
 		}
 		
 		/**
@@ -364,6 +366,23 @@ package com.muxxu.kube.kuberank.model {
 			_profileMode = true;
 			getLists();
 		}
+		
+		
+		/**
+		 * Confirms the last stored action
+		 */
+		public function confirmAction():void {
+			lock();
+			_toConfirm.execute();
+		}
+		
+		/**
+		 * Cancels the last stored action
+		 */
+		public function cancelAction():void {
+			if(_toConfirm is Disposable) Disposable(_toConfirm).dispose();
+			_toConfirm = null;
+		}
 
 
 		
@@ -394,6 +413,7 @@ package com.muxxu.kube.kuberank.model {
 			var startIndex:Number = parseInt(XML(event.data).child("pagination").@startIndex);
 			_data.populate(XML(event.data).child("kubes")[0], startIndex);
 			_currentListName = XML(event.data).child("listName")[0];
+			_currentListAuthor = XML(event.data).child("listAuthor")[0];
 			if(_data.length == 0) {
 				_userName = "";
 				if(_rerootToTop3) {
@@ -515,6 +535,14 @@ package com.muxxu.kube.kuberank.model {
 		private function unlock(...args):void {
 			_locked = false;
 			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.UNLOCK, this));
+		}
+		
+		/**
+		 * Asks for confirmation
+		 */
+		private function askForConfirmation(cmd:Command):void {
+			_toConfirm = cmd;
+			dispatchEvent(new KubeModelEvent(KubeModelEvent.CONFIRM, this));
 		}
 		
 	}

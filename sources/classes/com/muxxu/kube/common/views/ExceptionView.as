@@ -23,10 +23,12 @@ package com.muxxu.kube.common.views {
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.filters.DropShadowFilter;
 	import flash.system.System;
 	import flash.text.TextFieldAutoSize;
+	import flash.ui.Keyboard;
 
 
 
@@ -157,6 +159,7 @@ package com.muxxu.kube.common.views {
 				root.loaderInfo.uncaughtErrorEvents.addEventListener("uncaughtError", uncaughExceptionHandler);
 			}
 			stage.addEventListener(Event.RESIZE, computePositions);
+			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
 			computePositions();
 		}
 		
@@ -253,6 +256,15 @@ package com.muxxu.kube.common.views {
 				TweenLite.to(this, .25, {autoAlpha:0});
 			}
 			event.stopPropagation();
+		}
+		
+		/**
+		 * Called when a keyboard's key is released
+		 */
+		private function keyUpHandler(event:KeyboardEvent):void {
+			if(event.keyCode == Keyboard.ESCAPE) {
+				TweenLite.to(this, .25, {autoAlpha:0});
+			}
 		}
 		
 	}

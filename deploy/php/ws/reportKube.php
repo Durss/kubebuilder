@@ -25,7 +25,7 @@ if (isset($_UID, $_UNAME))
 			}else{
 				$results = mysql_fetch_assoc($req);
 				if ($results["total"] > 0) {
-					//Already reported, just ignore
+					//Already reported by this user, just ignore
 				}else {
 					$sql = "INSERT INTO `kubebuilder_reports` ( `kid` , `uid` ) VALUES (".$kid.", ".$_UID.")";
 					$req = mysql_query($sql);
@@ -39,7 +39,7 @@ if (isset($_UID, $_UNAME))
 						}else {
 							$results = mysql_fetch_assoc($req);
 							if ($results["total"] >= REPORTS_TO_HIDE_A_KUBE || $_RIGHTS > 1) {
-								$sql = "UPDATE `kubebuilder_kubes` SET `locked`=1 WHERE `id`=".$kid;
+								$sql = "UPDATE `kubebuilder_kubes` SET `locked`=IF(`reportable`=1, 1, `locked`) WHERE `id`=".$kid;
 								$req = mysql_query($sql);
 								$result = $req === false? "Sql" : 0;
 							}

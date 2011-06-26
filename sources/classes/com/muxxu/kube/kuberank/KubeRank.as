@@ -1,17 +1,18 @@
 package com.muxxu.kube.kuberank {
-	import com.muxxu.kube.kuberank.views.ListsView;
-	import com.muxxu.kube.kuberank.views.LastKubesView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.model.ModelKR;
+	import com.muxxu.kube.kuberank.views.ConfirmWindowView;
 	import com.muxxu.kube.kuberank.views.DisableLayerView;
+	import com.muxxu.kube.kuberank.views.LastKubesView;
+	import com.muxxu.kube.kuberank.views.ListsView;
 	import com.muxxu.kube.kuberank.views.LockStateView;
 	import com.muxxu.kube.kuberank.views.MenuView;
 	import com.muxxu.kube.kuberank.views.SingleKubeView;
 	import com.muxxu.kube.kuberank.views.SmoothListView;
 	import com.muxxu.kube.kuberank.views.Top3View;
-
 	import flash.events.Event;
+
 
 	/**
 	 * Bootstrap class of the application.
@@ -73,6 +74,7 @@ package com.muxxu.kube.kuberank {
 			addChild(new ListsView());
 			addChild(new DisableLayerView());
 			addChild(new SingleKubeView());
+			addChild(new ConfirmWindowView());
 			addChild(new LockStateView(_exceptionView));
 		}
 		
