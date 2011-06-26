@@ -1,6 +1,4 @@
 package com.muxxu.kube.kubeviewer {
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
 	import com.muxxu.kube.common.components.LoaderSpinning;
 	import com.muxxu.kube.common.utils.makeKubePreview;
 	import com.muxxu.kube.kuberank.components.CubeResult;
@@ -11,6 +9,8 @@ package com.muxxu.kube.kubeviewer {
 
 	import flash.display.Bitmap;
 	import flash.display.MovieClip;
+	import flash.display.StageAlign;
+	import flash.display.StageScaleMode;
 	import flash.external.ExternalInterface;
 	import flash.geom.Point;
 	import flash.utils.setTimeout;
@@ -91,7 +91,7 @@ package com.muxxu.kube.kubeviewer {
 			var data:CubeData = new CubeData(0);
 			var encoder:Base64Encoder = new Base64Encoder();
 			encoder.encodeBytes(new _default());
-			var defaultData:String = '<kube id="12" uid="10793" name="Enceinte" pseudo="Cael" date="1307054559" votes="125" voted=""><![CDATA['+encoder.drain()+']]></kube>';
+			var defaultData:String = '<kube id="" uid="" name="" pseudo="" date="" voted=""><![CDATA['+encoder.drain()+']]></kube>';
 			var cubeData:String = loaderInfo.parameters["kube"] == undefined? defaultData : loaderInfo.parameters["kube"];
 			data.populate(new XML(cubeData));
 			
@@ -103,6 +103,9 @@ package com.muxxu.kube.kubeviewer {
 				var pos:Point = new Point(0, 0);
 				_cube.populate(data, pos, pos);
 				_cube.doOpeningTransition(0, true);
+				if(stage.loaderInfo.parameters["dragSensitivity"] != undefined) {
+					_cube.dragSensitivity = parseFloat(stage.loaderInfo.parameters["dragSensitivity"]);
+				}
 				
 				_cube.x = stage.stageWidth * .5;
 				_cube.y = stage.stageHeight * .45;

@@ -3,6 +3,7 @@
 	include 'php/constants.php';
 	include 'php/connection.php';
 	include 'php/checkUser.php';
+	//include 'php/hofManager.php';
 	
 	$errorSql = false;
 	if ($_UID != -1) {
@@ -36,6 +37,10 @@
 	if (isset($_GET["act"]) && $_GET["act"] == "admin" && $_LEVEL > 1) {
 		$light = isset($_GET["light"])? "&light" : "";
 		header("Location: admin.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey'].$light);
+	}
+	
+	if (isset($_GET["act"]) && $_GET["act"] == "hof") {
+		header("Location: hof.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']);
 	}
 	
 	$swf = isset($_GET["act"]) && $_GET["act"] == "editor"? "kubeBuilder.swf" : "kubeRank.swf";
@@ -134,11 +139,11 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=3.4', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=3.5', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
-			so.addVariable("configXml", "xml/config.xml?v=2.8");
+			so.addVariable("configXml", "xml/config.xml?v=3.1");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";

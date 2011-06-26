@@ -89,9 +89,6 @@ package com.muxxu.kube.kuberank.components {
 		/**
 		 * @inheritDoc
 		 */
-		/**
-		 * Makes the component garbage collectable.
-		 */
 		public function dispose():void {
 			while(numChildren > 0) {
 				if(getChildAt(0) is Disposable) Disposable(getChildAt(0)).dispose();

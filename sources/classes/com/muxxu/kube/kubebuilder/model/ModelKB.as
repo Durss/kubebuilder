@@ -173,7 +173,7 @@ package com.muxxu.kube.kubebuilder.model {
 		/**
 		 * Past the copied image.
 		 */
-		public function past():void {
+		public function paste():void {
 			if(_copy != null) {
 				_currentFace.copyPixels(_copy, _copy.rect, new Point(0,0));
 				_imageModified = true;
@@ -186,6 +186,7 @@ package com.muxxu.kube.kubebuilder.model {
 		 * Exports the current face as an image.
 		 */
 		public function exportFace():void {
+			_browseMode = false;
 			_fr.save(PNGEncoder.encode(_currentFace), "face.png");
 		}
 		

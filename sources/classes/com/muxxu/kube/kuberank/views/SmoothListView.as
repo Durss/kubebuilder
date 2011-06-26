@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.views {
+	import flash.geom.Point;
 	import com.nurun.utils.pos.PosUtils;
 	import com.nurun.components.text.CssTextField;
 	import gs.TweenLite;
@@ -31,6 +32,9 @@ package com.muxxu.kube.kuberank.views {
 	 */
 	public class SmoothListView extends AbstractView {
 		
+		private const _ROWS:int = 3;
+		private const _COLS:int = 6;
+		
 		private var _engines:Vector.<TileEngine>;
 		private var _lastVersion:Number;
 		private var _pressed:Boolean;
@@ -51,6 +55,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _lastUserName:String;
 		private var _wasTop3Mode:Boolean;
 		private var _title:CssTextField;
+		private var _pressPos:Point;
 		
 		
 		
@@ -116,7 +121,7 @@ package com.muxxu.kube.kuberank.views {
 					TweenLite.to(_loadSignal, .5, {autoAlpha:0, delay:1});
 				}
 				
-				_title.text = model.currentListName == null? "" : model.currentListName;
+				_title.text = model.currentListName == null? "" : model.currentListName+" ("+model.currentListAuthor+")";
 				PosUtils.centerInStage(_title);
 				_title.y = 0;
 				
@@ -150,7 +155,7 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		private function initialize():void {
 			var i:int, len:int, engine:TileEngine;
-			len = 3;
+			len = _ROWS;
 			_engines = new Vector.<TileEngine>(len, true);
 			_endScrollX = 0;
 			_emptyItem = new CubeData(i);
@@ -168,7 +173,7 @@ package com.muxxu.kube.kuberank.views {
 				_engines[i] = engine;
 			}
 			
-			_scrollbar = addChild(new ScrollbarKube(true)) as ScrollbarKube;
+			_scrollbar = addChild(new ScrollbarKube(true, true)) as ScrollbarKube;
 			_scrollbar.rotation = -90;
 			_scrollbar.percent = .5;
 			_scrollbar.scrollerMinSize = 400;
@@ -201,11 +206,12 @@ package com.muxxu.kube.kuberank.views {
 			}
 			
 			dataLen = data.length;
-			len = Math.ceil(dataLen/18) * 18;
+			var tot:int = _COLS * _ROWS;
+			len = Math.ceil(dataLen/tot) * tot;
 			if(_lastLength != data.length) {
 				for(i = _lastLength; i < len; ++i) {
-					engine = _engines[i%3];
-//					engine = _engines[Math.floor(i/6)%3];
+					engine = _engines[i%_ROWS];
+//					engine = _engines[Math.floor(i/_COLS)%_ROWS];
 					if(i >= dataLen) {
 						engine.addItem(_emptyItem);
 					}else{
@@ -239,7 +245,7 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		private function enterFrameHandler(event:Event):void {
 			var i:int, len:int, engine:TileEngine;
-			len = _engines.length;
+			len = _ROWS;
 			if(_pressed) {
 				if(_lastMousePos.length > 3) _lastMousePos.shift();
 				_lastMousePos.push(mouseX);
@@ -247,9 +253,13 @@ package com.muxxu.kube.kuberank.views {
 			}
 			if(_scrollPressed) {
 				_endScrollX -= (_scrollbar.percent - .5) * 200;
-			}else if(Math.abs(_scrollbar.percent - .5) > .01){
-				//Replaces the scroll continuously at the center
-				_scrollbar.percent += (.5-_scrollbar.percent) * .1;
+			}else {
+				if(Math.abs(_scrollbar.percent - .5) > .008) {
+					//Replaces the scroll continuously at the center
+					_scrollbar.percent += (.5-_scrollbar.percent) * .2;
+				}else{
+					_scrollbar.percent = .5;
+				}
 				_scrollbar.validate();
 			}
 			_endScrollX = Math.min(_engines[0].offsetXMax, Math.max(_endScrollX, _engines[0].offsetXMin));
@@ -261,8 +271,8 @@ package com.muxxu.kube.kuberank.views {
 				}
 			}
 			
-			var index:int = -Math.round((engine.offsetX - _scrollIncrement * 6) / _scrollIncrement)-1;
-			FrontControlerKR.getInstance().setCurrentDisplayIndex(index * 3);
+			var index:int = -Math.round((engine.offsetX - _scrollIncrement * _COLS) / _scrollIncrement)-1;
+			FrontControlerKR.getInstance().setCurrentDisplayIndex(index * _ROWS);
 			
 			if(_rolledItem != null) {
 				_details.width = Math.round(_rolledItem.width * 3.5);
@@ -284,6 +294,7 @@ package com.muxxu.kube.kuberank.views {
 		 * Called when the mouse is pressed.
 		 */
 		private function mouseDownHandler(event:MouseEvent):void {
+			_pressPos = new Point(mouseX, mouseY);
 			if(_scrollbar.contains(event.target as DisplayObject)) {
 				_scrollPressed = true;
 			}else if(contains(event.target as DisplayObject)) {
@@ -308,7 +319,7 @@ package com.muxxu.kube.kuberank.views {
 					}
 					speed /= len;
 				}
-				_endScrollX = Math.round((_endScrollX + speed * 15) / _scrollIncrement) * _scrollIncrement;
+				_endScrollX = Math.round((_endScrollX + speed) / _scrollIncrement) * _scrollIncrement;
 			}else if(_scrollPressed){
 				_endScrollX = Math.round((_endScrollX) / _scrollIncrement) * _scrollIncrement;
 			}
@@ -333,13 +344,17 @@ package com.muxxu.kube.kuberank.views {
 		 * Called when a cube is clicked
 		 */
 		private function clickCubeHandler(event:TileEngineEvent):void {
-			FrontControlerKR.getInstance().openKube(event.item.getData() as CubeData);
+			//If we just dragged the items do not open the one clicked.
+			if(Point.distance(_pressPos, new Point(mouseX, mouseY)) < 10) {
+				FrontControlerKR.getInstance().openKube(event.item.getData() as CubeData);
+			}
 		}
 		
 		/**
 		 * Called when a cube is rolled over
 		 */
 		private function mouseOverCubeHandler(event:TileEngineEvent):void {
+			if(_pressed) return;
 			_rolledItem = event.item as TileEngineItem;
 			_rolledItem.parent.addChild(_details);
 			_rolledItem.parent.addChild(_rolledItem);

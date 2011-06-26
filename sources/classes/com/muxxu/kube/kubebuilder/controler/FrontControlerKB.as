@@ -98,8 +98,8 @@ package com.muxxu.kube.kubebuilder.controler {
 		/**
 		 * Past the copied image.
 		 */
-		public function past():void {
-			_model.past();
+		public function paste():void {
+			_model.paste();
 		}
 		
 		/**

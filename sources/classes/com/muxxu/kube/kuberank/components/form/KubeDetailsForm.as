@@ -1,6 +1,4 @@
 package com.muxxu.kube.kuberank.components.form {
-
-	import com.muxxu.kube.kuberank.vo.ListDataCollection;
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.muxxu.kube.common.components.form.input.ComboboxKube;
 	import com.muxxu.kube.common.components.tooltip.ToolTip;
@@ -10,6 +8,7 @@ package com.muxxu.kube.kuberank.components.form {
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.vo.ListData;
+	import com.muxxu.kube.kuberank.vo.ListDataCollection;
 	import com.nurun.components.form.events.ListEvent;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.configuration.Config;

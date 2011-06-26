@@ -55,6 +55,7 @@ package com.muxxu.kube.kuberank.components {
 		private var _starFalls:Boolean;
 		private var _ready:Boolean;
 		private var _starSpeeds:Dictionary;
+		private var _dragSensitivity:Number;
 		
 		
 		
@@ -116,6 +117,11 @@ package com.muxxu.kube.kuberank.components {
 		 * Gets the kube's data.
 		 */
 		public function get data():CubeData { return _data; }
+		
+		/**
+		 * Sets the drag sensitivity
+		 */
+		public function set dragSensitivity(value:Number):void { _dragSensitivity = value; }
 
 
 
@@ -341,6 +347,8 @@ package com.muxxu.kube.kuberank.components {
 			_wingRight = _holder.addChild(new WingGraphic()) as WingGraphic;
 			_cube = _holder.addChild(new Cube()) as Cube;
 			
+			_dragSensitivity = 1;
+			
 			_starPool = new Vector.<StarGraphic>(50);
 			var i:int, len:int, star:StarGraphic;
 			len = _starPool.length;
@@ -414,8 +422,8 @@ package com.muxxu.kube.kuberank.components {
 		private function enterFrameHandler(event:Event):void {
 			if(_ready) {
 				if(_pressed) {
-					_endRX = _rotationOffsets.x - (_mouseOffset.y - mouseY);
-					_endRY = _rotationOffsets.y + (_mouseOffset.x - mouseX);
+					_endRX = _rotationOffsets.x - (_mouseOffset.y - mouseY) * _dragSensitivity;
+					_endRY = _rotationOffsets.y + (_mouseOffset.x - mouseX) * _dragSensitivity;
 				}
 				_cube.rotationX += (_endRX - _cube.rotationX) * .1;
 				_cube.rotationY += (_endRY - _cube.rotationY) * .1;

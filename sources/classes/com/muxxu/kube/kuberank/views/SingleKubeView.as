@@ -1,5 +1,4 @@
 package com.muxxu.kube.kuberank.views {
-
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.BackWindow;
@@ -20,8 +19,10 @@ package com.muxxu.kube.kuberank.views {
 
 	import flash.display.DisplayObject;
 	import flash.events.Event;
+	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
+	import flash.ui.Keyboard;
 	
 	/**
 	 * Displays the details about a kube and provides buttons to vote for.
@@ -122,14 +123,24 @@ package com.muxxu.kube.kuberank.views {
 			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			stage.addEventListener(Event.RESIZE, computePositions);
 			stage.addEventListener(MouseEvent.CLICK, clickHandler);
+			stage.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
 			computePositions();
+		}
+		
+		/**
+		 * Called when a keyboard's key is released
+		 */
+		private function keyUpHandler(event:KeyboardEvent):void {
+			if(event.keyCode == Keyboard.ESCAPE) {
+				FrontControlerKR.getInstance().closeKube();
+			}
 		}
 		
 		/**
 		 * Called when the user clicks somewhere
 		 */
 		private function clickHandler(event:MouseEvent):void {
-			if(_opened && !contains(event.target as DisplayObject) || event.target == _closeBt) {
+			if(_opened && (!contains(event.target as DisplayObject) || event.target == _closeBt)) {
 				FrontControlerKR.getInstance().closeKube();
 			}else if(event.target == _deleteBt) {
 				FrontControlerKR.getInstance().deleteKube(_data);

@@ -169,6 +169,20 @@ package com.muxxu.kube.kuberank.controler {
 		public function renameList(data:ListData, text:String):void {
 			_model.renameList(data, text);
 		}
+		
+		/**
+		 * Confirms the last stored action
+		 */
+		public function confirmAction():void {
+			_model.confirmAction();
+		}
+		
+		/**
+		 * Cancels the last stored action
+		 */
+		public function cancelAction():void {
+			_model.cancelAction();
+		}
 
 
 		
