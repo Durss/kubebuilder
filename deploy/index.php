@@ -3,7 +3,7 @@
 	include 'php/constants.php';
 	include 'php/connection.php';
 	include 'php/checkUser.php';
-	//include 'php/hofManager.php';
+	include 'php/hofManager.php';
 	
 	$errorSql = false;
 	if ($_UID != -1) {

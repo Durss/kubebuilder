@@ -67,10 +67,11 @@ package com.muxxu.kube.hof {
 			stage.scaleMode	= StageScaleMode.NO_SCALE;
 			stage.showDefaultContextMenu = false;
 			
-			_backColor		= parseInt(getFV("bgColor", "000000"), 16);
-			_barColor		= parseInt(getFV("loaderColor", "000000"), 16);
+			_backColor		= parseInt(getFV("bgColor", "4CA5CD"), 16);
+			_barColor		= parseInt(getFV("loaderColor", "ffffff"), 16);
 			
 			_env			= new EnvironnementManager();
+			_env.addVariables({lang:"fr"});//overridden by flash vars
 			_env.initialise(getFV("configXml", "xml/config.xml"));
 			_env.addEventListener(IOErrorEvent.IO_ERROR, initErrorHandler);
 			

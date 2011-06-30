@@ -1,5 +1,11 @@
 package com.muxxu.kube.hof {
-	import flash.display.MovieClip;
+	import com.muxxu.kube.common.AbstractApplication;
+	import com.muxxu.kube.common.views.LockStateView;
+	import com.muxxu.kube.hof.model.ModelHOF;
+	import com.muxxu.kube.hof.views.EarthView;
+	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
+
+	import flash.events.Event;
 
 	/**
 	 * Bootstrap class of the application.
@@ -11,9 +17,9 @@ package com.muxxu.kube.hof {
 	 * @date 26 juin 2011;
 	 */
 	 
-	[SWF(width="800", height="600", backgroundColor="0xFFFFFF", frameRate="31")]
+	[SWF(width="870", height="500", backgroundColor="#4CA5CD", frameRate="31")]
 	[Frame(factoryClass="com.muxxu.kube.hof.HallOfFameLoader")]
-	public class HallOfFame extends MovieClip {
+	public class HallOfFame extends AbstractApplication {
 		
 		
 		
@@ -25,7 +31,7 @@ package com.muxxu.kube.hof {
 		 * Creates an instance of <code>Application</code>.
 		 */
 		public function HallOfFame() {
-			initialize();
+			super(new ModelHOF());
 		}
 
 		
@@ -49,16 +55,24 @@ package com.muxxu.kube.hof {
 		/**
 		 * Initialize the class.
 		 */
-		private function initialize():void {
+		override protected function initialize():void {
+			super.initialize();
 			
-			computePositions();
+			FrontControlerKR.getInstance().initialize(_model);
+			
+			removeChild(_background);
+			addChild(new EarthView());
+			addChild(new LockStateView(_exceptionView));
 		}
 		
 		/**
-		 * Resize and replace the elements.
+		 * Called when the stage is available.
+		 * 
+		 * Needed for a proper initial placement of the views. 
 		 */
-		private function computePositions():void {
-			
+		override protected function addedToStageHandler(event:Event):void {
+			super.addedToStageHandler(event);
+			ModelHOF(_model).start();
 		}
 		
 	}
