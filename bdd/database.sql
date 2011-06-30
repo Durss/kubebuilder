@@ -1,16 +1,16 @@
 ﻿-- phpMyAdmin SQL Dump
--- version 3.3.9
+-- version OVH
 -- http://www.phpmyadmin.net
 --
--- Serveur: localhost
--- Généré le : Sam 04 Juin 2011 à 16:46
--- Version du serveur: 5.1.53
--- Version de PHP: 5.3.4
+-- Serveur: mysql5-21.bdb
+-- Généré le : Jeu 30 Juin 2011 à 19:25
+-- Version du serveur: 5.0.90
+-- Version de PHP: 5.3.6
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
 --
--- Base de données: `kubebuilder`
+-- Base de données: `fevermapmysql`
 --
 
 -- --------------------------------------------------------
@@ -22,10 +22,25 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE IF NOT EXISTS `kubebuilder_evaluation` (
   `kid` int(11) unsigned NOT NULL,
   `uid` int(11) unsigned NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
   `note` smallint(6) NOT NULL,
   KEY `kid` (`kid`,`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `kubebuilder_hof`
+--
+
+CREATE TABLE IF NOT EXISTS `kubebuilder_hof` (
+  `id` int(11) NOT NULL auto_increment,
+  `date` date NOT NULL,
+  `p1` int(11) NOT NULL,
+  `p2` int(11) NOT NULL,
+  `p3` int(11) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -34,15 +49,31 @@ CREATE TABLE IF NOT EXISTS `kubebuilder_evaluation` (
 --
 
 CREATE TABLE IF NOT EXISTS `kubebuilder_kubes` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(25) COLLATE utf8_unicode_ci NOT NULL,
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(25) collate utf8_unicode_ci NOT NULL,
   `uid` int(10) unsigned NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `file` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
+  `date` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `file` varchar(32) collate utf8_unicode_ci NOT NULL,
   `score` int(11) unsigned NOT NULL,
   `locked` tinyint(1) NOT NULL,
+  `hof` tinyint(1) NOT NULL,
+  `reportable` tinyint(1) NOT NULL default '1',
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=138 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=4201 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `kubebuilder_lists`
+--
+
+CREATE TABLE IF NOT EXISTS `kubebuilder_lists` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `uid` mediumint(8) unsigned NOT NULL,
+  `name` varchar(25) NOT NULL,
+  `kubes` text NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1289 ;
 
 -- --------------------------------------------------------
 
@@ -51,12 +82,12 @@ CREATE TABLE IF NOT EXISTS `kubebuilder_kubes` (
 --
 
 CREATE TABLE IF NOT EXISTS `kubebuilder_reports` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id` int(11) unsigned NOT NULL auto_increment,
   `kid` int(11) unsigned NOT NULL,
   `uid` int(11) unsigned NOT NULL,
-  `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `date` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
   UNIQUE KEY `id` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=528 ;
 
 -- --------------------------------------------------------
 
@@ -69,18 +100,10 @@ CREATE TABLE IF NOT EXISTS `kubebuilder_users` (
   `id` int(10) unsigned NOT NULL,
   `name` varchar(12) NOT NULL,
   `name_low` varchar(12) NOT NULL,
-  `level` tinyint(3) unsigned NOT NULL DEFAULT '1',
+  `level` tinyint(3) unsigned NOT NULL default '1',
   `points` smallint(6) unsigned NOT NULL,
   `zones` mediumint(9) unsigned NOT NULL,
-  `infoRead` tinyint(1) NOT NULL DEFAULT '0',
+  `infoRead` tinyint(1) NOT NULL default '0',
+  `warnings` tinyint(4) NOT NULL,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='users list.';
-
-
-CREATE TABLE IF NOT EXISTS `kubebuilder`.`kubebuilder_lists` (
-`id` INT UNSIGNED NOT NULL AUTO_INCREMENT ,
-`uid` MEDIUMINT UNSIGNED NOT NULL ,
-`name` VARCHAR( 25 ) NOT NULL ,
-`kubes` TEXT NOT NULL ,
-PRIMARY KEY ( `id` )
-) ENGINE = MYISAM ;
