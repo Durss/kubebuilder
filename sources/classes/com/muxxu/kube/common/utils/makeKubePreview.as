@@ -82,7 +82,7 @@ package com.muxxu.kube.common.utils {
 			shape.graphics.drawTriangles(vertices, indicesRight, UVData);
 			shape.graphics.endFill();
 			
-			var bmd:BitmapData = new BitmapData(shape.width, shape.height, true, 0);
+			var bmd:BitmapData = new BitmapData(Math.max(1, shape.width), Math.max(1, shape.height), true, 0);
 			bmd.draw(shape);
 			return bmd;
 	}
