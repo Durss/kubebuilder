@@ -2,6 +2,27 @@
 	include 'php/constants.php';
 	include 'php/connection.php';
 	include 'php/checkUser.php';
+
+	
+	//Converts act var into multiple GET vars if necessary.
+	//If the following act var is past :
+	//act=value_var1=value1_var2=value2
+	//then $_GET["act"] value will only be "value" and two
+	//GET vars named "var1" and "var2" will be created with
+	//the corresponding value.
+	if (isset($_GET["act"])) {
+		$params = explode("_", $_GET["act"]);
+		$_GET["act"] = $params[0];
+		for ($i = 1; $i < count($params); $i++) {
+			if(strpos($params[$i], "=") > -1) {
+				list($var, $value) = explode("=", $params[$i]);
+			}else {
+				$var = $params[$i];
+				$value = 0;
+			}
+			$_GET[$var] = $value;
+		}
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -89,7 +110,7 @@
 	}else{
 		$offset = isset($_GET["offset"])? intval($_GET["offset"]) : 0;
 		do{
-			$sql = "SELECT id, p1, p2, p3, DATE_FORMAT( `date`, '%m-%Y' ) as `formatedDate` FROM `kubebuilder_hof` ORDER BY date ASC LIMIT ".$offset.", 1";
+			$sql = "SELECT id, p1, p2, p3, DATE_FORMAT( `date`, '%m-%Y' ) as `formatedDate` FROM `kubebuilder_hof` ORDER BY date DESC LIMIT ".$offset.", 1";
 			$request = mysql_query($sql);
 			$hof = mysql_fetch_assoc($request);
 			$offset = 0;

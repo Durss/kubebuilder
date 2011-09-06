@@ -1,8 +1,4 @@
 package com.muxxu.kube.hof.views {
-	import flash.utils.getTimer;
-	import flash.display.BlendMode;
-	import flash.events.MouseEvent;
-	import flash.geom.Matrix;
 	import com.muxxu.kube.hof.model.ModelHOF;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
@@ -12,7 +8,9 @@ package com.muxxu.kube.hof.views {
 	import flash.display.BitmapData;
 	import flash.display.Sprite;
 	import flash.events.Event;
+	import flash.events.MouseEvent;
 	import flash.filters.BlurFilter;
+	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 
@@ -29,10 +27,16 @@ package com.muxxu.kube.hof.views {
 		[Embed(source="../../../../../../../assets/grass.png")]
 		private var _grassClass:Class;
 		
+		[Embed(source="../../../../../../../assets/podium.png")]
+		private var _podiumClass:Class;
+		
 		private var _earth:Bitmap;
 		private var _earthHolder:Sprite;
 		private var _pressed:Boolean;
 		private var _offsetDrag:Point;
+		private var _offsetRotation:Number;
+		private var _posHistory:Array;
+		private var _velocity:Number;
 		
 		
 		
@@ -77,6 +81,7 @@ package com.muxxu.kube.hof.views {
 		private function initialize():void {
 			_earthHolder = addChild(new Sprite()) as Sprite;
 			_earth = _earthHolder.addChild(new _backgroundClass()) as Bitmap;
+			_velocity = 0;
 			
 			//Generate grass
 			var grassBmp:Bitmap = new _grassClass();
@@ -107,7 +112,30 @@ package com.muxxu.kube.hof.views {
 				m.translate(point.x, point.y);
 				_earth.bitmapData.draw(grassBmd, m, null, null, null, true);
 			}
+			
+			var bmpPodium:Bitmap = new _podiumClass();
+			m = new Matrix();
+			m.translate((_earth.width-bmpPodium.width) * .5, 0);
+			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			
+			m = new Matrix();
+			m.rotate(Math.PI/2);
+			m.translate(_earth.width, (_earth.width-bmpPodium.width) * .5);
+			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			
+			m = new Matrix();
+			m.rotate(-Math.PI/2);
+			m.translate(0, (_earth.width+bmpPodium.width) * .5);
+			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			
+			m = new Matrix();
+			m.rotate(Math.PI);
+			m.translate((_earth.width+bmpPodium.width) * .5, _earth.height);
+			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			
 			grassSrc.unlock();
+			
+			_earth.smoothing = true;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
@@ -115,7 +143,12 @@ package com.muxxu.kube.hof.views {
 
 		private function enterFrameHandler(event:Event):void {
 			if(_pressed) {
-				_earthHolder.rotation += (mouseX - _offsetDrag.x) * .05;
+				_earthHolder.rotation = _offsetRotation + (mouseX - _offsetDrag.x) * .05;
+				_posHistory.push(mouseX);
+				if(_posHistory.length > 5) _posHistory.shift();
+			}else if(Math.abs(_velocity) > .1){
+				_velocity *= .9;
+				_earthHolder.rotation += _velocity;
 			}
 		}
 		
@@ -133,10 +166,20 @@ package com.muxxu.kube.hof.views {
 		private function mouseDownHandler(event:MouseEvent):void {
 			_pressed = true;
 			_offsetDrag = new Point(mouseX, mouseY);
+			_offsetRotation = _earthHolder.rotation;
+			_posHistory = [];
 		}
 
 		private function mouseUpHandler(event:MouseEvent):void {
 			_pressed = false;
+			var i:int, len:int, avg:Number;
+			len = _posHistory.length;
+			avg = 0;
+			for(i = 1; i < len; ++i) {
+				avg += _posHistory[i] - _posHistory[i-1];
+			}
+			avg /= len;
+			_velocity = avg * .05;
 		}
 				
 		/**
