@@ -20,6 +20,7 @@
 	//then $_GET["act"] value will only be "value" and two
 	//GET vars named "var1" and "var2" will be created with
 	//the corresponding value.
+	$rawAct = $_GET["act"];
 	if (isset($_GET["act"])) {
 		$params = explode("_", $_GET["act"]);
 		$_GET["act"] = $params[0];
@@ -40,7 +41,7 @@
 	}
 	
 	if (isset($_GET["act"]) && $_GET["act"] == "hof") {
-		header("Location: hof.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']);
+		header("Location: hof.php?uid=".$_GET['uid']."&name=".$_GET['name']."&pubkey=".$_GET['pubkey']."&act=".$rawAct);
 	}
 	
 	$swf = isset($_GET["act"]) && $_GET["act"] == "editor"? "kubeBuilder.swf" : "kubeRank.swf";
