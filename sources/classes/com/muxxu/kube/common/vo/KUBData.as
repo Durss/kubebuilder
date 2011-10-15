@@ -16,6 +16,9 @@ package com.muxxu.kube.common.vo {
 	 */
 	public class KUBData implements ValueObject {
 		
+		[Embed(source="../../assets/corrupted.kub", mimeType="application/octet-stream")]
+		private var _curruptKube:Class;
+		
 		private var _faceTop:BitmapData;
 		private var _faceBottom:BitmapData;
 		private var _faceSides:BitmapData;
@@ -90,7 +93,12 @@ package com.muxxu.kube.common.vo {
 		 * Converts the value object to a byteArray
 		 */
 		public function fromByteArray(data:ByteArray):void {
-			var obj:Array = data.readObject();
+			try {
+				var obj:Array = data.readObject();
+			}catch(error:Error) {
+				data = new _curruptKube();
+				obj = data.readObject();
+			}
 			var decoder:PNGDecoder = new PNGDecoder();
 			_faceSides = decoder.decode(obj[3]);
 			_faceTop = decoder.decode(obj[4]);
