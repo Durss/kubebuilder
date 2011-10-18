@@ -250,6 +250,7 @@ package com.muxxu.kube.kubebuilder.components.form.colorpicker {
 		 */
 		private function updateFromColor(color:uint, fireChange:Boolean = true):void {
 			if(color != uint.MAX_VALUE) {
+				color |= 0xff000000;//Force alpha channel to 100%
 				_gradientCursor.y = Math.round((1 - ColorFunctions.getSaturation(color) / ColorFunctions.SMAX) * _gradient.height - 1);
 				_gradientCursor.x = Math.round((ColorFunctions.getHue(color) / ColorFunctions.HMAX) * _gradient.width - 1);
 				//Probably due to a computation problem the getHue method may
