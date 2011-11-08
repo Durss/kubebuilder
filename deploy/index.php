@@ -144,6 +144,7 @@
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
+			so.addParam('wmode', 'opaque');
 			so.addVariable("configXml", "xml/config.xml?v=3.1");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
