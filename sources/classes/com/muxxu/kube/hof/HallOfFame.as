@@ -5,6 +5,8 @@ package com.muxxu.kube.hof {
 	import com.muxxu.kube.hof.views.EarthView;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 
+	import org.libspark.ui.SWFWheel;
+
 	import flash.events.Event;
 
 	/**
@@ -73,6 +75,7 @@ package com.muxxu.kube.hof {
 		override protected function addedToStageHandler(event:Event):void {
 			super.addedToStageHandler(event);
 			ModelHOF(_model).start();
+			SWFWheel.initialize(stage);
 		}
 		
 	}
