@@ -11,6 +11,9 @@ package com.muxxu.kube.kuberank {
 	import com.muxxu.kube.kuberank.views.SingleKubeView;
 	import com.muxxu.kube.kuberank.views.SmoothListView;
 	import com.muxxu.kube.kuberank.views.Top3View;
+
+	import org.libspark.ui.SWFWheel;
+
 	import flash.events.Event;
 
 
@@ -86,6 +89,7 @@ package com.muxxu.kube.kuberank {
 		override protected function addedToStageHandler(event:Event):void {
 			super.addedToStageHandler(event);
 			ModelKR(_model).start();
+			SWFWheel.initialize(stage);
 		}
 		
 	}

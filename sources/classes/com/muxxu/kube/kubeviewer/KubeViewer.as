@@ -1,4 +1,5 @@
 package com.muxxu.kube.kubeviewer {
+	import org.libspark.ui.SWFWheel;
 	import com.muxxu.kube.common.components.LoaderSpinning;
 	import com.muxxu.kube.common.utils.makeKubePreview;
 	import com.muxxu.kube.kuberank.components.CubeResult;
@@ -82,6 +83,7 @@ package com.muxxu.kube.kubeviewer {
 			_spin.open();
 			_spin.x = stage.stageWidth * .5;
 			_spin.y = stage.stageHeight * .5;
+			SWFWheel.initialize(stage);
 		}
 		
 		/**

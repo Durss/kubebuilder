@@ -1,13 +1,15 @@
 package com.muxxu.kube.kubebuilder {
-	import com.muxxu.kube.kubebuilder.views.InfoView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.muxxu.kube.kubebuilder.views.EditorView;
+	import com.muxxu.kube.kubebuilder.views.InfoView;
 	import com.muxxu.kube.kubebuilder.views.KubeView;
 	import com.muxxu.kube.kubebuilder.views.PanelView;
 	import com.muxxu.kube.kubebuilder.views.SubmitKubeView;
 	import com.nurun.structure.environnement.configuration.Config;
+
+	import org.libspark.ui.SWFWheel;
 
 	import flash.events.Event;
 
@@ -81,6 +83,7 @@ package com.muxxu.kube.kubebuilder {
 		override protected function addedToStageHandler(event:Event):void {
 			super.addedToStageHandler(event);
 			ModelKB(_model).start();
+			SWFWheel.initialize(stage);
 		}
 		
 	}
