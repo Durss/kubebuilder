@@ -112,6 +112,7 @@ package com.muxxu.kube.kuberank.views {
 			_viewKubesBt = addChild(new ButtonKube(Label.getLabel("viewUserKubes"), false)) as ButtonKube;
 			
 			_infoTxt.text = Label.getLabel("voteInformations");
+			_details.selectable = true;
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 		}
@@ -160,7 +161,7 @@ package com.muxxu.kube.kuberank.views {
 		 */
 		private function computePositions(event:Event = null):void {
 			_background.width = 700;
-			_background.height = 300;
+			_background.height = 325;
 			
 			_details.x = _cube.x + _cube.width;
 			_details.y = 15;
@@ -205,6 +206,7 @@ package com.muxxu.kube.kuberank.views {
 			}
 			details = details.replace(/\{KUBE_NAME\}/gi, _data.name);
 			details = details.replace(/\{USER_ID\}/gi, _data.uid);
+			details = details.replace(/\{KUBE_ID\}/gi, _data.id);
 			details = details.replace(/\{USER_NAME\}/gi, _data.userName);
 			_details.text = details;
 			
