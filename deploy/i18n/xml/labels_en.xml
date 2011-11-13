@@ -112,8 +112,8 @@
 		<label code="kubeDetailsToday"><![CDATA[<b>{KUBE_NAME}</b><br /><br />By : <b>{USER_NAME}</b><br />Today at : {DATE}]]></label>
 		<label code="kubeDetailsList"><![CDATA[Add this kube to a list]]></label>
 		<label code="kubeDetailsCreateList"><![CDATA[Create a list]]></label>
-		<label code="kubeDetailsLong"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created by <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> on {DATE}]]></label>
-		<label code="kubeDetailsLongToday"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created By <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Today at {DATE}]]></label>
+		<label code="kubeDetailsLong"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created by <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> on {DATE}<br />Kube ID: <b>{KUBE_ID}</b>]]></label>
+		<label code="kubeDetailsLongToday"><![CDATA[Kube's name : <b>{KUBE_NAME}</b><br />Created By <a href="http://muxxu.com/user/{USER_ID}" target="_blank" class="link"><b>{USER_NAME}</b></a> Today at {DATE}<br />Kube ID: <b>{KUBE_ID}</b>]]></label>
 		<label code="clickToCreate"><![CDATA[<font size="22"><b>Create my own kube</b></font>]]></label>
 		<label code="vote"><![CDATA[Vote for this kube]]></label>
 		<label code="voted"><![CDATA[You've already voted for this kube]]></label>
