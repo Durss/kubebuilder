@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 	include 'php/constants.php';
 	include 'php/connection.php';
