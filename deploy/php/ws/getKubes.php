@@ -153,7 +153,7 @@ if($resultCode === 0) {
 echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n";
 echo "<root>\r\n";
 echo "	<result>".$resultCode."</result>\r\n";
-echo "	<where>".$where."</where>\r\n";
+//echo "	<where>".$where."</where>\r\n";
 if(isset($listName)) {
 	echo "	<listName><![CDATA[".htmlspecialchars($listName)."]]></listName>\r\n";
 	echo "	<listAuthor><![CDATA[".htmlspecialchars($listAuthor)."]]></listAuthor>\r\n";
