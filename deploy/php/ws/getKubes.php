@@ -38,7 +38,7 @@ if (isset($_POST['ownerId'])) {//Search by user ID
 	$where .= "AND uid=".intval($_POST['ownerId'])." ";
 } else if (isset($_POST['kubeId'])) {//Search by kube ID
 	$where .= "AND id=".intval($_POST['kubeId'])." ";
-} else {
+} else if(!isset($_POST['kubesList'])){
 	$where .= "AND `hof`=0 ";
 }
 
