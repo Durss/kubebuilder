@@ -393,7 +393,7 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Initialize the class.
 		 */
-		private function initialize():void {
+		protected function initialize():void {
 			_data = new CubeDataCollection();
 			_userName = "";
 			_votesDone = Config.getNumVariable("votesDone");
@@ -448,7 +448,7 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		private function loadSingleCubesCompleteHandler(event:CommandEvent):void {
 			_openedCube = new CubeData(0);
-			_openedCube.populate(XML(event.data).child("kubes")[0].child("kube")[0]);
+			_openedCube.populate(XML(XML(event.data).child("kubes")[0]).child("kube")[0]);
 			update();
 			unlock();
 		}
@@ -517,14 +517,14 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Fires an update to the views.
 		 */
-		private function update():void {
+		protected function update():void {
 			dispatchEvent(new KubeModelEvent(KubeModelEvent.UPDATE, this));
 		}
 		
 		/**
 		 * Tells the view that the model is locked
 		 */
-		private function lock(...args):void {
+		protected function lock(...args):void {
 			_locked = true;
 			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.LOCK, this));
 		}
@@ -532,7 +532,7 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Tells the view that the model is unlocked
 		 */
-		private function unlock(...args):void {
+		protected function unlock(...args):void {
 			_locked = false;
 			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.UNLOCK, this));
 		}
@@ -540,7 +540,7 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Asks for confirmation
 		 */
-		private function askForConfirmation(cmd:Command):void {
+		protected function askForConfirmation(cmd:Command):void {
 			_toConfirm = cmd;
 			dispatchEvent(new KubeModelEvent(KubeModelEvent.CONFIRM, this));
 		}

@@ -47,6 +47,7 @@ package com.muxxu.kube.kuberank.components.form {
 		private var _comboList:ComboboxKube;
 		private var _lists:ListDataCollection;
 		private var _createListBt:ButtonKube;
+		private var _hofMode:Boolean;
 		
 		
 		
@@ -75,8 +76,9 @@ package com.muxxu.kube.kuberank.components.form {
 		/**
 		 * Sets the current cube's data.
 		 */
-		public function populate(cubeData:CubeData, listsData:ListDataCollection, votesDone:int, votesTotal:int):void {
-			if(cubeData == _data) {
+		public function populate(cubeData:CubeData, listsData:ListDataCollection, votesDone:int, votesTotal:int, hofMode:Boolean = false):void {
+			_hofMode = hofMode;
+			if (cubeData == _data) {
 				_votedTxt.text = Label.getLabel("confirmVote");
 			}else{
 				_votedTxt.text = Label.getLabel("voted");
@@ -104,6 +106,8 @@ package com.muxxu.kube.kuberank.components.form {
 			_comboList.addEventListener(ListEvent.SELECT_ITEM, selectListItemHandler);
 			_comboList.visible = len > 0;
 			_createListBt.visible = len == 0;
+			
+			_alertBt.visible = _voteBt.visible = _votedTxt.visible = !_hofMode;
 			
 			computePositions();
 		}
@@ -136,6 +140,7 @@ package com.muxxu.kube.kuberank.components.form {
 			_tooltip.mouseChildren = false;
 			
 			_comboList.list.scrollableList.allowMultipleSelection = true;
+			_comboList.list.scrollableList.group.allowNoSelection = true;
 			
 			computePositions();
 			addEventListener(MouseEvent.MOUSE_OVER, mouseOverHandler);
@@ -148,9 +153,14 @@ package com.muxxu.kube.kuberank.components.form {
 		private function computePositions():void {
 			_comboList.width = _alertBt.width = _voteBt.width = _createListBt.width = 390;
 			_alertBt.y = Math.round(_voteBt.height + 5);
-			_comboList.y = Math.round(_alertBt.y + _alertBt.height + 5);
+			if(_alertBt.visible) {
+				_comboList.y = Math.round(_alertBt.y + _alertBt.height + 5);
+				_shareKube.y = Math.round(_comboList.y + _comboList.height + 5);
+			}else{
+				_comboList.y = 20;
+				_shareKube.y = Math.round(_comboList.y + _comboList.height + 5) + 20;
+			}
 			_createListBt.y = _comboList.y;
-			_shareKube.y = Math.round(_comboList.y + _comboList.height + 5);
 			
 			PosUtils.centerIn(_votedTxt, _voteBt);
 		}

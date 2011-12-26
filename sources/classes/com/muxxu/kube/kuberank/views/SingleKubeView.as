@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.views {
+	import flash.utils.describeType;
 	import gs.TweenLite;
 
 	import com.muxxu.kube.common.components.BackWindow;
@@ -45,6 +46,7 @@ package com.muxxu.kube.kuberank.views {
 		private var _deleteBt:ButtonKube;
 		private var _viewKubesBt:ButtonKube;
 		private var _lists:ListDataCollection;
+		private var _hofMode:Boolean;
 		
 		
 		
@@ -76,13 +78,17 @@ package com.muxxu.kube.kuberank.views {
 		override public function update(event:IModelEvent):void {
 			var model:ModelKR = event.model as ModelKR;
 			_data = model.openedCube;
+			
+			_hofMode = describeType(model).@name == "com.muxxu.kube.hof.model::ModelHOF";//describeType prevents from dependency to the class ModelHOF
+			
 			_lists = model.lists;
 			if(_data != null) {
-				_form.populate(_data, model.lists, model.votesDone, model.votesTotal);
+				_form.populate(_data, model.lists, model.votesDone, model.votesTotal, _hofMode);
 				populate();
 				TweenLite.to(this, .25, {autoAlpha:1, onComplete:onAppearComplete});
 				_deleteBt.visible = _data.uid == Config.getNumVariable("uid");
-				_viewKubesBt.visible = !_deleteBt.visible;
+				_viewKubesBt.visible = !_deleteBt.visible && !_hofMode;
+				_infoTxt.visible = !_hofMode;
 			}else{
 				_opened = false;
 				TweenLite.to(this, .25, {autoAlpha:0});

@@ -1,5 +1,4 @@
 <?php
-
 	include 'php/constants.php';
 	include 'php/connection.php';
 	include 'php/checkUser.php';
@@ -20,8 +19,9 @@
 	//then $_GET["act"] value will only be "value" and two
 	//GET vars named "var1" and "var2" will be created with
 	//the corresponding value.
-	$rawAct = $_GET["act"];
+	$rawAct = "";
 	if (isset($_GET["act"])) {
+		$rawAct = $_GET["act"];
 		$params = explode("_", $_GET["act"]);
 		$_GET["act"] = $params[0];
 		for ($i = 1; $i < count($params); $i++) {
@@ -141,14 +141,14 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=3.9', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=4', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
 			so.addParam('wmode', 'opaque');
 			so.setAttribute("id", "externalDynamicContent");
 			so.setAttribute("name", "externalDynamicContent");
-			so.addVariable("configXml", "xml/config.xml?v=3.2");
+			so.addVariable("configXml", "xml/config.xml?v=3.4");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";

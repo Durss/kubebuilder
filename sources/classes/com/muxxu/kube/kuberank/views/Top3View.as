@@ -114,7 +114,7 @@ package com.muxxu.kube.kuberank.views {
 			
 			_podium.stop();
 			_podium._maskMc.stop();
-							
+			
 			var i:int, len:int, cube:CubeResult, tf:CssTextField;
 			len = 3;
 			_cubes = new Vector.<CubeResult>(len, true);
@@ -171,8 +171,8 @@ package com.muxxu.kube.kuberank.views {
 				_labels[i].alpha = 0;
 				_labels[i].visible = false;
 				_labels[i].text = data.getItemAt(i).userName;
-				_labels[i].x = Math.round(labelsPos[i].x - _labels[i].width * .5);
-				_labels[i].y = labelsPos[i].y;
+				_labels[i].x = Math.round(Point(labelsPos[i]).x - _labels[i].width * .5);
+				_labels[i].y = Point(labelsPos[i]).y;
 				TweenLite.killTweensOf(_cubes[i]);
 				TweenLite.killTweensOf(_labels[i]);
 				TweenLite.to(_labels[i], .5, {autoAlpha:1, delay:.8});

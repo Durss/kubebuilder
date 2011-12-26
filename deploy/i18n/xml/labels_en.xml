@@ -77,6 +77,11 @@
 		<label code="errorGetListsResultFormat"><![CDATA[List recovery failed. Invalid returned data format.]]></label>
 		<label code="errorGetListsResult404"><![CDATA[Unable to connect to the server.]]></label>
 		
+		<label code="errorGetHOFResultAuth"><![CDATA[Authentication failed. Try to reload the page.]]></label>
+		<label code="errorGetHOFResultSql"><![CDATA[Kubes recovery failed. SQL error.]]></label>
+		<label code="errorGetHOFResultFormat"><![CDATA[Kubes recovery failed. Invalid returned data format.]]></label>
+		<label code="errorGetHOFResult404"><![CDATA[Unable to connect to the server.]]></label>
+		
 		<label code="errorDeleteListResultAuth"><![CDATA[List deletion failed. Try to reload the page.]]></label>
 		<label code="errorDeleteListResultSql"><![CDATA[List deletion failed. SQL error.]]></label>
 		<label code="errorDeleteListResultFormat"><![CDATA[List deletion failed. Invalid returned data format.]]></label>

@@ -23,6 +23,14 @@
 			$_GET[$var] = $value;
 		}
 	}
+	
+	if ($_UID != -1) {
+		$sql = "SELECT COUNT(uid) as total FROM `kubebuilder_evaluation` WHERE DATE(date) = DATE(NOW()) AND uid=".$_UID;
+		$req = mysql_query($sql);
+		$errorSql = $req !== false;
+		$results = mysql_fetch_assoc($req);
+		$votesDone = $results["total"];
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -38,8 +46,6 @@
             }
             body {
                 background-color: #4CA5CD;
-                background-image: url(img/backHOF.jpg);
-				background-repeat: no-repeat;
                 font: 86% Arial, "Helvetica Neue", sans-serif;
                 margin: 0px;
                 padding: 0px;
@@ -91,64 +97,36 @@
 		</style>
 		
 		<script type="text/javascript" src="js/swfobject.js"></script>
-		<script type="text/javascript">
-			function populate(id) {
-				if(document.getElementById("fl_kube"+id) == null) return;
-				document.getElementById("fl_kube"+id).populate();
-			}
-			
-			window.onload = function() { setTimeout('populate(1)', 500); };//Don't know why, but I need to wait... As if the DOM weren't ready even after onload event.
-		</script>
+		<script type="text/javascript" src="js/swfwheel.js"></script>
 	</head>
 	<body>
+		<div id="content">
+			<p>In order to view this page you must get Flash Player 10.2+ ! <br /><a href="http://get.adobe.com/flashplayer">Install the last version</a></p>
+		</div>
+		<script type="text/javascript">
+			// <![CDATA[
+			var so = new SWFObject('swf/kubeHOF.swf?v=2', 'content', '860', '502', '10.2', '#4CA5CD');
+			so.useExpressInstall('swf/expressinstall.swf');
+			so.addParam('menu', 'false');
+			so.addParam('allowFullScreen', 'true');
+			so.addParam('wmode', 'opaque');
+			so.setAttribute("id", "externalDynamicContent");
+			so.setAttribute("name", "externalDynamicContent");
+			so.addVariable("configXml", "xml/config.xml?v=3.4");
 <?php
-	$sql = "SELECT * FROM `kubebuilder_hof`";
-	$query = mysql_query($sql);
-	if (mysql_num_rows($query) == 0) {
-		//IF no HOF yet
-		echo "Come back later";
-	}else{
-		$offset = isset($_GET["offset"])? intval($_GET["offset"]) : 0;
-		do{
-			$sql = "SELECT id, p1, p2, p3, DATE_FORMAT( `date`, '%m-%Y' ) as `formatedDate` FROM `kubebuilder_hof` ORDER BY date DESC LIMIT ".$offset.", 1";
-			$request = mysql_query($sql);
-			$hof = mysql_fetch_assoc($request);
-			$offset = 0;
-		}while ($hof === false);
-		
-		echo "		<div class=\"date\">".$hof['formatedDate']."</div>";
-		
-		for($i = 1; $i < 4; $i++) {
-			$sqlKube = "SELECT * FROM kubebuilder_kubes WHERE id=".$hof['p'.$i];
-			$kube = mysql_fetch_assoc(mysql_query($sqlKube));
-		
-			$sqlUser = "SELECT name FROM kubebuilder_users WHERE id=".$kube['uid'];
-			$user = mysql_fetch_assoc(mysql_query($sqlUser));
-						
-			echo "		<div id='kube".$i."_holder'>\r\n";
-			echo "		<div id='kube".$i."'><a href='http://get.adobe.com/flashplayer'>Install flash</a></div>\r\n";
-			echo "		<script type='text/javascript'>\r\n";
-			echo "			// <![CDATA[\r\n";
-			echo "			var so".$i." = new SWFObject('swf/KubeViewer.swf?v=1.1', 'fl_kube".$i."', '150', '160', '10.1', '#9693BF');\r\n";
-			echo "			so".$i.".addParam('wmode', 'transparent');\r\n";
-			echo "			so".$i.".addParam('menu', 'false');\r\n";
-			$fileName = "kubes/".$kube["file"].".kub";
-			$handle = fopen($fileName, "r");
-			$fileContent = base64_encode(fread($handle, filesize($fileName)));
-			fclose($handle);
-			$xml = "<kube id=\"".$kube["id"]."\" uid=\"".$kube["uid"]."\" name=\"".htmlspecialchars(utf8_encode($kube["name"]))."\" pseudo=\"".htmlspecialchars(utf8_encode($user["name"]))."\" date=\"".strtotime ($kube["date"])."\" votes=\"".$kube["score"]."\"><![CDATA[".$fileContent."]]></kube>";
-			echo "			so".$i.".addVariable('kube', '".urlencode($xml)."');\r\n";
-			echo "			so".$i.".addVariable('dragSensitivity', '4');\r\n";
-			if($i < 3) {
-				echo "			so".$i.".addVariable('nextKube', '".($i+1)."');\r\n";
-			}
-			echo "			so".$i.".write('kube".$i."');\r\n";
-			echo "			/*]]>*/\r\n";
-			echo "		</script>\r\n";
-			echo "		<span class='pseudo'>".utf8_encode($kube["name"])."</span><br /><span class='user'>(<a href='http://muxxu.com/u/".$user["name"]."' target='_parent'>".utf8_encode($user["name"])."</a>)</span>\r\n";
-			echo "	</div>\r\n";
-		}
+	if (isset($_GET["uid"], $_GET["pubkey"])) {
+		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";
+		echo "\t\t\tso.addVariable('uid', '".intval($_GET['uid'])."');\r\n";
+		echo "\t\t\tso.addVariable('uname', '".htmlspecialchars($_GET['name'])."');\r\n";
+		echo "\t\t\tso.addVariable('pubkey', '".htmlspecialchars($_GET['pubkey'])."');\r\n";
+		echo "\t\t\tso.addVariable('key', '".$userKey."');\r\n";
+		echo "\t\t\tso.addVariable('votesTotal', '".MAX_VOTES_PER_DAY."');\r\n";
+		echo "\t\t\tso.addVariable('votesDone', '".$votesDone."');\r\n";
+		echo "\t\t\tso.addVariable('infosRead', '".$_INFO_READ."');\r\n";
 	}
 ?>
+			so.write('content');
+			/*]]>*/
+        </script>
     </body>
 </html>

@@ -77,6 +77,11 @@
 		<label code="errorGetListsResultFormat"><![CDATA[La récupération des listes a échouée. Le format des données retournées est invalide.]]></label>
 		<label code="errorGetListsResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
 		
+		<label code="errorGetHOFResultAuth"><![CDATA[La récupération des kubes a échouée. Essayez de recharger la page.]]></label>
+		<label code="errorGetHOFResultSql"><![CDATA[La récupération des kubes a échouée. Une erreur SQL est survenue.]]></label>
+		<label code="errorGetHOFResultFormat"><![CDATA[La récupération des kubes a échouée. Le format des données retournées est invalide.]]></label>
+		<label code="errorGetHOFResult404"><![CDATA[La connexion au serveur a échouée.]]></label>
+		
 		<label code="errorDeleteListResultAuth"><![CDATA[La suppression de la liste a échouée. Essayez de recharger la page.]]></label>
 		<label code="errorDeleteListResultSql"><![CDATA[La suppression de la liste a échouée. Une erreur SQL est survenue.]]></label>
 		<label code="errorDeleteListResultFormat"><![CDATA[La suppression de la liste a échouée. Le format des données retournées est invalide.]]></label>
