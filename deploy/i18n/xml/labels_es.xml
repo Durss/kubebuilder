@@ -77,6 +77,11 @@
 		<label code="errorGetListsResultFormat"><![CDATA[Recuperación de lista fallida. Devolución de datos inválida.]]></label>
 		<label code="errorGetListsResult404"><![CDATA[No se puede conectar al servidor.]]></label>
 		
+		<label code="errorGetHOFResultAuth"><![CDATA[La autenticación falló. Intenta recargar la página.]]></label>
+		<label code="errorGetHOFResultSql"><![CDATA[Recuperación de kubos fallida. Error SQL.]]></label>
+		<label code="errorGetHOFResultFormat"><![CDATA[Recuperación de kubos fallida. Devolución de datos inválida.]]></label>
+		<label code="errorGetHOFResult404"><![CDATA[No se puede conectar al servidor.]]></label>
+		
 		<label code="errorDeleteListResultAuth"><![CDATA[Borrado de lista fallido. Intenta recargar la página.]]></label>
 		<label code="errorDeleteListResultSql"><![CDATA[Borrado de lista fallido. Error SQL.]]></label>
 		<label code="errorDeleteListResultFormat"><![CDATA[Borrado de lista fallido. Devolución de datos inválida.]]></label>

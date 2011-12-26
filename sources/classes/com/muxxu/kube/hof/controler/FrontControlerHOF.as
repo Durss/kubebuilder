@@ -1,7 +1,9 @@
 package com.muxxu.kube.hof.controler {
-	
 	import com.muxxu.kube.hof.model.ModelHOF;
+	import com.nurun.structure.mvc.model.IModel;
+
 	import flash.errors.IllegalOperationError;
+	
 	
 	/**
 	 * Singleton FrontControlerHOF
@@ -49,8 +51,8 @@ package com.muxxu.kube.hof.controler {
 		/**
 		 * Initialize the class.
 		 */
-		public function initialize(model:ModelHOF):void {
-			_model = model;
+		public function initialize(model:IModel):void {
+			_model = model as ModelHOF;
 		}
 
 

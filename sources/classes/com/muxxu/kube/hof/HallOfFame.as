@@ -1,9 +1,12 @@
 package com.muxxu.kube.hof {
+	import com.muxxu.kube.hof.views.CursorView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.common.views.LockStateView;
+	import com.muxxu.kube.hof.controler.FrontControlerHOF;
 	import com.muxxu.kube.hof.model.ModelHOF;
 	import com.muxxu.kube.hof.views.EarthView;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
+	import com.muxxu.kube.kuberank.views.SingleKubeView;
 
 	import org.libspark.ui.SWFWheel;
 
@@ -60,10 +63,13 @@ package com.muxxu.kube.hof {
 		override protected function initialize():void {
 			super.initialize();
 			
+			FrontControlerHOF.getInstance().initialize(_model);
 			FrontControlerKR.getInstance().initialize(_model);
 			
 			removeChild(_background);
 			addChild(new EarthView());
+			addChild(new SingleKubeView());
+			addChild(new CursorView());
 			addChild(new LockStateView(_exceptionView));
 		}
 		

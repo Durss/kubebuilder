@@ -1,4 +1,8 @@
 package com.muxxu.kube.hof.views {
+	import com.muxxu.kube.hof.components.CloudsView;
+	import com.muxxu.kube.hof.vo.HOFDataCollection;
+	import com.muxxu.kube.kuberank.components.CubeResult;
+	import com.muxxu.kube.hof.components.MonthResult;
 	import com.muxxu.kube.hof.model.ModelHOF;
 	import com.nurun.structure.mvc.model.events.IModelEvent;
 	import com.nurun.structure.mvc.views.AbstractView;
@@ -27,7 +31,7 @@ package com.muxxu.kube.hof.views {
 		[Embed(source="../../../../../../../assets/grass.png")]
 		private var _grassClass:Class;
 		
-		[Embed(source="../../../../../../../assets/podium.png")]
+		[Embed(source="../../../../../../../assets/podiumHOF.png")]
 		private var _podiumClass:Class;
 		
 		private var _earth:Bitmap;
@@ -36,7 +40,19 @@ package com.muxxu.kube.hof.views {
 		private var _offsetDrag:Point;
 		private var _offsetRotation:Number;
 		private var _posHistory:Array;
-		private var _velocity:Number;
+		private var _result1:MonthResult;
+		private var _result4:MonthResult;
+		private var _result2:MonthResult;
+		private var _result3:MonthResult;
+		private var _initialized:Boolean;
+		private var _endR:Number;
+		private var _virtualRotation:Number;
+		private var _rotationMax:Number;
+		private var _data:HOFDataCollection;
+		private var _indexOffset:Number;
+		private var _length:uint;
+		private var _resultItems:Vector.<MonthResult>;
+		private var _clouds:CloudsView;
 		
 		
 		
@@ -47,7 +63,7 @@ package com.muxxu.kube.hof.views {
 		 * Creates an instance of <code>EarthView</code>.
 		 */
 		public function EarthView() {
-			initialize();
+			
 		}
 
 		
@@ -60,7 +76,16 @@ package com.muxxu.kube.hof.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:ModelHOF = event.model as ModelHOF;
-			model;
+			_data = model.hofData;
+			if(!_initialized) {
+				_initialized = true;
+				initialize();
+				
+				_length = model.hofData.length;
+				_rotationMax = 90 * _length-90;
+				_indexOffset = _length % 4;
+				_endR = _virtualRotation = _rotationMax;
+			}
 		}
 
 
@@ -81,7 +106,9 @@ package com.muxxu.kube.hof.views {
 		private function initialize():void {
 			_earthHolder = addChild(new Sprite()) as Sprite;
 			_earth = _earthHolder.addChild(new _backgroundClass()) as Bitmap;
-			_velocity = 0;
+			_clouds = _earthHolder.addChild(new CloudsView(_earth.width * .57 - 0, _earth.width * .65)) as CloudsView;
+			_endR = 0;
+			_virtualRotation = 0;
 			
 			//Generate grass
 			var grassBmp:Bitmap = new _grassClass();
@@ -117,69 +144,51 @@ package com.muxxu.kube.hof.views {
 			m = new Matrix();
 			m.translate((_earth.width-bmpPodium.width) * .5, 0);
 			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			_result1 = _earthHolder.addChild(new MonthResult()) as MonthResult;
+			m.translate(-_earth.width * .5, -_earth.height * .5);
+			_result1.transform.matrix = m;
 			
 			m = new Matrix();
 			m.rotate(Math.PI/2);
 			m.translate(_earth.width, (_earth.width-bmpPodium.width) * .5);
 			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
-			
-			m = new Matrix();
-			m.rotate(-Math.PI/2);
-			m.translate(0, (_earth.width+bmpPodium.width) * .5);
-			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			_result2 = _earthHolder.addChild(new MonthResult()) as MonthResult;
+			m.translate(-_earth.width * .5, -_earth.height * .5);
+			_result2.transform.matrix = m;
 			
 			m = new Matrix();
 			m.rotate(Math.PI);
 			m.translate((_earth.width+bmpPodium.width) * .5, _earth.height);
 			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			_result3 = _earthHolder.addChild(new MonthResult()) as MonthResult;
+			m.translate(-_earth.width * .5, -_earth.height * .5);
+			_result3.transform.matrix = m;
 			
+			m = new Matrix();
+			m.rotate(-Math.PI/2);
+			m.translate(0, (_earth.width+bmpPodium.width) * .5);
+			_earth.bitmapData.draw(bmpPodium, m, null, null, null, true);
+			_result4 = _earthHolder.addChild(new MonthResult()) as MonthResult;
+			m.translate(-_earth.width * .5, -_earth.height * .5);
+			_result4.transform.matrix = m;
+			
+//			_earthHolder.scaleX = _earthHolder.scaleY = .25;//TODO remove
 			grassSrc.unlock();
 			
 			_earth.smoothing = true;
 			
-			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
+			_resultItems = new Vector.<MonthResult>();
+			_resultItems.push(_result1);
+			_resultItems.push(_result2);
+			_resultItems.push(_result3);
+			_resultItems.push(_result4);
+			
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);
-		}
-
-		private function enterFrameHandler(event:Event):void {
-			if(_pressed) {
-				_earthHolder.rotation = _offsetRotation + (mouseX - _offsetDrag.x) * .05;
-				_posHistory.push(mouseX);
-				if(_posHistory.length > 5) _posHistory.shift();
-			}else if(Math.abs(_velocity) > .1){
-				_velocity *= .9;
-				_earthHolder.rotation += _velocity;
-			}
-		}
-		
-		/**
-		 * Called when the stage is available.
-		 */
-		private function addedToStageHandler(event:Event):void {
-			removeEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			stage.addEventListener(Event.RESIZE, computePositions);
 			stage.addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUpHandler);
+			
 			computePositions();
-		}
-
-		private function mouseDownHandler(event:MouseEvent):void {
-			_pressed = true;
-			_offsetDrag = new Point(mouseX, mouseY);
-			_offsetRotation = _earthHolder.rotation;
-			_posHistory = [];
-		}
-
-		private function mouseUpHandler(event:MouseEvent):void {
-			_pressed = false;
-			var i:int, len:int, avg:Number;
-			len = _posHistory.length;
-			avg = 0;
-			for(i = 1; i < len; ++i) {
-				avg += _posHistory[i] - _posHistory[i-1];
-			}
-			avg /= len;
-			_velocity = avg * .05;
 		}
 				
 		/**
@@ -189,8 +198,64 @@ package com.muxxu.kube.hof.views {
 			_earth.x = - _earth.width*.5;
 			_earth.y = - _earth.height*.5;
 			_earthHolder.x = Math.round(stage.stageWidth * .5);
-			_earthHolder.y = 1200;
+			_earthHolder.y = 1200*_earthHolder.scaleY;
 		}
 		
+		/**
+		 * Called on ENTER_FRAME event to rotate the earth
+		 */
+		private function enterFrameHandler(event:Event):void {
+			if(_pressed) {
+				_endR = _offsetRotation + (mouseX - _offsetDrag.x) * .3;
+				_posHistory.push(mouseX);
+				if(_posHistory.length > 3) _posHistory.shift();
+			}
+			
+			_endR = MathUtils.restrict(_endR, 0, _rotationMax);
+			
+			_virtualRotation += (_endR - _virtualRotation) * .1;
+			
+			_earthHolder.rotation = _virtualRotation;
+			
+			var i:int, len:int, index:int;
+			len = _resultItems.length;
+			for(i = 0; i < len; ++i) {
+				var r:Number = _resultItems[i].rotation;
+				if (r == -90) r = 270;
+				index = Math.round((_virtualRotation + r) / 360)*4-i;
+				if(index < 0) index = _length + index;
+				_resultItems[i].populate(_data.getHOFDataAtIndex(index%_length));
+			}
+		}
+		
+		
+		
+		
+		
+		//__________________________________________________________ MOUSE EVENTS
+
+		private function mouseDownHandler(event:MouseEvent):void {
+			if(event.target is CubeResult) return;
+			
+			_pressed = true;
+			_offsetDrag = new Point(mouseX, mouseY);
+			_offsetRotation = _virtualRotation;
+			_posHistory = [];
+		}
+
+		private function mouseUpHandler(event:MouseEvent):void {
+			if(!_pressed) return;
+			
+			_pressed = false;
+			var i:int, len:int, avg:Number;
+			len = _posHistory.length;
+			avg = 0;
+			for(i = 1; i < len; ++i) {
+				avg += _posHistory[i] - _posHistory[i-1];
+			}
+			avg /= len;
+			_endR += avg * .5;
+			_endR = Math.round(_endR/90)*90;
+		}
 	}
 }

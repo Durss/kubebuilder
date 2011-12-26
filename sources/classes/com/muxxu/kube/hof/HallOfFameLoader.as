@@ -73,6 +73,7 @@ package com.muxxu.kube.hof {
 			_env			= new EnvironnementManager();
 			_env.addVariables({lang:"fr"});//overridden by flash vars
 			_env.initialise(getFV("configXml", "xml/config.xml"));
+			_env.addVariables(loaderInfo.parameters);
 			_env.addEventListener(IOErrorEvent.IO_ERROR, initErrorHandler);
 			
 			addEventListener(Event.ENTER_FRAME, enterFrameHandler);

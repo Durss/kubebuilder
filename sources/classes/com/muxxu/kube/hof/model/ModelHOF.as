@@ -1,17 +1,18 @@
 package com.muxxu.kube.hof.model {
-	import com.muxxu.kube.common.events.KubeModelEvent;
-	import com.nurun.structure.mvc.model.IModel;
-	import com.nurun.structure.mvc.views.ViewLocator;
-
-	import flash.events.EventDispatcher;
+	import com.muxxu.kube.hof.cmd.LoadHOFCmd;
+	import com.muxxu.kube.hof.vo.HOFDataCollection;
+	import com.muxxu.kube.kuberank.model.ModelKR;
+	import com.nurun.core.commands.events.CommandEvent;
 	
 	/**
 	 * 
 	 * @author Francois
 	 * @date 26 juin 2011;
 	 */
-	public class ModelHOF extends EventDispatcher implements IModel {
-		private var _locked:Boolean;
+	public class ModelHOF extends ModelKR {
+		
+		private var _loadDataCmd:LoadHOFCmd;
+		private var _data:HOFDataCollection;
 		
 		
 		
@@ -23,7 +24,7 @@ package com.muxxu.kube.hof.model {
 		 * Creates an instance of <code>ModelHOF</code>.
 		 */
 		public function ModelHOF() {
-			initialize();
+			super();
 		}
 
 		
@@ -31,6 +32,8 @@ package com.muxxu.kube.hof.model {
 		/* ***************** *
 		 * GETTERS / SETTERS *
 		 * ***************** */
+
+		public function get hofData():HOFDataCollection { return _data; }
 
 
 
@@ -40,9 +43,11 @@ package com.muxxu.kube.hof.model {
 		/**
 		 * Starts the application
 		 */
-		public function start():void {
-			update();
-			unlock();
+		override public function start():void {
+			lock();
+			_loadDataCmd = new LoadHOFCmd();
+			_loadDataCmd.addEventListener(CommandEvent.COMPLETE, loadCompleteHandler);
+			_loadDataCmd.execute();
 		}
 
 
@@ -51,35 +56,14 @@ package com.muxxu.kube.hof.model {
 		/* ******* *
 		 * PRIVATE *
 		 * ******* */
-		/**
-		 * Initialize the class.
-		 */
-		private function initialize():void {
-			
-		}
 		
 		/**
-		 * Fires an update to the views.
+		 * Called when HOF data loading completes.
 		 */
-		private function update():void {
-			dispatchEvent(new KubeModelEvent(KubeModelEvent.UPDATE, this));
-		}
-		
-		/**
-		 * Tells the view that the model is locked
-		 */
-		private function lock(...args):void {
-			_locked = true;
-			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.LOCK, this));
-		}
-		
-		/**
-		 * Tells the view that the model is unlocked
-		 */
-		private function unlock(...args):void {
-			_locked = false;
-			ViewLocator.getInstance().dispatchToViews(new KubeModelEvent(KubeModelEvent.UNLOCK, this));
-		}
-		
+		private function loadCompleteHandler(event:CommandEvent):void {
+			_data = new HOFDataCollection();
+			_data.populate(event.data as XML);
+			getLists();
+		}		
 	}
 }
