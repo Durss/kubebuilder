@@ -62,7 +62,7 @@ package com.muxxu.kube.hof.components {
 			var date:Date = data.date;
 //			_tfDate.text = data.id.toString();
 //			_tfDate.text = StringUtils.toDigit(date.getDate(),2)+"/"+StringUtils.toDigit(date.getMonth()+1,2)+"/"+StringUtils.toDigit(date.getFullYear(),4);
-			_tfDate.text = "01/"+StringUtils.toDigit(date.getMonth()+1,2)+"/"+StringUtils.toDigit(date.getFullYear(),4);
+			_tfDate.text = StringUtils.toDigit(date.getMonth()+1,2)+"/"+StringUtils.toDigit(date.getFullYear(),4);
 			
 			_bmpDate.bitmapData = new BitmapData(_tfDate.width, _tfDate.height, true, 0);
 			_bmpDate.bitmapData.draw(_tfDate);
