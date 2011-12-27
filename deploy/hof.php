@@ -105,14 +105,14 @@
 		</div>
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/kubeHOF.swf?v=2', 'content', '860', '502', '10.2', '#4CA5CD');
+			var so = new SWFObject('swf/kubeHOF.swf?v=2.1', 'content', '860', '502', '10.2', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
 			so.addParam('wmode', 'opaque');
 			so.setAttribute("id", "externalDynamicContent");
 			so.setAttribute("name", "externalDynamicContent");
-			so.addVariable("configXml", "xml/config.xml?v=3.4");
+			so.addVariable("configXml", "xml/config.xml?v=3.3");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";
