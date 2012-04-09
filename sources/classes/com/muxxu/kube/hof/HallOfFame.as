@@ -1,9 +1,9 @@
 package com.muxxu.kube.hof {
-	import com.muxxu.kube.hof.views.CursorView;
 	import com.muxxu.kube.common.AbstractApplication;
 	import com.muxxu.kube.common.views.LockStateView;
 	import com.muxxu.kube.hof.controler.FrontControlerHOF;
 	import com.muxxu.kube.hof.model.ModelHOF;
+	import com.muxxu.kube.hof.views.CursorView;
 	import com.muxxu.kube.hof.views.EarthView;
 	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.kuberank.views.SingleKubeView;
@@ -36,6 +36,8 @@ package com.muxxu.kube.hof {
 		 * Creates an instance of <code>Application</code>.
 		 */
 		public function HallOfFame() {
+					trace(new Date().getDate());
+					trace(new Date().getMonth());
 			super(new ModelHOF());
 		}
 
