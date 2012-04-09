@@ -64,10 +64,14 @@ package com.muxxu.kube.hof.components {
 			_distances = new Vector.<Number>(len, true);
 			for(i = 0; i < len; ++i) {
 				cloud = addChild(new CloudGraphic()) as CloudGraphic;
-				if(Math.random()>.99) {
-					cloud.gotoAndStop(cloud.totalFrames);
+				if(Math.random()>.97) {
+					if(new Date().getDate() == 1 && new Date().getMonth() == 3) {
+						cloud.gotoAndStop(cloud.totalFrames);
+					}else{
+						cloud.gotoAndStop(cloud.totalFrames-1);
+					}
 				}else{
-					cloud.gotoAndStop(Math.ceil(Math.random() * (cloud.totalFrames-1)));
+					cloud.gotoAndStop(Math.ceil(Math.random() * (cloud.totalFrames-2)));
 				}
 				
 				angle = (i/len)*Math.PI*2;

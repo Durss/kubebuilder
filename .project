@@ -14,13 +14,6 @@
 	<natures>
 		<nature>com.powerflasher.fdt.core.FlashNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>NuWORK_CLASS</name>
-			<type>2</type>
-			<location>D:/Projets/Framework/Flash/Framework/sources/classes</location>
-		</link>
-	</linkedResources>
 	<variableList>
 		<variable>
 			<name>NuWORK_CLASS</name>
