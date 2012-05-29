@@ -45,6 +45,7 @@ package com.muxxu.kube.kubebuilder.model {
 		private var _postKubeCallback:Function;
 		private var _kubeSubmitted:Boolean;
 		private var _currentFaceId:String;
+		private var _textureSize:int;
 		
 		
 		
@@ -93,6 +94,11 @@ package com.muxxu.kube.kubebuilder.model {
 		 * Gets if a kube has been submitted.
 		 */
 		public function get kubeSubmitted():Boolean { return _kubeSubmitted; }
+		
+		/**
+		 * Gets the texture's size
+		 */
+		public function get textureSize():int { return _textureSize; }
 
 
 
@@ -250,6 +256,16 @@ package com.muxxu.kube.kubebuilder.model {
 			}
 			return true;
 		}
+		
+		/**
+		 * Toggles the textures size
+		 */
+		public function toggleSize():void {
+			_textureSize = _textureSize == 16? 32 : 16;
+			_kubeData = new KUBData(_textureSize);
+			_currentFace = _kubeData.faceSides;
+			update();
+		}
 
 
 		
@@ -261,7 +277,8 @@ package com.muxxu.kube.kubebuilder.model {
 		 * Initialize the class.
 		 */
 		private function initialize():void {
-			_kubeData = new KUBData();
+			_textureSize = 16;
+			_kubeData = new KUBData(_textureSize);
 			_currentFace = _kubeData.faceSides;
 			_currentTool = ToolType.PENCIL;
 			
@@ -317,7 +334,7 @@ package com.muxxu.kube.kubebuilder.model {
 		private function loadImageCompleteHandler(event:Event):void {
 			var bmd:BitmapData = Bitmap(_imageLoader.content).bitmapData;
 			var m:Matrix = new Matrix();
-			m.scale(16 / bmd.width, 16 / bmd.height);
+			m.scale(_textureSize / bmd.width, _textureSize / bmd.height);
 			_currentFace.fillRect(_currentFace.rect, 0);
 			_currentFace.draw(bmd, m);
 			

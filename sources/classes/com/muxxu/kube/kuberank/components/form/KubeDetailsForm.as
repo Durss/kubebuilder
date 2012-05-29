@@ -107,7 +107,8 @@ package com.muxxu.kube.kuberank.components.form {
 			_comboList.visible = len > 0;
 			_createListBt.visible = len == 0;
 			
-			_alertBt.visible = _voteBt.visible = _votedTxt.visible = !_hofMode;
+			_alertBt.visible = _voteBt.visible = !_hofMode;
+			if(_hofMode) _votedTxt.visible = false;
 			
 			computePositions();
 		}

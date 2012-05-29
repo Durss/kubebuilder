@@ -9,18 +9,18 @@
 	</fonts>
 	
 	<labels>
-		<file><![CDATA[i18n/xml/labels_{v_lang}.xml?v=2]]></file>
+		<file><![CDATA[i18n/xml/labels_{v_lang}.xml?v=3]]></file>
 	</labels>
 	
 	<vars>
-		<!-- Those vars are overridden by html. Here just for standalone testing -->
+		<!-- Those vars are overridden by html. They're here just for standalone testing -->
 		<var code="key"><![CDATA[0c66b1438ef5bd89ed4baf59455d9e6b]]></var>
 		<var code="uname"><![CDATA[durss]]></var>
 		<var code="uid"><![CDATA[89]]></var>
 		<var code="banned"><![CDATA[false]]></var>
 		
 		<var code="newItemsToShow"><![CDATA[8]]></var>
-		<var code="server"><![CDATA[http://fevermap.org/kubebuilder]]></var>
+		<var code="server"><![CDATA[http://localhost/kubebuilder/]]></var>
 		<var code="defaultKube"><kube id="-1" uid="" name="" pseudo="" date="0" votes="0" voted="0"><![CDATA[CRMBDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDAIMAgwCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCDIItiVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAXUlEQVR42mN4+PDhf0oAA8iAhoaG/0eOHPn/9u1bOAaJIWNs8nADkCWwacZlCFYDsGnAZQheA3B5ifYGYMMkhQGxmokyAJ9m2htASDPtDSAGU88FxCYcnJmJXAwCAOjvh3D1NTO8AAAAAElFTkSuQmCCBAAEAAyCLYlQTkcNChoKAAAADUlIRFIAAAAQAAAAEAgGAAAAH/P/YQAAAF1JREFUeNpjePjw4X9KAAPIgIaGhv9Hjhz5//btWzgGiSFjbPJwA5AlsGnGZQhWA7BpwGUIXgNweYn2BmDDJIUBsZqJMgCfZtobQEgz7Q0gBlPPBcQmHJyZiVwMAgDo74dw9TUzvAAAAABJRU5ErkJggg==]]></kube></var>
 	</vars>
 	

@@ -150,6 +150,13 @@ package com.muxxu.kube.kubebuilder.controler {
 		public function isSubmitable():Boolean {
 			return _model.isSubmitable();
 		}
+		
+		/**
+		 * Toggles the textures size
+		 */
+		public function toggleSize():void {
+			_model.toggleSize();
+		}
 
 
 		

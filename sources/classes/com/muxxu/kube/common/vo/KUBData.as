@@ -1,4 +1,5 @@
 package com.muxxu.kube.common.vo {
+	import flash.geom.Matrix;
 	import com.adobe.images.PNGEncoder;
 	import com.ion.PNGDecoder;
 	import com.muxxu.kube.common.utils.makeKubePreview;
@@ -23,6 +24,7 @@ package com.muxxu.kube.common.vo {
 		private var _faceBottom:BitmapData;
 		private var _faceSides:BitmapData;
 		private var _defaultColor:uint;
+		private var _size:int;
 		
 		
 		
@@ -33,7 +35,9 @@ package com.muxxu.kube.common.vo {
 		/**
 		 * Creates an instance of <code>KUBData</code>.
 		 */
-		public function KUBData() {
+
+		public function KUBData(size:int = 16) {
+			_size = size;
 			initialize();
 		}
 
@@ -48,6 +52,8 @@ package com.muxxu.kube.common.vo {
 		public function get faceBottom():BitmapData { return _faceBottom; }
 
 		public function get faceSides():BitmapData { return _faceSides; }
+
+		public function get size():int { return _size; }
 
 
 
@@ -68,7 +74,7 @@ package com.muxxu.kube.common.vo {
 		 * Gets if a face has been modified
 		 */
 		public function isFaceModified(bmd:BitmapData):Boolean {
-			var bmdComp:BitmapData = new BitmapData(16, 16, true, 0);
+			var bmdComp:BitmapData = new BitmapData(_size, _size, true, 0);
 			bmdComp.fillRect(bmdComp.rect, _defaultColor);
 			if(bmd == _faceTop) {
 				bmdComp.draw(new DefaultTopFaceGraphic());
@@ -76,7 +82,7 @@ package com.muxxu.kube.common.vo {
 			var diff:Object = bmd.compare(bmdComp);
 			if(diff == 0) return false;
 			var x:int, y:int, len:int, score:Number, c:uint, pScore:uint, pixelModified:int;
-			len = 16;
+			len = _size;
 			score = 0;
 			for(x = 0; x < len; ++x) {
 				for(y = 0; y < len; ++y) {
@@ -144,10 +150,14 @@ package com.muxxu.kube.common.vo {
 		 */
 		private function initialize():void {
 			_defaultColor = 0xff000000 + MathUtils.randomNumberFromRange(0x555555, 0xffffff);
-			_faceTop = new BitmapData(16, 16, true, _defaultColor);
-			_faceTop.draw(new DefaultTopFaceGraphic());
-			_faceBottom = new BitmapData(16, 16, true, _defaultColor);
-			_faceSides = new BitmapData(16, 16, true, _defaultColor);
+			_faceTop = new BitmapData(_size, _size, true, _defaultColor);
+			var mark:DefaultTopFaceGraphic = new DefaultTopFaceGraphic();
+			var m:Matrix = new Matrix();
+			m.translate(Math.floor((_size - mark.width) * .5), Math.floor((_size - mark.height) * .5));
+			
+			_faceTop.draw(mark, m);
+			_faceBottom = new BitmapData(_size, _size, true, _defaultColor);
+			_faceSides = new BitmapData(_size, _size, true, _defaultColor);
 		}
 	}
 }
