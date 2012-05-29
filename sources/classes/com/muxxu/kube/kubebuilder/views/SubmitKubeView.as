@@ -210,6 +210,7 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		private function submitFormHandler(event:FormComponentEvent):void {
 			_form.disable();
+			stage.focus = null;
 			FrontControlerKB.getInstance().submit(_form.name, onPostComplete);
 		}
 		

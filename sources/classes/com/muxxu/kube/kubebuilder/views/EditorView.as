@@ -1,7 +1,7 @@
 package com.muxxu.kube.kubebuilder.views {
-	import flash.display.BlendMode;
 	import gs.TweenLite;
 
+	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.muxxu.kube.kubebuilder.controler.FrontControlerKB;
 	import com.muxxu.kube.kubebuilder.model.ModelKB;
 	import com.muxxu.kube.kubebuilder.vo.ToolType;
@@ -14,6 +14,7 @@ package com.muxxu.kube.kubebuilder.views {
 
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
+	import flash.display.BlendMode;
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
@@ -30,7 +31,8 @@ package com.muxxu.kube.kubebuilder.views {
 	 */
 	public class EditorView extends AbstractView {
 		
-		private const _CELL_SIZE:int = 20;
+		private var _cellSize:int;
+		private var _gridSize:int;
 		
 		private var _grid:Shape;
 		private var _bmp:Bitmap;
@@ -45,6 +47,7 @@ package com.muxxu.kube.kubebuilder.views {
 		private var _pressed:Boolean;
 		private var _prevPos:Point;
 		private var _noiseOffset:Number;
+		private var _sizeBt:ButtonKube;
 		
 		
 		
@@ -77,6 +80,11 @@ package com.muxxu.kube.kubebuilder.views {
 		 */
 		override public function update(event:IModelEvent):void {
 			var model:ModelKB = event.model as ModelKB;
+			_gridSize = model.textureSize;
+			_cellSize = 16/_gridSize*20;
+			
+			_sizeBt.text = _gridSize == 16? "32x32" : "16x16";
+			
 			_bmp.bitmapData = model.currentFace;
 			//If selected face has changed.
 			if(model.currentFace != _oldFace) {
@@ -124,6 +132,7 @@ package com.muxxu.kube.kubebuilder.views {
 			_bmp = addChild(new Bitmap()) as Bitmap;
 			_grid = addChild(new Shape()) as Shape;
 			_highlight = addChild(new Shape()) as Shape;
+			_sizeBt = addChild(new ButtonKube("16x16")) as ButtonKube;
 			
 			_facesHistory = new Dictionary();
 			_noiseOffset = Math.random() * 1000;
@@ -132,6 +141,14 @@ package com.muxxu.kube.kubebuilder.views {
 			
 			addEventListener(Event.ADDED_TO_STAGE, addedToStageHandler);
 			addEventListener(MouseEvent.MOUSE_DOWN, mouseDownHandler);
+			_sizeBt.addEventListener(MouseEvent.CLICK, clickHandler);
+		}
+		
+		/**
+		 * Called when size button is clicked
+		 */
+		private function clickHandler(event:MouseEvent):void {
+			FrontControlerKB.getInstance().toggleSize();
 		}
 		
 		/**
@@ -153,20 +170,23 @@ package com.muxxu.kube.kubebuilder.views {
 			if(stage == null) return;
 			
 			var i:int, len:int;
-			len = 16;
+			len = _gridSize;
 			_grid.graphics.clear();
 			for(i = 0; i < len + 1; ++i) {
 				_grid.graphics.beginFill(0xffffff, 1);
-				_grid.graphics.drawRect(i * _CELL_SIZE, 0, 1, len * _CELL_SIZE);
+				_grid.graphics.drawRect(i * _cellSize, 0, 1, len * _cellSize);
 				_grid.graphics.endFill();
 				
 				_grid.graphics.beginFill(0xffffff, 1);
-				_grid.graphics.drawRect(0, i * _CELL_SIZE, len * _CELL_SIZE, 1);
+				_grid.graphics.drawRect(0, i * _cellSize, len * _cellSize, 1);
 				_grid.graphics.endFill();
 			}
 			_grid.alpha = .1;
 			_grid.blendMode = BlendMode.DIFFERENCE;
-			_bmp.scaleX = _bmp.scaleY = _CELL_SIZE;
+			_bmp.scaleX = _bmp.scaleY = _cellSize;
+			
+			_sizeBt.x = Math.round((_grid.width - _sizeBt.width) * .5);
+			_sizeBt.y = Math.round(_grid.height);
 			
 			x = 10;
 			y = Math.round((stage.stageHeight - height) * .5);
@@ -240,22 +260,22 @@ package com.muxxu.kube.kubebuilder.views {
 		 * Called when the mouse is moved.
 		 */
 		private function mouseMoveHandler(event:MouseEvent):void {
-			var pos:Point = new Point(Math.floor(_grid.mouseX/_CELL_SIZE), Math.floor(_grid.mouseY/_CELL_SIZE));
+			var pos:Point = new Point(Math.floor(_grid.mouseX/_cellSize), Math.floor(_grid.mouseY/_cellSize));
 			//Check if we're over the grid or not
-			if(pos.x < 0 || pos.y < 0 || pos.x > 15 || pos.y > 15) {
+			if(pos.x < 0 || pos.y < 0 || pos.x > _gridSize-1 || pos.y > _gridSize-1) {
 				_highlight.visible = false;
 				return;
 			}
 
 			_highlight.visible = true;
-			_highlight.x = pos.x * _CELL_SIZE;
-			_highlight.y = pos.y * _CELL_SIZE;
+			_highlight.x = pos.x * _cellSize;
+			_highlight.y = pos.y * _cellSize;
 			
 			_highlight.graphics.clear();
 			//Sets the color of the higlight depending on the luminosity of the pixel
 			//under it. To be sure it will be visible over dark and bright colors.
 			_highlight.graphics.beginFill(ColorFunctions.getLuminosity(_bmp.bitmapData.getPixel(pos.x, pos.y)) > ColorFunctions.LMAX*.5? 0 : 0xffffff, .35);
-			_highlight.graphics.drawRect(0, 0, _CELL_SIZE, _CELL_SIZE);
+			_highlight.graphics.drawRect(0, 0, _cellSize, _cellSize);
 			_highlight.graphics.endFill();
 			
 			if(!_pressed || (_prevPos != null && _prevPos.equals(pos))) return;
@@ -264,7 +284,7 @@ package com.muxxu.kube.kubebuilder.views {
 			_prevPos = pos.clone();
 			switch(_tool){
 				case ToolType.NOISE:
-					var bmd:BitmapData = new BitmapData(16, 16, true, 0);
+					var bmd:BitmapData = new BitmapData(_gridSize, _gridSize, true, 0);
 					bmd.noise((pos.x+pos.y)*4.5 + _noiseOffset, 247, 255, 7, true);
 					_bmp.bitmapData.draw(bmd, null, null, BlendMode.MULTIPLY);
 					bmd.noise((pos.x+pos.y)*3.2 + _noiseOffset, 0, 8, 7, true);

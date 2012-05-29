@@ -37,6 +37,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		private var _bottomBmp:Bitmap;
 		private var _frontBmp:Bitmap;
 		private var _backBmp:Bitmap;
+		private var _data:KUBData;
 		
 		
 		
@@ -48,6 +49,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		/**
 		 * Creates an instance of <code>PatronContent</code>.
 		 */
+
 		public function PanelPatronContent() {
 			initialize();
 		}
@@ -67,6 +69,7 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		 * Populates the component
 		 */
 		public function populate(data:KUBData):void {
+			_data = data;
 			_frontBmp.bitmapData = data.faceSides;
 			_leftBmp.bitmapData = data.faceSides;
 			_rightBmp.bitmapData = data.faceSides;
@@ -129,7 +132,10 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		 */
 		private function computePositions():void {
 			_leftBmp.width = _rightBmp.width = _topBmp.width = _bottomBmp.width = _frontBmp.width = _backBmp.width =
-			_leftBmp.height = _rightBmp.height = _topBmp.height = _bottomBmp.height = _frontBmp.height = _backBmp.height = 16 * 4;
+			_leftBmp.height = _rightBmp.height = _topBmp.height = _bottomBmp.height = _frontBmp.height = _backBmp.height = 64;
+			
+			//Don't know why those faces are fucked up without setting this values again -_-" ...
+			_topBmp.width = _frontBmp.width = _backBmp.width = 64;
 			
 			_left.x		= _bottom.width + 1;
 			_top.x		= _left.x;
