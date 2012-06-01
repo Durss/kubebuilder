@@ -70,10 +70,10 @@ package com.muxxu.kube.kubebuilder.components.panel {
 		 */
 		public function populate(data:KUBData):void {
 			_data = data;
-			_frontBmp.bitmapData = data.faceSides;
-			_leftBmp.bitmapData = data.faceSides;
-			_rightBmp.bitmapData = data.faceSides;
-			_backBmp.bitmapData = data.faceSides;
+			_frontBmp.bitmapData = data.faceFront;
+			_leftBmp.bitmapData = data.faceLeft;
+			_rightBmp.bitmapData = data.faceRight;
+			_backBmp.bitmapData = data.faceBack;
 			_topBmp.bitmapData = data.faceTop;
 			_bottomBmp.bitmapData = data.faceBottom;
 			
@@ -263,6 +263,12 @@ package com.muxxu.kube.kubebuilder.components.panel {
 				FrontControlerKB.getInstance().setCurrentFace(FaceIds.FRONT);
 			}else if(event.keyCode == Keyboard.NUMBER_3 || event.keyCode == Keyboard.NUMPAD_3) {
 				FrontControlerKB.getInstance().setCurrentFace(FaceIds.BOTTOM);
+			}else if(event.keyCode == Keyboard.NUMBER_4 || event.keyCode == Keyboard.NUMPAD_4) {
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.LEFT);
+			}else if(event.keyCode == Keyboard.NUMBER_5 || event.keyCode == Keyboard.NUMPAD_5) {
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.RIGHT);
+			}else if(event.keyCode == Keyboard.NUMBER_6 || event.keyCode == Keyboard.NUMPAD_6) {
+				FrontControlerKB.getInstance().setCurrentFace(FaceIds.BACK);
 			}
 		}
 		

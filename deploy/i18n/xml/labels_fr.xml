@@ -131,6 +131,7 @@
 		<label code="lastKubesTitle"><![CDATA[Dernières créations]]></label>
 		<label code="lastKubesNext"><![CDATA[»]]></label>
 		<label code="copySharePath"><![CDATA[Copier]]></label>
+		<label code="copyShareImage"><![CDATA[Image]]></label>
 		<label code="shareTitle"><![CDATA[Partagez ce kube à vos amis :]]></label>
 		<label code="deleteKube"><![CDATA[SUPPRIMER MON KUBE]]></label>
 		<label code="viewUserKubes"><![CDATA[VOIR LES KUBES DE CE JOUEUR]]></label>

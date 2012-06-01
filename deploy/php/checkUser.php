@@ -41,14 +41,14 @@ if (isset($_GET['pubkey'], $_GET['uid']))
 			$sql = 'SELECT `key`, `infoRead`, `level` FROM `kubebuilder_users` WHERE id='.$uid;
 			$res = mysql_fetch_assoc(mysql_query($sql));
 			if ($res === false) {
-				$sql = 'INSERT INTO `kubebuilder_users` (`id`,`name`,`name_low`,`key`,`points`,`zones`) VALUES ('.$uid.', "'.$userName.'", "'.secure_string(strtolower($userName)).'", "'.$userKey.'", '.$points.', '.$zones.')';
+				$sql = 'INSERT INTO `kubebuilder_users` (`id`,`name`,`name_low`,`key`,`points`,`zones`) VALUES ('.$uid.', "'.secure_string($userName).'", "'.secure_string(strtolower($userName)).'", "'.$userKey.'", '.$points.', '.$zones.')';
 				mysql_query($sql);
 			}else {
 				//Test here just for retro-compatibility for users already registered.
 				if (strlen($res['key']) == 0) {
-					$sql = 'UPDATE `kubebuilder_users` SET `key`="'.$userKey.'", `points`='.$points.', `zones`='.$zones.' WHERE id='.$uid;
+					$sql = 'UPDATE `kubebuilder_users` SET `key`="'.$userKey.'", `points`='.$points.', `zones`='.$zones.', `name`='.secure_string($userName).', `name_low`='.secure_string(strtolower($userName)).' WHERE id='.$uid;
 				}else {
-					$sql = 'UPDATE `kubebuilder_users` SET `points`='.$points.', `zones`='.$zones.' WHERE id='.$uid;
+					$sql = 'UPDATE `kubebuilder_users` SET `points`='.$points.', `zones`='.$zones.', `name`='.secure_string($userName).', `name_low`='.secure_string(strtolower($userName)).' WHERE id='.$uid;
 					$userKey = $res['key'];
 				}
 				mysql_query($sql);

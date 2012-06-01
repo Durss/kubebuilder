@@ -52,7 +52,6 @@ package com.muxxu.kube.kuberank.views {
 		private var _lastSortType:Boolean;
 		private var _details:CubeDetailsWindow;
 		private var _rolledItem:TileEngineItem;
-		private var _lastUserName:String;
 		private var _wasTop3Mode:Boolean;
 		private var _title:CssTextField;
 		private var _pressPos:Point;
@@ -126,7 +125,6 @@ package com.muxxu.kube.kuberank.views {
 				_title.y = 0;
 				
 				_lastSortType = model.sortByDate;
-				_lastUserName = model.userName;
 				_lastVersion = model.data.version;
 //				_lastLength = model.data.length;
 				graphics.beginFill(0xff0000, 0);

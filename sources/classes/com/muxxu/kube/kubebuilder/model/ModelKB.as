@@ -141,11 +141,21 @@ package com.muxxu.kube.kubebuilder.model {
 					_currentFace = _kubeData.faceBottom;
 					break;
 				default:
+					if(_textureSize == 32) {
+						_currentFace = _kubeData.faceLeft;
+						break;
+					}
 				case FaceIds.LEFT:
+					_currentFace = _kubeData.faceLeft;
+					break;
 				case FaceIds.RIGHT:
+					_currentFace = _kubeData.faceRight;
+					break;
 				case FaceIds.FRONT:
+					_currentFace = _kubeData.faceFront;
+					break;
 				case FaceIds.BACK:
-					_currentFace = _kubeData.faceSides;
+					_currentFace = _kubeData.faceBack;
 					break;
 			}
 			update();
@@ -247,12 +257,30 @@ package com.muxxu.kube.kubebuilder.model {
 			if(!_kubeData.isFaceModified(_kubeData.faceTop)) {
 				setCurrentFace(FaceIds.TOP);
 				return false;
-			}else if(!_kubeData.isFaceModified(_kubeData.faceSides)) {
-				setCurrentFace(FaceIds.FRONT);
-				return false;
 			}else if(!_kubeData.isFaceModified(_kubeData.faceBottom)) {
 				setCurrentFace(FaceIds.BOTTOM);
 				return false;
+			}else {
+				if(_textureSize == 16) {
+					if(!_kubeData.isFaceModified(_kubeData.faceFront)) {
+						setCurrentFace(FaceIds.FRONT);
+						return false;
+					}
+				}else  if(_textureSize == 32) {
+					if(!_kubeData.isFaceModified(_kubeData.faceFront)) {
+						setCurrentFace(FaceIds.FRONT);
+						return false;
+					}else if(!_kubeData.isFaceModified(_kubeData.faceBack)) {
+						setCurrentFace(FaceIds.BACK);
+						return false;
+					}else if(!_kubeData.isFaceModified(_kubeData.faceLeft)) {
+						setCurrentFace(FaceIds.LEFT);
+						return false;
+					}else if(!_kubeData.isFaceModified(_kubeData.faceRight)) {
+						setCurrentFace(FaceIds.RIGHT);
+						return false;
+					}
+				}
 			}
 			return true;
 		}
@@ -263,7 +291,7 @@ package com.muxxu.kube.kubebuilder.model {
 		public function toggleSize():void {
 			_textureSize = _textureSize == 16? 32 : 16;
 			_kubeData = new KUBData(_textureSize);
-			_currentFace = _kubeData.faceSides;
+			_currentFace = _kubeData.faceFront;
 			update();
 		}
 
@@ -279,7 +307,7 @@ package com.muxxu.kube.kubebuilder.model {
 		private function initialize():void {
 			_textureSize = 16;
 			_kubeData = new KUBData(_textureSize);
-			_currentFace = _kubeData.faceSides;
+			_currentFace = _kubeData.faceFront;
 			_currentTool = ToolType.PENCIL;
 			
 			_fr = new FileReference();
@@ -316,6 +344,8 @@ package com.muxxu.kube.kubebuilder.model {
 			if(_browseMode) {
 				if(/.*\.kub$/gi.test(_fr.name)) {
 					_kubeData.fromByteArray(_fr.data);
+					_textureSize = _kubeData.size;
+					trace('_textureSize: ' + (_textureSize));
 					setCurrentFace(_currentFaceId);
 				}else{
 					_imageLoader.loadBytes(_fr.data);

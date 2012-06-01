@@ -74,10 +74,10 @@ package com.muxxu.kube.kuberank.components {
 			_cube.width = _cube.height = _cube.depth = 32;
 			var data:KUBData = new KUBData();
 			data.fromByteArray(_ba);
-			_cube.leftFace = new CubeFace(data.faceSides);
-			_cube.rightFace = new CubeFace(data.faceSides);
-			_cube.frontFace = new CubeFace(data.faceSides);
-			_cube.backFace = new CubeFace(data.faceSides);
+			_cube.leftFace = new CubeFace(data.faceLeft);
+			_cube.rightFace = new CubeFace(data.faceRight);
+			_cube.frontFace = new CubeFace(data.faceFront);
+			_cube.backFace = new CubeFace(data.faceBack);
 			_cube.topFace = new CubeFace(data.faceTop);
 			_cube.bottomFace = new CubeFace(data.faceBottom);
 			_cube.x = _cube.width * .5;
