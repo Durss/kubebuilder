@@ -130,8 +130,9 @@
 		<label code="alreadyVotedTitle"><![CDATA[¡Ya has votado este Kubo!]]></label>
 		<label code="lastKubesTitle"><![CDATA[Últimas creaciones]]></label>
 		<label code="lastKubesNext"><![CDATA[»]]></label>
+		<label code="copyShareImage"><![CDATA[Imagen]]></label>
 		<label code="copySharePath"><![CDATA[Copiar]]></label>
-		<label code="shareTitle"><![CDATA[Comparte este Kubo con tus amigos:]]></label>
+		<label code="shareTitle"><![CDATA[<font size="14">Comparte este Kubo con tus amigos :</font>]]></label>
 		<label code="deleteKube"><![CDATA[BORRAR MI KUBO]]></label>
 		<label code="viewUserKubes"><![CDATA[VER LOS KUBOS DE ESTE JUGADOR]]></label>
 		

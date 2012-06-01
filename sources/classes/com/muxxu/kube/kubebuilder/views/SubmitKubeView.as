@@ -35,6 +35,7 @@ package com.muxxu.kube.kubebuilder.views {
 	 * @author Francois
 	 */
 	public class SubmitKubeView extends AbstractView {
+		
 		private var _openFormBt:ButtonKube;
 		private var _backForm:BackWindow;
 		private var _form:SubmitForm;

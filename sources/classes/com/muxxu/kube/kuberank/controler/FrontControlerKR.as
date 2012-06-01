@@ -184,6 +184,13 @@ package com.muxxu.kube.kuberank.controler {
 		public function cancelAction():void {
 			_model.cancelAction();
 		}
+		
+		/**
+		 * Downloads an image's preview
+		 */
+		public function downloadPreview():void {
+			_model.downloadPreview();
+		}
 
 
 		

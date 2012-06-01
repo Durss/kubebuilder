@@ -1,4 +1,5 @@
 package com.muxxu.kube.kuberank.components.form {
+	import com.muxxu.kube.kuberank.controler.FrontControlerKR;
 	import com.muxxu.kube.common.components.buttons.ButtonKube;
 	import com.nurun.components.text.CssTextField;
 	import com.nurun.structure.environnement.label.Label;
@@ -22,6 +23,7 @@ package com.muxxu.kube.kuberank.components.form {
 		private var _copyBt:ButtonKube;
 		private var _shareTitle:CssTextField;
 		private var _title:String;
+		private var _imageBt:ButtonKube;
 		
 		
 		
@@ -67,6 +69,7 @@ package com.muxxu.kube.kuberank.components.form {
 			_shareTitle = addChild(new CssTextField("kubeDetails")) as CssTextField;
 			_sharePath = addChild(new CssTextField("sharePath", false)) as CssTextField;
 			_copyBt = addChild(new ButtonKube(Label.getLabel("copySharePath"))) as ButtonKube;
+			_imageBt = addChild(new ButtonKube(Label.getLabel("copyShareImage"))) as ButtonKube;
 			
 			_sharePath.selectable = true;
 			_sharePath.multiline = false;
@@ -107,6 +110,8 @@ package com.muxxu.kube.kuberank.components.form {
 			_sharePath.height = _copyBt.height - 1;
 			_copyBt.x = _sharePath.width;
 			_copyBt.y = _sharePath.y;
+			_imageBt.x = _copyBt.x;
+			_imageBt.width = _copyBt.width = Math.max(_imageBt.width, _copyBt.width) + 10;
 		}
 		
 		/**
@@ -115,6 +120,8 @@ package com.muxxu.kube.kuberank.components.form {
 		private function clickHandler(event:MouseEvent):void {
 			if(event.target == _copyBt) {
 				Clipboard.generalClipboard.setData(ClipboardFormats.TEXT_FORMAT, _sharePath.text);
+			}else if(event.target == _imageBt) {
+				FrontControlerKR.getInstance().downloadPreview();
 			}
 		}
 		

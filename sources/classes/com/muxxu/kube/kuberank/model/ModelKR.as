@@ -1,30 +1,34 @@
 package com.muxxu.kube.kuberank.model {
+	import by.blooddy.crypto.image.PNGEncoder;
 
-	import com.nurun.core.lang.Disposable;
-	import com.nurun.core.commands.Command;
-	import com.muxxu.kube.kuberank.cmd.RenameListCmd;
-	import com.muxxu.kube.kuberank.cmd.UpdateListCmd;
 	import com.muxxu.kube.common.error.KubeException;
 	import com.muxxu.kube.common.error.KubeExceptionLevel;
 	import com.muxxu.kube.common.events.KubeModelEvent;
+	import com.muxxu.kube.common.utils.makeKubePreview;
 	import com.muxxu.kube.kuberank.cmd.CreateListCmd;
 	import com.muxxu.kube.kuberank.cmd.DeleteKubeCmd;
 	import com.muxxu.kube.kuberank.cmd.DeleteListCmd;
 	import com.muxxu.kube.kuberank.cmd.GetListsCmd;
 	import com.muxxu.kube.kuberank.cmd.LoadCubesCmd;
+	import com.muxxu.kube.kuberank.cmd.RenameListCmd;
 	import com.muxxu.kube.kuberank.cmd.ReportCmd;
+	import com.muxxu.kube.kuberank.cmd.UpdateListCmd;
 	import com.muxxu.kube.kuberank.cmd.VoteCmd;
 	import com.muxxu.kube.kuberank.vo.CubeData;
 	import com.muxxu.kube.kuberank.vo.CubeDataCollection;
 	import com.muxxu.kube.kuberank.vo.ListData;
 	import com.muxxu.kube.kuberank.vo.ListDataCollection;
+	import com.nurun.core.commands.Command;
 	import com.nurun.core.commands.events.CommandEvent;
+	import com.nurun.core.lang.Disposable;
 	import com.nurun.structure.environnement.configuration.Config;
 	import com.nurun.structure.environnement.label.Label;
 	import com.nurun.structure.mvc.model.IModel;
 	import com.nurun.structure.mvc.views.ViewLocator;
 
+	import flash.display.BitmapData;
 	import flash.events.EventDispatcher;
+	import flash.net.FileReference;
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	
@@ -55,6 +59,7 @@ package com.muxxu.kube.kuberank.model {
 		private var _currentListName:String;
 		private var _toConfirm:Command;
 		private var _currentListAuthor:*;
+		private var _userId:String;
 		
 		
 		
@@ -122,6 +127,9 @@ package com.muxxu.kube.kuberank.model {
 				if(Config.getVariable("userToShow") != null) {
 					_rerootToTop3 = true;
 					searchKubesOfUser(Config.getVariable("userToShow"));
+				}else if(Config.getVariable("userIDToShow") != null) {
+					_rerootToTop3 = true;
+					searchKubesOfUser(Config.getVariable("userIDToShow"), true);
 				}else if(Config.getVariable("listToShow") != null) {
 					_kubesList = -1;
 					_rerootToTop3 = true;
@@ -143,7 +151,7 @@ package com.muxxu.kube.kuberank.model {
 			_currentListName = "";
 			//Do not clear the previous command, that, the items are still loaded
 			//and there won't be "holes" in the slide.
-			var cmd:LoadCubesCmd = new LoadCubesCmd(_startIndex, _length, _userName, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0, "", _kubesList);
+			var cmd:LoadCubesCmd = new LoadCubesCmd(_startIndex, _length, _userName, _userId, _sortByDate, _top3Mode? Config.getNumVariable("newItemsToShow") : 0, "", _kubesList);
 			cmd.addEventListener(CommandEvent.COMPLETE, loadCubesCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, loadCubesErrorHandler);
 			cmd.execute();
@@ -235,7 +243,7 @@ package com.muxxu.kube.kuberank.model {
 		 */
 		public function loadKube(kubeId:String):void {
 			lock();
-			var cmd:LoadCubesCmd = new LoadCubesCmd(0, 1, null, false, 0, kubeId);
+			var cmd:LoadCubesCmd = new LoadCubesCmd(0, 1, null, null, false, 0, kubeId);
 			cmd.addEventListener(CommandEvent.COMPLETE, loadSingleCubesCompleteHandler);
 			cmd.addEventListener(CommandEvent.ERROR, unlock);
 			cmd.execute();
@@ -304,11 +312,12 @@ package com.muxxu.kube.kuberank.model {
 		/**
 		 * Loads the kubes of a specific user.
 		 */
-		public function searchKubesOfUser(userName:String):void {
+		public function searchKubesOfUser(user:String, byId:Boolean = false):void {
 			lock();
-			_forceReload = _userName != userName;
+			_forceReload = byId? _userId != user : _userName != user;
 			_openedCube = null;
-			_userName = userName;
+			_userName = byId? "" : user;
+			_userId = byId? user : null;
 			_top3Mode = false;
 			_sortByDate = true;
 			_startIndex = 0;
@@ -383,6 +392,15 @@ package com.muxxu.kube.kuberank.model {
 			if(_toConfirm is Disposable) Disposable(_toConfirm).dispose();
 			_toConfirm = null;
 		}
+		
+		/**
+		 * Downloads an image's preview
+		 */
+		public function downloadPreview():void {
+			var preview:BitmapData = makeKubePreview(_openedCube.kub, false, 2);
+			var fr:FileReference = new FileReference();
+			fr.save(PNGEncoder.encode(preview), _openedCube.name+".png");
+		}
 
 
 		
@@ -414,8 +432,9 @@ package com.muxxu.kube.kuberank.model {
 			_data.populate(XML(event.data).child("kubes")[0], startIndex);
 			_currentListName = XML(event.data).child("listName")[0];
 			_currentListAuthor = XML(event.data).child("listAuthor")[0];
-			if(_data.length == 0) {
+			if (_data.length == 0) {
 				_userName = "";
+				_userId = null;
 				if(_rerootToTop3) {
 					_rerootToTop3 = false;
 					showTop3();

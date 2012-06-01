@@ -161,10 +161,10 @@ package com.muxxu.kube.kuberank.components {
 			_endPos = endPos;
 			_startPos = startPos;
 			
-			_cube.leftFace = new CubeFace(_data.kub.faceSides, true);
-			_cube.rightFace = new CubeFace(_data.kub.faceSides);
-			_cube.frontFace = new CubeFace(_data.kub.faceSides, true);
-			_cube.backFace = new CubeFace(_data.kub.faceSides);
+			_cube.leftFace = new CubeFace(_data.kub.faceLeft, true);
+			_cube.rightFace = new CubeFace(_data.kub.faceRight);
+			_cube.frontFace = new CubeFace(_data.kub.faceFront, true);
+			_cube.backFace = new CubeFace(_data.kub.faceBack);
 			_cube.topFace = new CubeFace(_data.kub.faceTop, false, false, true); 
 			_cube.bottomFace = new CubeFace(_data.kub.faceBottom, false, true);
 			

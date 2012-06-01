@@ -148,7 +148,7 @@ package com.muxxu.kube.kuberank.components.form {
 		 */
 		private function clickHandler(event:MouseEvent):void {
 			var url:String = _myKubesEntry? Config.getPath("shareProfilePath") : Config.getPath("shareListPath");
-			url = url.replace(/\{USER\}/gi, Config.getVariable("uname"));
+			url = url.replace(/\{USER\}/gi, Config.getVariable("uid"));
 			url = url.replace(/\{LID\}/gi, _data.id);
 			
 			if(event.target == _deleteBt) {

@@ -60,13 +60,13 @@ package com.muxxu.kube.common.utils {
 			m.translate(0, top.height);
   			
   			var shadow:int = -40;
-			var right:BitmapData = data.faceSides.clone();
+			var right:BitmapData = data.faceRight.clone();
 			right.fillRect(right.rect, 0);
-			right.draw(data.faceSides, m);
+			right.draw(data.faceRight, m);
 			right.applyFilter(right, right.rect, new Point(0,0), new ColorMatrixFilter([1,0,0,0,shadow, 0,1,0,0,shadow, 0,0,1,0,shadow, 0,0,0,1,0]));
 			
   			shadow = -30;
-			var left:BitmapData = data.faceSides.clone();
+			var left:BitmapData = data.faceLeft.clone();
 			left.applyFilter(left, left.rect, new Point(0,0), new ColorMatrixFilter([1,0,0,0,shadow, 0,1,0,0,shadow, 0,0,1,0,shadow, 0,0,0,1,0]));
 
 			var shape:Shape = new Shape();

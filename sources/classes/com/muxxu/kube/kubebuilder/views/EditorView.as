@@ -83,7 +83,7 @@ package com.muxxu.kube.kubebuilder.views {
 			_gridSize = model.textureSize;
 			_cellSize = 16/_gridSize*20;
 			
-			_sizeBt.text = _gridSize == 16? "32x32" : "16x16";
+			_sizeBt.text = _gridSize == 16? "16x16" : "32x32";
 			
 			_bmp.bitmapData = model.currentFace;
 			//If selected face has changed.

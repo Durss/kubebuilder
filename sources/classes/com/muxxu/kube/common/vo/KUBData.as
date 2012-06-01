@@ -22,6 +22,11 @@ package com.muxxu.kube.common.vo {
 		
 		private var _faceTop:BitmapData;
 		private var _faceBottom:BitmapData;
+		private var _faceLeft:BitmapData;
+		private var _faceRight:BitmapData;
+		private var _faceFront:BitmapData;
+		private var _faceBack:BitmapData;
+		
 		private var _faceSides:BitmapData;
 		private var _defaultColor:uint;
 		private var _size:int;
@@ -51,7 +56,15 @@ package com.muxxu.kube.common.vo {
 
 		public function get faceBottom():BitmapData { return _faceBottom; }
 
-		public function get faceSides():BitmapData { return _faceSides; }
+		public function get faceLeft():BitmapData { return _size == 16? _faceSides : _faceLeft; }
+
+		public function get faceRight():BitmapData { return _size == 16? _faceSides : _faceRight; }
+
+		public function get faceFront():BitmapData { return _size == 16? _faceSides : _faceFront; }
+
+		public function get faceBack():BitmapData { return _size == 16? _faceSides : _faceBack; }
+
+//		public function get faceSides():BitmapData { return _faceSides; }
 
 		public function get size():int { return _size; }
 
@@ -106,9 +119,14 @@ package com.muxxu.kube.common.vo {
 				obj = data.readObject();
 			}
 			var decoder:PNGDecoder = new PNGDecoder();
-			_faceSides = decoder.decode(obj[3]);
+			_faceFront = decoder.decode(obj[0]);
+			_faceBack = decoder.decode(obj[1]);
+			_faceLeft = decoder.decode(obj[2]);
+			_faceSides = _faceRight = decoder.decode(obj[3]);
 			_faceTop = decoder.decode(obj[4]);
 			_faceBottom = decoder.decode(obj[5]);
+			
+			_size = _faceFront.width;
 		}
 		
 		/**
@@ -117,12 +135,19 @@ package com.muxxu.kube.common.vo {
 		public function toByteArray():ByteArray {
 			var ba:ByteArray = new ByteArray();
 			var data:Array = [];
-			data[0] = 
-			data[1] = 
-			data[2] = 
-			data[3] = PNGEncoder.encode(_faceSides);
-			data[4] = PNGEncoder.encode(_faceTop);
-			data[5] = PNGEncoder.encode(_faceBottom);
+			if(_size == 32) {
+				data[0] = PNGEncoder.encode(faceFront);
+				data[1] = PNGEncoder.encode(faceBack);
+				data[2] = PNGEncoder.encode(faceLeft);
+				data[3] = PNGEncoder.encode(faceRight);
+			}else{
+				data[0] = 
+				data[1] = 
+				data[2] = 
+				data[3] = PNGEncoder.encode(faceRight);
+			}
+			data[4] = PNGEncoder.encode(faceTop);
+			data[5] = PNGEncoder.encode(faceBottom);
 			data[6] = 0;
 			data[7] = 0;
 			data[8] = PNGEncoder.encode(makeKubePreview(this));
@@ -157,7 +182,10 @@ package com.muxxu.kube.common.vo {
 			
 			_faceTop.draw(mark, m);
 			_faceBottom = new BitmapData(_size, _size, true, _defaultColor);
-			_faceSides = new BitmapData(_size, _size, true, _defaultColor);
+			_faceLeft = new BitmapData(_size, _size, true, _defaultColor);
+			_faceRight = new BitmapData(_size, _size, true, _defaultColor);
+			_faceFront = _faceSides = new BitmapData(_size, _size, true, _defaultColor);
+			_faceBack = new BitmapData(_size, _size, true, _defaultColor);
 		}
 	}
 }

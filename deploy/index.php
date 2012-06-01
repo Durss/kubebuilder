@@ -141,14 +141,14 @@
 		
 		<script type="text/javascript">
 			// <![CDATA[
-			var so = new SWFObject('swf/<?php echo $swf ?>?v=6', 'content', '860', '502', '10.1', '#4CA5CD');
+			var so = new SWFObject('swf/<?php echo $swf ?>?v=8.3', 'content', '860', '502', '10.1', '#4CA5CD');
 			so.useExpressInstall('swf/expressinstall.swf');
 			so.addParam('menu', 'false');
 			so.addParam('allowFullScreen', 'true');
 			so.addParam('wmode', 'opaque');
 			so.setAttribute("id", "externalDynamicContent");
 			so.setAttribute("name", "externalDynamicContent");
-			so.addVariable("configXml", "xml/config.xml?v=3.4");
+			so.addVariable("configXml", "xml/config.xml?v=4.1");
 <?php
 	if (isset($_GET["uid"], $_GET["pubkey"])) {
 		echo "\t\t\tso.addVariable('lang', '".$_LANG."');\r\n";
@@ -161,6 +161,9 @@
 		echo "\t\t\tso.addVariable('infosRead', '".$_INFO_READ."');\r\n";
 		if (isset($_GET["user"])) {
 			echo "\t\t\tso.addVariable('userToShow', '".htmlspecialchars($_GET["user"])."');\r\n";
+		}
+		if (isset($_GET["userID"])) {
+			echo "\t\t\tso.addVariable('userIDToShow', '".htmlspecialchars($_GET["userID"])."');\r\n";
 		}
 		if (isset($_GET["list"])) {
 			echo "\t\t\tso.addVariable('listToShow', '".intval($_GET["list"])."');\r\n";

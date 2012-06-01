@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root>
 	<styleSheets>
-		<styleSheet><![CDATA[css/flashstyles.css?v=5]]></styleSheet>
+		<styleSheet><![CDATA[css/flashstyles.css?v=6]]></styleSheet>
 	</styleSheets>
 	
 	<fonts>
@@ -9,7 +9,7 @@
 	</fonts>
 	
 	<labels>
-		<file><![CDATA[i18n/xml/labels_{v_lang}.xml?v=3]]></file>
+		<file><![CDATA[i18n/xml/labels_{v_lang}.xml?v=5]]></file>
 	</labels>
 	
 	<vars>
@@ -43,7 +43,7 @@
 		<path code="editorPage"><![CDATA[?act=editor&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
 		<path code="shareKubePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_kid={KID}]]></path>
 		<path code="shareListPath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_list={LID}]]></path>
-		<path code="shareProfilePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_user={USER}]]></path>
+		<path code="shareProfilePath"><![CDATA[http://muxxu.com/a/kube-builder/?act=rank_userID={USER}]]></path>
 		<path code="infosUrl"><![CDATA[?act=infos&uid={v_uid}&name={v_uname}&pubkey={v_pubkey}]]></path>
 	</paths>
 	
